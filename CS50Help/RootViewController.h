@@ -9,14 +9,19 @@
 #import <UIKit/UIKit.h>
 
 @class DetailViewController;
+@class FilterViewController;
 
-@interface RootViewController : UITableViewController {
+@interface RootViewController : UITableViewController <UIPopoverControllerDelegate> {
 
 }
 		
 @property (nonatomic, retain) IBOutlet DetailViewController *detailViewController;
 @property (nonatomic, retain) NSMutableArray* students;
+@property (nonatomic, retain) NSMutableArray* selectedRows;
+@property (nonatomic, retain) UIPopoverController* filterPopover;
+@property (nonatomic, retain) FilterViewController* filterViewController;
+@property (nonatomic, retain) UIBarButtonItem* filterButton;
 
-- (void)test;
+- (void)filterButtonPressed;
 
 @end

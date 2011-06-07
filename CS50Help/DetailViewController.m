@@ -12,8 +12,11 @@
 
 @implementation DetailViewController
 
-@synthesize dutySegmentedControl=_dutySegmentedControl, allTFs=_allTFs, onDutyTFs=_onDutyTFs, mode=_mode,
-    tableView=_tableView;
+@synthesize dutySegmentedControl=_dutySegmentedControl;
+@synthesize allTFs=_allTFs;
+@synthesize onDutyTFs=_onDutyTFs;
+@synthesize mode=_mode;
+@synthesize tableView=_tableView;
 
 - (void)viewDidLoad
 {
@@ -37,8 +40,11 @@
 {
 	[super viewDidUnload];
     
+    // release properties
+    self.dutySegmentedControl = nil;
     self.allTFs = nil;
     self.onDutyTFs = nil;
+    self.tableView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -135,8 +141,12 @@
 
 - (void)dealloc
 {
+    // release ivars
     [_allTFs release];
     [_onDutyTFs release];
+    [_dutySegmentedControl release];
+    [_tableView release];
+
     [super dealloc];
 }
 

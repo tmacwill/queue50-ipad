@@ -13,7 +13,12 @@
 
 @implementation RootViewController
 		
-@synthesize detailViewController, students=_students;
+@synthesize detailViewController=_detailViewController;
+@synthesize students=_students;
+@synthesize selectedRows=_selectedRows;
+@synthesize filterPopover=_filterPopover;
+@synthesize filterViewController=_filterViewController;
+@synthesize filterButton=_filterButton;
 
 - (void)viewDidLoad
 {
@@ -21,6 +26,19 @@
     self.clearsSelectionOnViewWillAppear = NO;
     self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
     self.navigationItem.title = @"Students";
+    self.selectedRows = [[NSMutableArray alloc] init];
+    
+    // create view controller to be displayed in popover
+    self.filterViewController = [[FilterViewController alloc] init];
+    // create popover
+    self.filterPopover = [[UIPopoverController alloc] initWithContentViewController:self.filterViewController];
+    self.filterPopover.delegate = self;
+    
+    // create filter button in top-right of left panel
+    self.filterButton = [[UIBarButtonItem alloc]
+                         initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered 
+                         target:self action:@selector(filterButtonPressed)];
+    self.navigationItem.rightBarButtonItem = self.filterButton;
     
     Student* arjun = [[Student alloc] initWithName:@"Arjun" question:@"I need no help" category:@"skittles.c"];
     Student* thomas = [[Student alloc] initWithName:@"Thomas" question:@"I broke rand()" category:@"skittles.c"];
@@ -30,18 +48,12 @@
     [arjun release];
     [thomas release];
     [mike release];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Filter" 
-                                                                              style:UIBarButtonItemStyleBordered 
-                                                                             target:self action:@selector(test)];
 }
 
-- (void)test
+- (void)filterButtonPressed
 {
-    UIPopoverController* popover = [[UIPopoverController alloc] 
-                                    initWithContentViewController:[[FilterViewController alloc] init]];
-    [popover presentPopoverFromBarButtonItem:self.navigationItem.rightBarButtonItem 
-                    permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [self.filterPopover presentPopoverFromBarButtonItem:self.filterButton 
+                               permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -73,13 +85,11 @@
     return 1;
     		
 }
-
 		
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.students count];
 }
-
 		
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -87,7 +97,8 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] 
+                autorelease];
     }
 
     Student* student = [self.students objectAtIndex:indexPath.row];
@@ -97,67 +108,55 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source.
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here -- for example, create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    // already selected, so remove from selected rows and hide checkmark
+    if([self.selectedRows containsObject:indexPath]) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        [self.selectedRows removeObject:indexPath];
+    }
+    
+    // not selected yet, so add to selected rows and show checkmark
+    else {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        [self.selectedRows addObject:indexPath];
+    }
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
-    // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-
-    // Relinquish ownership any cached data, images, etc that aren't in use.
 }
 
 - (void)viewDidUnload
 {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
+    [super viewDidUnload];
+    
+    // release properties
+    self.detailViewController = nil;
+    self.students = nil;
+    self.selectedRows = nil;
+    self.filterPopover = nil;
+    self.filterViewController = nil;
+    self.filterButton = nil;
+
 }
 
 - (void)dealloc
 {
-    [detailViewController release];
+    // release ivars
+    [_detailViewController release];
+    [_students release];
+    [_selectedRows release];
+    [_filterPopover release];
+    [_filterViewController release];
+    [_filterButton release];
+    
     [super dealloc];
 }
 
