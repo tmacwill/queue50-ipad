@@ -46,9 +46,6 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    // release properties
-    self.categories = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated

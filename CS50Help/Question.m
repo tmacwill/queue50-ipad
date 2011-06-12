@@ -1,19 +1,18 @@
 //
-//  Student.m
+//  Question.m
 //  CS50Help
 //
 //  Created by Tommy MacWilliam on 6/6/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Student.h"
+#import "Question.h"
 
-
-@implementation Student
+@implementation Question
 
 @synthesize name=_name, question=_question, category=_category;
 
-- (id)initWithName:(NSString*)name question:(NSString*)question category:(NSString*)category
+- (id)initWithQuestion:(NSString*)question studentName:(NSString*)name category:(NSString*)category
 {
     self = [super init];
     

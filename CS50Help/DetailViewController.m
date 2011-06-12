@@ -21,12 +21,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    TF* tommy = [[TF alloc] initWithName:@"Tommy" isOnDuty:YES];
-    TF* matt = [[TF alloc] initWithName:@"Rob" isOnDuty:YES];
-    TF* rob = [[TF alloc] initWithName:@"Matt" isOnDuty:NO];
     
     self.onDutyTFs = [[NSMutableArray alloc] init];
-    self.allTFs = [[NSMutableArray alloc] initWithObjects:tommy, matt, rob, nil];
+    self.allTFs = [[NSMutableArray alloc] init];
     self.mode = MODE_ON_DUTY;
     
     [self buildOnDutyTFs];
@@ -115,6 +112,8 @@
             [self.onDutyTFs addObject:tf];
         }
     }
+    
+    [self.tableView reloadData];
 }
 
 - (IBAction)dutySegmentedControlChanged

@@ -1,5 +1,5 @@
 //
-//  Student.h
+//  Question.h
 //  CS50Help
 //
 //  Created by Tommy MacWilliam on 6/6/11.
@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface Student : NSObject {
+@interface Question : NSObject {
     
 }
 
@@ -17,6 +16,7 @@
 @property (nonatomic, retain) NSString* question;
 @property (nonatomic, retain) NSString* category;
 
-- (id)initWithName:(NSString*)name question:(NSString*)question category:(NSString*)category;
+- (id)initWithQuestion:(NSString*)question studentName:(NSString*)name category:(NSString*)category;
+
 
 @end

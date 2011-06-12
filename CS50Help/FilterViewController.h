@@ -13,6 +13,6 @@
     
 }
 
-@property (nonatomic, retain) NSMutableArray* categories;
+@property (strong) NSMutableArray* categories;
 
 @end

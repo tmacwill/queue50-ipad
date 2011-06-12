@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@class Student;
+@class DetailViewController;
+@class Question;
+@class RootViewController;
 @class TF;
 
 #define BASE_URL @"http://tommymacwilliam.com/cs50help/"
-
-@protocol ServerControllerDelecate <NSObject>
-- (void)didReceiveQueue;
-@end
 
 @interface ServerController : NSObject {
 
 }
 
-- (void)dispatchStudent:(Student*)student toTF:(TF*)tf;
-- (void)getQueue;
++ (ServerController*)sharedInstance;
+- (void)dispatchStudent:(Question*)student toTF:(TF*)tf;
+- (void)getQueueForViewController:(RootViewController*)viewController;
+- (void)getScheduleForViewController:(DetailViewController*)viewController;
 
 @end

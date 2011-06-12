@@ -9,12 +9,12 @@
 #import "RootViewController.h"
 #import "DetailViewController.h"
 #import "FilterViewController.h"
-#import "Student.h"
+#import "Question.h"
 
 @implementation RootViewController
 		
 @synthesize detailViewController=_detailViewController;
-@synthesize students=_students;
+@synthesize questions=_questions;
 @synthesize selectedRows=_selectedRows;
 @synthesize filterPopover=_filterPopover;
 @synthesize filterViewController=_filterViewController;
@@ -40,11 +40,7 @@
                          target:self action:@selector(filterButtonPressed)];
     self.navigationItem.rightBarButtonItem = self.filterButton;
     
-    Student* arjun = [[Student alloc] initWithName:@"Arjun" question:@"I need no help" category:@"skittles.c"];
-    Student* thomas = [[Student alloc] initWithName:@"Thomas" question:@"I broke rand()" category:@"skittles.c"];
-    Student* mike = [[Student alloc] initWithName:@"Mike" question:@"I didn't start" category:@"greedy.c"];
-    
-    self.students = [[NSMutableArray alloc] initWithObjects:arjun, thomas, mike, nil];
+    self.questions = [[NSMutableArray alloc] init];
 }
 
 - (void)filterButtonPressed
@@ -85,7 +81,7 @@
 		
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.students count];
+    return [self.questions count];
 }
 		
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -97,9 +93,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
 
-    Student* student = [self.students objectAtIndex:indexPath.row];
-    cell.textLabel.text = student.name;
-    cell.detailTextLabel.text = student.question;
+    Question* question = [self.questions objectAtIndex:indexPath.row];
+    cell.textLabel.text = question.name;
+    cell.detailTextLabel.text = question.question;
 
     return cell;
 }

@@ -8,7 +8,6 @@
 
 #import "TF.h"
 
-
 @implementation TF
 
 @synthesize name=_name, isOnDuty=_isOnDuty;

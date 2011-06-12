@@ -16,7 +16,7 @@
 }
 		
 @property (nonatomic, retain) IBOutlet DetailViewController *detailViewController;
-@property (nonatomic, retain) NSMutableArray* students;
+@property (nonatomic, retain) NSMutableArray* questions;
 @property (nonatomic, retain) NSMutableArray* selectedRows;
 @property (nonatomic, retain) UIPopoverController* filterPopover;
 @property (nonatomic, retain) FilterViewController* filterViewController;
