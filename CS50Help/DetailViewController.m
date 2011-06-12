@@ -31,20 +31,11 @@
     
     [self buildOnDutyTFs];
     
-    [tommy release];
-    [matt release];
-    [rob release];
 }
 
 - (void)viewDidUnload
 {
 	[super viewDidUnload];
-    
-    // release properties
-    self.dutySegmentedControl = nil;
-    self.allTFs = nil;
-    self.onDutyTFs = nil;
-    self.tableView = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -90,7 +81,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     // get TF from appropriate array
@@ -139,15 +130,5 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)dealloc
-{
-    // release ivars
-    [_allTFs release];
-    [_onDutyTFs release];
-    [_dutySegmentedControl release];
-    [_tableView release];
-
-    [super dealloc];
-}
 
 @end

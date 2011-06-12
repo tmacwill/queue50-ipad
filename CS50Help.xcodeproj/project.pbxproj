@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		937DDF32139DC8EE007713A4 /* TF.m in Sources */ = {isa = PBXBuildFile; fileRef = 937DDF31139DC8EE007713A4 /* TF.m */; };
 		937DDF36139DC912007713A4 /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 937DDF35139DC912007713A4 /* Student.m */; };
+		937DDF42139DF661007713A4 /* ServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 937DDF41139DF660007713A4 /* ServerController.m */; };
 		93D9B66F139C301B00D125E3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9B66E139C301B00D125E3 /* UIKit.framework */; };
 		93D9B671139C301B00D125E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9B670139C301B00D125E3 /* Foundation.framework */; };
 		93D9B673139C301B00D125E3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93D9B672139C301B00D125E3 /* CoreGraphics.framework */; };
@@ -28,6 +29,8 @@
 		937DDF31139DC8EE007713A4 /* TF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TF.m; sourceTree = "<group>"; };
 		937DDF34139DC912007713A4 /* Student.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
 		937DDF35139DC912007713A4 /* Student.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
+		937DDF40139DF660007713A4 /* ServerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerController.h; sourceTree = "<group>"; };
+		937DDF41139DF660007713A4 /* ServerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerController.m; sourceTree = "<group>"; };
 		93D9B66A139C301B00D125E3 /* CS50Help.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CS50Help.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93D9B66E139C301B00D125E3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		93D9B670139C301B00D125E3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -116,6 +119,8 @@
 				93D9B691139C332200D125E3 /* FilterViewController.h */,
 				93D9B692139C332200D125E3 /* FilterViewController.m */,
 				93D9B693139C332200D125E3 /* FilterViewController.xib */,
+				937DDF40139DF660007713A4 /* ServerController.h */,
+				937DDF41139DF660007713A4 /* ServerController.m */,
 				93D9B675139C301B00D125E3 /* Supporting Files */,
 			);
 			path = CS50Help;
@@ -157,6 +162,9 @@
 /* Begin PBXProject section */
 		93D9B661139C301B00D125E3 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 93D9B664139C301B00D125E3 /* Build configuration list for PBXProject "CS50Help" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -200,6 +208,7 @@
 				93D9B694139C332200D125E3 /* FilterViewController.m in Sources */,
 				937DDF32139DC8EE007713A4 /* TF.m in Sources */,
 				937DDF36139DC912007713A4 /* Student.m in Sources */,
+				937DDF42139DF661007713A4 /* ServerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +252,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -258,6 +268,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -271,10 +282,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CS50Help/CS50Help-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "CS50Help/CS50Help-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -285,9 +298,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CS50Help/CS50Help-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "CS50Help/CS50Help-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;

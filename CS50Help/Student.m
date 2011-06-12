@@ -26,13 +26,5 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_name release];
-    [_question release];
-    [_category release];
-    
-    [super dealloc];
-}
 
 @end

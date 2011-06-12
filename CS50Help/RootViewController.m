@@ -45,9 +45,6 @@
     Student* mike = [[Student alloc] initWithName:@"Mike" question:@"I didn't start" category:@"greedy.c"];
     
     self.students = [[NSMutableArray alloc] initWithObjects:arjun, thomas, mike, nil];
-    [arjun release];
-    [thomas release];
-    [mike release];
 }
 
 - (void)filterButtonPressed
@@ -97,8 +94,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] 
-                autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
 
     Student* student = [self.students objectAtIndex:indexPath.row];
@@ -136,28 +132,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    // release properties
-    self.detailViewController = nil;
-    self.students = nil;
-    self.selectedRows = nil;
-    self.filterPopover = nil;
-    self.filterViewController = nil;
-    self.filterButton = nil;
-
 }
 
-- (void)dealloc
-{
-    // release ivars
-    [_detailViewController release];
-    [_students release];
-    [_selectedRows release];
-    [_filterPopover release];
-    [_filterViewController release];
-    [_filterButton release];
-    
-    [super dealloc];
-}
 
 @end

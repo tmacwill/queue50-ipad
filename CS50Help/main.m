@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CS50HelpAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    int retVal = UIApplicationMain(argc, argv, nil, nil);
-    [pool release];
+    int retVal = 0;
+    @autoreleasepool {
+        retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([CS50HelpAppDelegate class]));
+    }
     return retVal;
 }
