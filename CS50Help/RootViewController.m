@@ -2,7 +2,7 @@
 //  RootViewController.m
 //  CS50Help
 //
-//  Created by Tommy MacWilliam on 6/5/11.
+//  Created by Tommy MacWilliam on 6/12/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
@@ -12,19 +12,41 @@
 #import "Question.h"
 
 @implementation RootViewController
-		
-@synthesize detailViewController=_detailViewController;
+
+//@synthesize detailViewController=_detailViewController;
 @synthesize questions=_questions;
 @synthesize selectedRows=_selectedRows;
 @synthesize filterPopover=_filterPopover;
 @synthesize filterViewController=_filterViewController;
 @synthesize filterButton=_filterButton;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.clearsSelectionOnViewWillAppear = NO;
+        self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+    }
+    return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+- (void)filterButtonPressed
+{
+    [self.filterPopover presentPopoverFromBarButtonItem:self.filterButton 
+                               permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+#pragma mark - View lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.clearsSelectionOnViewWillAppear = NO;
-    self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
+    
     self.navigationItem.title = @"Students";
     self.selectedRows = [[NSMutableArray alloc] init];
     
@@ -41,12 +63,11 @@
     self.navigationItem.rightBarButtonItem = self.filterButton;
     
     self.questions = [[NSMutableArray alloc] init];
-}
 
-- (void)filterButtonPressed
+}
+- (void)viewDidUnload
 {
-    [self.filterPopover presentPopoverFromBarButtonItem:self.filterButton 
-                               permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    [super viewDidUnload];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -69,21 +90,23 @@
 	[super viewDidDisappear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
     return YES;
 }
 
+// Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
-    		
 }
-		
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.questions count];
 }
-		
+
+// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
@@ -92,11 +115,11 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-
+    
     Question* question = [self.questions objectAtIndex:indexPath.row];
     cell.textLabel.text = question.name;
     cell.detailTextLabel.text = question.question;
-
+    
     return cell;
 }
 
@@ -115,20 +138,8 @@
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         [self.selectedRows addObject:indexPath];
     }
-
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
 
 @end

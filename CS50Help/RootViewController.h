@@ -2,25 +2,22 @@
 //  RootViewController.h
 //  CS50Help
 //
-//  Created by Tommy MacWilliam on 6/5/11.
+//  Created by Tommy MacWilliam on 6/12/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@class DetailViewController;
 @class FilterViewController;
 
-@interface RootViewController : UITableViewController <UIPopoverControllerDelegate> {
+@interface RootViewController : UITableViewController <UIPopoverControllerDelegate>
 
-}
-		
-@property (nonatomic, retain) IBOutlet DetailViewController *detailViewController;
-@property (nonatomic, retain) NSMutableArray* questions;
-@property (nonatomic, retain) NSMutableArray* selectedRows;
-@property (nonatomic, retain) UIPopoverController* filterPopover;
-@property (nonatomic, retain) FilterViewController* filterViewController;
-@property (nonatomic, retain) UIBarButtonItem* filterButton;
+//@property (strong, nonatomic) IBOutlet DetailViewController *detailViewController;
+@property (strong, nonatomic) NSMutableArray* questions;
+@property (strong, nonatomic) NSMutableArray* selectedRows;
+@property (strong, nonatomic) UIPopoverController* filterPopover;
+@property (strong, nonatomic) FilterViewController* filterViewController;
+@property (strong, nonatomic) UIBarButtonItem* filterButton;
 
 - (void)filterButtonPressed;
 

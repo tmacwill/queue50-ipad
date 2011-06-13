@@ -2,25 +2,37 @@
 //  CS50HelpAppDelegate.m
 //  CS50Help
 //
-//  Created by Tommy MacWilliam on 6/5/11.
+//  Created by Tommy MacWilliam on 6/12/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "CS50HelpAppDelegate.h"
+#import "DetailViewController.h"
 #import "RootViewController.h"
 #import "ServerController.h"
 
 @implementation CS50HelpAppDelegate
 
-@synthesize window=_window;
-@synthesize splitViewController=_splitViewController;
+@synthesize window = _window;
+@synthesize splitViewController = _splitViewController;
 @synthesize rootViewController=_rootViewController;
 @synthesize detailViewController=_detailViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    // Add the split view controller's view to the window and display.
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    RootViewController *controller = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+
+    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+
+    self.splitViewController = [[UISplitViewController alloc] init];
+    self.splitViewController.delegate = detailViewController;
+    self.rootViewController = controller;
+    self.detailViewController = detailViewController;
+    self.splitViewController.viewControllers = [NSArray arrayWithObjects:navigationController, detailViewController, nil];
     self.window.rootViewController = self.splitViewController;
     [self.window makeKeyAndVisible];
     return YES;
@@ -54,7 +66,7 @@
     ServerController* serverController = [ServerController sharedInstance];
     [serverController getScheduleForViewController:self.detailViewController];
     [serverController getQueueForViewController:self.rootViewController];
-
+    
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
@@ -68,6 +80,5 @@
      See also applicationDidEnterBackground:.
      */
 }
-
 
 @end

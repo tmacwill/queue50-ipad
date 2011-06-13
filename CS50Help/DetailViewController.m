@@ -2,7 +2,7 @@
 //  DetailViewController.m
 //  CS50Help
 //
-//  Created by Tommy MacWilliam on 6/5/11.
+//  Created by Tommy MacWilliam on 6/12/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
@@ -18,6 +18,22 @@
 @synthesize mode=_mode;
 @synthesize tableView=_tableView;
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.title = NSLocalizedString(@"Detail", @"Detail");
+    }
+    return self;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+}
+
+#pragma mark - View lifecycle
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -25,14 +41,11 @@
     self.onDutyTFs = [[NSMutableArray alloc] init];
     self.allTFs = [[NSMutableArray alloc] init];
     self.mode = MODE_ON_DUTY;
-    
-    [self buildOnDutyTFs];
-    
 }
 
 - (void)viewDidUnload
 {
-	[super viewDidUnload];
+    [super viewDidUnload];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -55,7 +68,7 @@
 	[super viewDidDisappear:animated];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
 }
@@ -80,11 +93,11 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-
+    
     // get TF from appropriate array
     TF* tf = (self.mode == MODE_ON_DUTY) ? [self.onDutyTFs objectAtIndex:indexPath.row] : 
-                                            [self.allTFs objectAtIndex:indexPath.row];
-
+    [self.allTFs objectAtIndex:indexPath.row];
+    
     cell.textLabel.text = tf.name;
     
     return cell;
@@ -121,13 +134,5 @@
     self.mode = self.dutySegmentedControl.selectedSegmentIndex;
     [self.tableView reloadData];
 }
-
-#pragma mark - Memory management
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 
 @end

@@ -2,22 +2,20 @@
 //  CS50HelpAppDelegate.h
 //  CS50Help
 //
-//  Created by Tommy MacWilliam on 6/5/11.
+//  Created by Tommy MacWilliam on 6/12/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@class RootViewController;
 @class DetailViewController;
+@class RootViewController;
 
-@interface CS50HelpAppDelegate : NSObject <UIApplicationDelegate> {
+@interface CS50HelpAppDelegate : UIResponder <UIApplicationDelegate>
 
-}
-
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
-@property (nonatomic, retain) IBOutlet RootViewController *rootViewController;
-@property (nonatomic, retain) IBOutlet DetailViewController *detailViewController;
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) UISplitViewController *splitViewController;
+@property (strong, nonatomic) RootViewController *rootViewController;
+@property (strong, nonatomic) DetailViewController *detailViewController;
 
 @end

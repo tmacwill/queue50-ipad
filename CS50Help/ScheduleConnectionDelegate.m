@@ -12,7 +12,6 @@
 #import "ScheduleConnectionDelegate.h"
 #import "TF.h"
 
-
 @implementation ScheduleConnectionDelegate
 
 @synthesize data=_data, viewController=_viewController;
@@ -46,6 +45,7 @@
     NSError* error;
     NSDictionary* schedule = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
                                                                                  error:&error];
+    NSLog(@"%@", schedule);
     
     // iterate over all TFs/CAs on the schedule for tonight
     NSMutableArray* tfs = [[NSMutableArray alloc] init];

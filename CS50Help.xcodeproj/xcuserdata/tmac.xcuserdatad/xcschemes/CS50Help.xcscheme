@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "93D9B669139C301B00D125E3"
+               BlueprintIdentifier = "938316E613A5D48000B9D09A"
                BuildableName = "CS50Help.app"
                BlueprintName = "CS50Help"
                ReferencedContainer = "container:CS50Help.xcodeproj">
@@ -32,15 +32,14 @@
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.GDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.GDB"
-      displayScaleIsEnabled = "NO"
-      displayScale = "1.00"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug">
+      buildConfiguration = "Debug"
+      enablesOpenGLESFrameCapture = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93D9B669139C301B00D125E3"
+            BlueprintIdentifier = "938316E613A5D48000B9D09A"
             BuildableName = "CS50Help.app"
             BlueprintName = "CS50Help"
             ReferencedContainer = "container:CS50Help.xcodeproj">
@@ -50,8 +49,6 @@
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
-      displayScaleIsEnabled = "NO"
-      displayScale = "1.00"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -59,7 +56,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "93D9B669139C301B00D125E3"
+            BlueprintIdentifier = "938316E613A5D48000B9D09A"
             BuildableName = "CS50Help.app"
             BlueprintName = "CS50Help"
             ReferencedContainer = "container:CS50Help.xcodeproj">
