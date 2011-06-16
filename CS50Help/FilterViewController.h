@@ -13,6 +13,7 @@
     
 }
 
-@property (strong) NSMutableArray* categories;
+@property (strong, nonatomic) NSMutableArray* categories;
+@property (strong, nonatomic) NSMutableArray* selectedCategories;
 
 @end

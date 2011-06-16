@@ -6,6 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import "CategoriesConnectionDelegate.h"
 #import "DetailViewController.h"
 #import "DispatchConnectionDelegate.h"
 #import "QueueConnectionDelegate.h"
@@ -17,7 +18,9 @@
 
 @implementation ServerController
 
-@synthesize detailViewController=_detailViewController, rootViewController=_rootViewController;
+@synthesize detailViewController=_detailViewController;
+@synthesize filterViewController=_filterViewController;
+@synthesize rootViewController=_rootViewController;
 
 static ServerController* instance;
 
@@ -64,6 +67,21 @@ static ServerController* instance;
         [connection start];
     }
 
+}
+
+/**
+ * Get the categories for today's OHs
+ *
+ */
+- (void)getCategories
+{
+    CategoriesConnectionDelegate* d = [CategoriesConnectionDelegate sharedInstance];
+    d.viewController = self.filterViewController;
+    
+    NSURLRequest* request = [NSURLRequest requestWithURL:
+                             [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"spreadsheets/categories"]]];
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+    [connection start];
 }
 
 /**

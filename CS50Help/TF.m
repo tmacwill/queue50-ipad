@@ -10,7 +10,8 @@
 
 @implementation TF
 
-@synthesize name=_name, isOnDuty=_isOnDuty;
+@synthesize isOnDuty=_isOnDuty;
+@synthesize name=_name;
 
 - (id)initWithName:(NSString *)name isOnDuty:(BOOL)isOnDuty
 {

@@ -13,12 +13,14 @@
 @interface RootViewController : UITableViewController <UIPopoverControllerDelegate>
 
 //@property (strong, nonatomic) IBOutlet DetailViewController *detailViewController;
-@property (strong, nonatomic) NSMutableArray* questions;
-@property (strong, nonatomic) NSMutableArray* selectedRows;
+@property (strong, nonatomic) UIBarButtonItem* filterButton;
 @property (strong, nonatomic) UIPopoverController* filterPopover;
 @property (strong, nonatomic) FilterViewController* filterViewController;
-@property (strong, nonatomic) UIBarButtonItem* filterButton;
+@property (strong, nonatomic) NSMutableArray* questions;
+@property (strong, nonatomic) NSMutableArray* selectedRows;
+@property (strong, nonatomic) NSMutableArray* visibleQuestions;
 
+- (void)buildVisibleQuestions;
 - (void)filterButtonPressed;
 
 @end

@@ -9,13 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @class DetailViewController;
+@class FilterViewController;
 @class RootViewController;
 
 @interface CS50HelpAppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) UISplitViewController *splitViewController;
-@property (strong, nonatomic) RootViewController *rootViewController;
 @property (strong, nonatomic) DetailViewController *detailViewController;
+@property (strong, nonatomic) FilterViewController* filterViewController;
+@property (strong, nonatomic) RootViewController *rootViewController;
+@property (strong, nonatomic) UISplitViewController *splitViewController;
+@property (strong, nonatomic) UIWindow *window;
 
 @end

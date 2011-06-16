@@ -10,7 +10,10 @@
 
 @implementation Question
 
-@synthesize questionId=_questionId, name=_name, question=_question, category=_category;
+@synthesize category=_category;
+@synthesize name=_name;
+@synthesize question=_question;
+@synthesize questionId=_questionId;
 
 - (id)initWithId:(int)questionId question:(NSString*)question studentName:(NSString*)name category:(NSString*)category
 {

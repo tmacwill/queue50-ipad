@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class DetailViewController;
+@class FilterViewController;
 @class Question;
 @class RootViewController;
 @class TF;
@@ -19,11 +20,13 @@
 
 }
 
-@property (strong, nonatomic) RootViewController* rootViewController;
 @property (strong, nonatomic) DetailViewController* detailViewController;
+@property (strong, nonatomic) FilterViewController* filterViewController;
+@property (strong, nonatomic) RootViewController* rootViewController;
 
 + (ServerController*)sharedInstance;
 - (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;
+- (void)getCategories;
 - (void)getQueue;
 - (void)getSchedule;
 

@@ -49,7 +49,7 @@ static QueueConnectionDelegate* instance;
         [self.viewController.questions addObject:question];
     }
     
-    [self.viewController.tableView reloadData];
+    [self.viewController buildVisibleQuestions];
 }
 
 @end

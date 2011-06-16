@@ -14,11 +14,12 @@
 @implementation RootViewController
 
 //@synthesize detailViewController=_detailViewController;
-@synthesize questions=_questions;
-@synthesize selectedRows=_selectedRows;
+@synthesize filterButton=_filterButton;
 @synthesize filterPopover=_filterPopover;
 @synthesize filterViewController=_filterViewController;
-@synthesize filterButton=_filterButton;
+@synthesize questions=_questions;
+@synthesize selectedRows=_selectedRows;
+@synthesize visibleQuestions=_visibleQuestions;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -50,8 +51,6 @@
     self.navigationItem.title = @"Students";
     self.selectedRows = [[NSMutableArray alloc] init];
     
-    // create view controller to be displayed in popover
-    self.filterViewController = [[FilterViewController alloc] init];
     // create popover
     self.filterPopover = [[UIPopoverController alloc] initWithContentViewController:self.filterViewController];
     self.filterPopover.delegate = self;
@@ -63,6 +62,7 @@
     self.navigationItem.rightBarButtonItem = self.filterButton;
     
     self.questions = [[NSMutableArray alloc] init];
+    self.visibleQuestions = [[NSMutableArray alloc] init];
 
 }
 - (void)viewDidUnload
@@ -103,7 +103,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.questions count];
+    return [self.visibleQuestions count];
 }
 
 // Customize the appearance of table view cells.
@@ -116,7 +116,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    Question* question = [self.questions objectAtIndex:indexPath.row];
+    Question* question = [self.visibleQuestions objectAtIndex:indexPath.row];
     cell.textLabel.text = question.name;
     cell.detailTextLabel.text = question.question;
     
@@ -128,7 +128,7 @@
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     
     // already selected, so remove from selected rows and hide checkmark
-    if([self.selectedRows containsObject:indexPath]) {
+    if ([self.selectedRows containsObject:indexPath]) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         [self.selectedRows removeObject:indexPath];
     }
@@ -140,6 +140,23 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    [self buildVisibleQuestions];
+}
+
+- (void)buildVisibleQuestions
+{
+    [self.visibleQuestions removeAllObjects];
+    for (Question* q in self.questions) {
+        if ([self.filterViewController.selectedCategories containsObject:q.category]) {
+            [self.visibleQuestions addObject:q];
+        }
+    }
+    
+    [self.tableView reloadData];
 }
 
 @end

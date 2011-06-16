@@ -7,16 +7,18 @@
 //
 
 #import "CS50HelpAppDelegate.h"
+#import "FilterViewController.h"
 #import "DetailViewController.h"
 #import "RootViewController.h"
 #import "ServerController.h"
 
 @implementation CS50HelpAppDelegate
 
-@synthesize window = _window;
-@synthesize splitViewController = _splitViewController;
-@synthesize rootViewController=_rootViewController;
 @synthesize detailViewController=_detailViewController;
+@synthesize filterViewController=_filterViewController;
+@synthesize rootViewController=_rootViewController;
+@synthesize splitViewController = _splitViewController;
+@synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -27,6 +29,9 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
 
     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    
+    self.filterViewController = [[FilterViewController alloc] init];
+    controller.filterViewController = self.filterViewController;
 
     self.splitViewController = [[UISplitViewController alloc] init];
     self.splitViewController.delegate = detailViewController;
@@ -64,9 +69,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     ServerController* serverController = [ServerController sharedInstance];
-    serverController.rootViewController = self.rootViewController;
     serverController.detailViewController = self.detailViewController;
+    serverController.filterViewController = self.filterViewController;
+    serverController.rootViewController = self.rootViewController;
     
+    [serverController getCategories];
     [serverController getSchedule];
     [serverController getQueue];
     
