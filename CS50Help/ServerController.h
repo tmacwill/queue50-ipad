@@ -19,9 +19,12 @@
 
 }
 
+@property (strong, nonatomic) RootViewController* rootViewController;
+@property (strong, nonatomic) DetailViewController* detailViewController;
+
 + (ServerController*)sharedInstance;
-- (void)dispatchStudent:(Question*)student toTF:(TF*)tf;
-- (void)getQueueForViewController:(RootViewController*)viewController;
-- (void)getScheduleForViewController:(DetailViewController*)viewController;
+- (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;
+- (void)getQueue;
+- (void)getSchedule;
 
 @end

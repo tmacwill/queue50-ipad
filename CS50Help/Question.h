@@ -12,11 +12,12 @@
     
 }
 
-@property (nonatomic, retain) NSString* name;
-@property (nonatomic, retain) NSString* question;
-@property (nonatomic, retain) NSString* category;
+@property (assign, nonatomic) int questionId;
+@property (strong, nonatomic) NSString* name;
+@property (strong, nonatomic) NSString* question;
+@property (strong, nonatomic) NSString* category;
 
-- (id)initWithQuestion:(NSString*)question studentName:(NSString*)name category:(NSString*)category;
+- (id)initWithId:(int)questionId question:(NSString*)question studentName:(NSString*)name category:(NSString*)category;
 
 
 @end

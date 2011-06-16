@@ -64,8 +64,11 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     ServerController* serverController = [ServerController sharedInstance];
-    [serverController getScheduleForViewController:self.detailViewController];
-    [serverController getQueueForViewController:self.rootViewController];
+    serverController.rootViewController = self.rootViewController;
+    serverController.detailViewController = self.detailViewController;
+    
+    [serverController getSchedule];
+    [serverController getQueue];
     
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.

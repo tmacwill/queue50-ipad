@@ -14,30 +14,24 @@
 
 @implementation ScheduleConnectionDelegate
 
-@synthesize data=_data, viewController=_viewController;
+@synthesize viewController=_viewController;
 
-- (id)init
+static ScheduleConnectionDelegate* instance;
+
+/**
+ * Class is a singleton, get the only instance
+ *
+ */
++ (ConnectionDelegate*)sharedInstance
 {
-    self = [super init];
-    if (self) {
-        self.data = [[NSMutableData alloc] init];
+    @synchronized(self) {
+        if (!instance) {
+            instance = [[ScheduleConnectionDelegate alloc] init];
+            instance.data = [[NSMutableData alloc] init];
+        }
     }
     
-    return self;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    [self.data setLength:0];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [self.data appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{  
+    return instance;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -45,7 +39,6 @@
     NSError* error;
     NSDictionary* schedule = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
                                                                                  error:&error];
-    NSLog(@"%@", schedule);
     
     // iterate over all TFs/CAs on the schedule for tonight
     NSMutableArray* tfs = [[NSMutableArray alloc] init];

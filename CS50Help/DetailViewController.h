@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (strong, nonatomic) NSMutableArray* allTFs;
 @property (strong, nonatomic) NSMutableArray* onDutyTFs;
-@property (weak, nonatomic) int mode;
+@property (assign, nonatomic) int mode;
 
 - (void)buildOnDutyTFs;
 - (IBAction)dutySegmentedControlChanged;

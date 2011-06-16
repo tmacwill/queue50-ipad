@@ -13,30 +13,24 @@
 
 @implementation QueueConnectionDelegate
 
-@synthesize data=_data, viewController=_viewController;
+@synthesize viewController=_viewController;
 
-- (id)init
+static QueueConnectionDelegate* instance;
+
+/**
+ * Class is a singleton, get the only instance
+ *
+ */
++ (QueueConnectionDelegate*)sharedInstance
 {
-    self = [super init];
-    if (self) {
-        self.data = [[NSMutableData alloc] init];
+    @synchronized(self) {
+        if (!instance) {
+            instance = [[QueueConnectionDelegate alloc] init];
+            instance.data = [[NSMutableData alloc] init];
+        }
     }
     
-    return self;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
-{
-    [self.data setLength:0];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    [self.data appendData:data];
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{  
+    return instance;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -47,9 +41,10 @@
     
     [self.viewController.questions removeAllObjects];
     for (NSDictionary* q in [queue valueForKey:@"queue"]) {
-        Question* question = [[Question alloc] initWithQuestion:[q valueForKey:@"question"]
-                                                    studentName:[q valueForKey:@"name"]
-                                                       category:[q valueForKey:@"category"]];
+        Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
+                                                 question:[q valueForKey:@"question"]
+                                              studentName:[q valueForKey:@"name"]
+                                                 category:[q valueForKey:@"category"]];
         
         [self.viewController.questions addObject:question];
     }

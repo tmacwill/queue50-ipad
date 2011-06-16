@@ -35,6 +35,8 @@
 		9383174413A5D6D100B9D09A /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383173413A5D6D100B9D09A /* CJSONSerializer.m */; };
 		9383174A13A5D8C800B9D09A /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383174813A5D8C800B9D09A /* FilterViewController.m */; };
 		9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9383174913A5D8C800B9D09A /* FilterViewController.xib */; };
+		939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */; };
+		939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +90,10 @@
 		9383174713A5D8C800B9D09A /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		9383174813A5D8C800B9D09A /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		9383174913A5D8C800B9D09A /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchConnectionDelegate.h; sourceTree = "<group>"; };
+		939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchConnectionDelegate.m; sourceTree = "<group>"; };
+		939E83EC13A9BACF00E5427D /* ConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionDelegate.h; sourceTree = "<group>"; };
+		939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +242,10 @@
 				9383171613A5D6D100B9D09A /* QueueConnectionDelegate.m */,
 				9383171713A5D6D100B9D09A /* ScheduleConnectionDelegate.h */,
 				9383171813A5D6D100B9D09A /* ScheduleConnectionDelegate.m */,
+				939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */,
+				939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */,
+				939E83EC13A9BACF00E5427D /* ConnectionDelegate.h */,
+				939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */,
 			);
 			name = "Connection Delegates";
 			sourceTree = "<group>";
@@ -322,6 +332,8 @@
 				9383174313A5D6D100B9D09A /* CJSONScanner.m in Sources */,
 				9383174413A5D6D100B9D09A /* CJSONSerializer.m in Sources */,
 				9383174A13A5D8C800B9D09A /* FilterViewController.m in Sources */,
+				939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */,
+				939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -443,6 +455,7 @@
 				9383170E13A5D48000B9D09A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

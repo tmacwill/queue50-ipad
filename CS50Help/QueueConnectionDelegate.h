@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ConnectionDelegate.h"
 
 @class RootViewController;
 
-@interface QueueConnectionDelegate : NSObject
+@interface QueueConnectionDelegate : ConnectionDelegate
 
-@property (nonatomic, retain) NSMutableData* data;
-@property (nonatomic, retain) RootViewController* viewController;
+@property (strong, nonatomic) RootViewController* viewController;
+
++ (QueueConnectionDelegate*)sharedInstance;
 
 @end

@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ConnectionDelegate.h"
 
 @class DetailViewController;
 
-@interface ScheduleConnectionDelegate : NSObject
+@interface ScheduleConnectionDelegate : ConnectionDelegate
 
-@property (nonatomic, retain) NSMutableData* data;
-@property (nonatomic, retain) DetailViewController* viewController;
+@property (strong, nonatomic) DetailViewController* viewController;
+
++ (ScheduleConnectionDelegate*)sharedInstance;
 
 @end

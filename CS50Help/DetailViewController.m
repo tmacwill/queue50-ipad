@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "RootViewController.h"
+#import "ServerController.h"
 #import "TF.h"
 
 @implementation DetailViewController
@@ -107,6 +108,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // dispatch all selected questions to selected TF
+    [[ServerController sharedInstance] dispatchQuestionsToTFAtIndexPath:indexPath];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

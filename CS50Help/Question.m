@@ -10,13 +10,14 @@
 
 @implementation Question
 
-@synthesize name=_name, question=_question, category=_category;
+@synthesize questionId=_questionId, name=_name, question=_question, category=_category;
 
-- (id)initWithQuestion:(NSString*)question studentName:(NSString*)name category:(NSString*)category
+- (id)initWithId:(int)questionId question:(NSString*)question studentName:(NSString*)name category:(NSString*)category
 {
     self = [super init];
     
     if (self != nil) {
+        self.questionId = questionId;
         self.name = name;
         self.question = question;
         self.category = category;
