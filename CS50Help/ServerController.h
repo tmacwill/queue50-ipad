@@ -23,6 +23,7 @@
 @property (strong, nonatomic) DetailViewController* detailViewController;
 @property (strong, nonatomic) FilterViewController* filterViewController;
 @property (strong, nonatomic) RootViewController* rootViewController;
+@property (assign, nonatomic) BOOL hasLoadedQueue;
 
 + (ServerController*)sharedInstance;
 - (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;

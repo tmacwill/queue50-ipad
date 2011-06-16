@@ -36,8 +36,8 @@ static QueueConnectionDelegate* instance;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSError* error;
-    NSDictionary* queue = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
-                                                                                 error:&error];
+    NSDictionary* queue = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data 
+                                                                              error:&error];
     
     [self.viewController.questions removeAllObjects];
     for (NSDictionary* q in [queue valueForKey:@"queue"]) {

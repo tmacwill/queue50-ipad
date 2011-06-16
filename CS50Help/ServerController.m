@@ -20,6 +20,7 @@
 
 @synthesize detailViewController=_detailViewController;
 @synthesize filterViewController=_filterViewController;
+@synthesize hasLoadedQueue=_hasLoadedQueue;
 @synthesize rootViewController=_rootViewController;
 
 static ServerController* instance;
@@ -33,6 +34,7 @@ static ServerController* instance;
     @synchronized(self) {
         if (!instance) {
             instance = [[ServerController alloc] init];
+            instance.hasLoadedQueue = false;
         }
     }
     
@@ -92,12 +94,18 @@ static ServerController* instance;
 {
     QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
     d.viewController = self.rootViewController;
+    NSMutableString* url = [[NSMutableString alloc] initWithString:
+                            [BASE_URL stringByAppendingString:@"questions/queue"]];
+    
+    // if we have not loaded the queue yet, force an immediate response
+    if (!self.hasLoadedQueue)
+        [url appendString:@"/true"];
     
     NSURLRequest* request = [NSURLRequest requestWithURL:
-                             [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"questions/queue/true"]]];
+                             [NSURL URLWithString:url]];
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
     [connection start];
-   
+    self.hasLoadedQueue = true;
 }
 
 /**
