@@ -13,7 +13,7 @@
 @synthesize isOnDuty=_isOnDuty;
 @synthesize name=_name;
 
-- (id)initWithName:(NSString *)name isOnDuty:(BOOL)isOnDuty
+- (id)initWithName:(NSString *)name isOnDuty:(int)isOnDuty
 {
     self = [super init];
     

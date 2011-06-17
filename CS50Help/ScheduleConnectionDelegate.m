@@ -42,9 +42,9 @@ static ScheduleConnectionDelegate* instance;
     
     // iterate over all TFs/CAs on the schedule for tonight
     NSMutableArray* tfs = [[NSMutableArray alloc] init];
-    for (NSString* tfName in [schedule valueForKey:@"schedule"]) {
-        // @TODO: spreadsheets/schedule should include all TFs, not just those on duty
-        TF* tf = [[TF alloc] initWithName:tfName isOnDuty:YES];
+    for (NSDictionary* tfInfo in [schedule valueForKey:@"schedule"]) {
+        TF* tf = [[TF alloc] initWithName:[tfInfo valueForKey:@"name"] 
+                                 isOnDuty:[[tfInfo valueForKey:@"on_duty"] intValue]];
         [tfs addObject:tf];
     }
     

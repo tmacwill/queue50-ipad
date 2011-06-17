@@ -13,8 +13,8 @@
 }
 
 @property (nonatomic, retain) NSString* name;
-@property (nonatomic, assign) BOOL isOnDuty;
+@property (nonatomic, assign) int isOnDuty;
 
-- (id)initWithName:(NSString*)name isOnDuty:(BOOL)isOnDuty;
+- (id)initWithName:(NSString*)name isOnDuty:(int)isOnDuty;
 
 @end
