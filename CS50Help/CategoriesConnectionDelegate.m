@@ -40,13 +40,12 @@ static CategoriesConnectionDelegate* instance;
     
     // iterate over all TFs/CAs on the schedule for tonight
     NSMutableArray* categories = [[NSMutableArray alloc] init];
+    [categories addObject:@"All"];
     for (NSString* category in [categoriesData valueForKey:@"categories"]) {
         [categories addObject:category];
     }
     
     self.viewController.categories = [categories mutableCopy];
-    self.viewController.selectedCategories = [categories mutableCopy];
-    
     [self.viewController.tableView reloadData];
 }
 

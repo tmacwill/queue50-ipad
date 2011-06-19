@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class RootViewController;
 
 @interface FilterViewController : UITableViewController {
     
 }
 
 @property (strong, nonatomic) NSMutableArray* categories;
-@property (strong, nonatomic) NSMutableArray* selectedCategories;
+@property (strong, nonatomic) RootViewController* rootViewController;
+@property (strong, nonatomic) NSMutableString* selectedCategory;
 
 @end

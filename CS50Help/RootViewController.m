@@ -55,6 +55,7 @@
     // create popover
     self.filterPopover = [[UIPopoverController alloc] initWithContentViewController:self.filterViewController];
     self.filterPopover.delegate = self;
+    self.filterViewController.rootViewController = self;
     
     // create filter button in top-right of left panel
     self.filterButton = [[UIBarButtonItem alloc]
@@ -153,7 +154,10 @@
     // only show those questions whose categories are marked as shown
     [self.visibleQuestions removeAllObjects];
     for (Question* q in self.questions) {
-        if ([self.filterViewController.selectedCategories containsObject:q.category]) {
+        if ([self.filterViewController.selectedCategory isEqualToString:q.category] || 
+            [self.filterViewController.selectedCategory isEqualToString:@"All"] ||
+            self.filterViewController.selectedCategory == nil) {
+            
             [self.visibleQuestions addObject:q];
         }
     }
@@ -161,6 +165,12 @@
     // reload table and continue loop of loading questions once we have received a response
     [self.tableView reloadData];
     [[ServerController sharedInstance] getQueue];
+}
+
+- (void)dismissPopover
+{
+    [self.filterPopover dismissPopoverAnimated:YES];
+    [self buildVisibleQuestions];
 }
 
 @end

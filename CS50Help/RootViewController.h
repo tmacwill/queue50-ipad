@@ -21,6 +21,7 @@
 @property (strong, nonatomic) NSMutableArray* visibleQuestions;
 
 - (void)buildVisibleQuestions;
+- (void)dismissPopover;
 - (void)filterButtonPressed;
 
 @end

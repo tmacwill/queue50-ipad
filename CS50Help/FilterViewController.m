@@ -7,11 +7,13 @@
 //
 
 #import "FilterViewController.h"
+#import "RootViewController.h"
 
 @implementation FilterViewController
 
 @synthesize categories=_categories;
-@synthesize selectedCategories=_selectedCategories;
+@synthesize rootViewController=_rootViewController;
+@synthesize selectedCategory=_selectedCategory;
 
 - (void)didReceiveMemoryWarning
 {
@@ -23,12 +25,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    // preserve selection 
+    self.clearsSelectionOnViewWillAppear = NO;
 }
 
 - (void)viewDidUnload
@@ -85,11 +84,6 @@
     NSString* category = [self.categories objectAtIndex:indexPath.row];
     cell.textLabel.text = category;
     
-    if ([self.selectedCategories containsObject:category])
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    else
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    
     return cell;
 }
 
@@ -97,22 +91,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    NSString* category = [self.categories objectAtIndex:indexPath.row];
-    
-    // already selected, so remove from selected rows and hide checkmark
-    if([self.selectedCategories containsObject:category]) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        [self.selectedCategories removeObject:category];
-    }
-    
-    // not selected yet, so add to selected rows and show checkmark
-    else {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-        [self.selectedCategories addObject:category];
-    }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.selectedCategory = [self.categories objectAtIndex:indexPath.row];
+    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.rootViewController dismissPopover];
 }
 
 @end
