@@ -49,26 +49,32 @@ static ServerController* instance;
  */
 - (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;
 {    
+    // set up connection delegate
     TF* tf = [self.detailViewController.onDutyTFs objectAtIndex:indexPath.row];
     DispatchConnectionDelegate* d = [DispatchConnectionDelegate sharedInstance];
     d.rootViewController = self.rootViewController;
     d.detailViewController = self.detailViewController;
     d.tfIndexPath = indexPath;
-
+    d.questionIndexPaths = self.rootViewController.selectedRows;
+    
+    // create comma separated 
+    NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
     for (NSIndexPath* questionIndexPath in self.rootViewController.selectedRows) {
         Question* q = [self.rootViewController.questions objectAtIndex:questionIndexPath.row];
-        d.questionIndexPath = questionIndexPath;
-
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
-                                        [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"questions/dispatch"]]];
-        NSString* params = [NSString stringWithFormat:@"id=%d&tf=%@", q.questionId, tf.name];
-        request.HTTPMethod = @"POST";
-        request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
-        
-        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
-        [connection start];
+        [questionsParam appendFormat:@"%d,", q.questionId];
     }
-
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                    [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"questions/dispatch"]]];
+    NSString* params = [NSString stringWithFormat:@"%@&tf=%@", questionsParam, tf.name];
+    
+    NSLog(@"%@", questionsParam);
+    
+    request.HTTPMethod = @"POST";
+    request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+    [connection start];
 }
 
 /**

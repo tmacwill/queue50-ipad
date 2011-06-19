@@ -13,7 +13,7 @@
 @implementation DispatchConnectionDelegate
 
 @synthesize detailViewController=_detailViewController;
-@synthesize questionIndexPath=_questionIndexPath;
+@synthesize questionIndexPaths=_questionIndexPaths;
 @synthesize rootViewController=_rootViewController;
 @synthesize tfIndexPath=_tfIndexPath;
 
@@ -37,8 +37,10 @@ static DispatchConnectionDelegate* instance;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    UITableViewCell* cell = [self.rootViewController.tableView cellForRowAtIndexPath:self.questionIndexPath];
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    for (NSIndexPath* indexPath in self.questionIndexPaths) {
+        UITableViewCell* cell = [self.rootViewController.tableView cellForRowAtIndexPath:indexPath];
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     [self.detailViewController.tableView deselectRowAtIndexPath:self.tfIndexPath animated:YES];
 }
