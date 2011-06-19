@@ -92,7 +92,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedCategory = [self.categories objectAtIndex:indexPath.row];
-    //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.rootViewController.selectedRows removeAllObjects];
     [self.rootViewController dismissPopover];
 }
 

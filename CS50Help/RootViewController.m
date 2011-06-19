@@ -122,6 +122,11 @@
     cell.textLabel.text = question.name;
     cell.detailTextLabel.text = question.question;
     
+    if ([self.selectedRows containsObject:indexPath])
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    else
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    
     return cell;
 }
 
@@ -129,13 +134,13 @@
 {
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     
-    // already selected, so remove from selected rows and hide checkmark
+    // already selected, so remove from selected rows
     if ([self.selectedRows containsObject:indexPath]) {
         cell.accessoryType = UITableViewCellAccessoryNone;
         [self.selectedRows removeObject:indexPath];
     }
     
-    // not selected yet, so add to selected rows and show checkmark
+    // not selected yet, so add to selected rows 
     else {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         [self.selectedRows addObject:indexPath];
