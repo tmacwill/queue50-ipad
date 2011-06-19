@@ -14,13 +14,18 @@
 @interface DetailViewController : UIViewController 
     <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
-@property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (strong, nonatomic) NSMutableArray* allTFs;
-@property (strong, nonatomic) NSMutableArray* onDutyTFs;
+@property (strong, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
 @property (assign, nonatomic) int mode;
+@property (strong, nonatomic) NSMutableArray* onDutyTFs;
+@property (strong, nonatomic) NSMutableArray* selectedRows;
+@property (strong, nonatomic) IBOutlet UITableView* tableView;
+@property (strong, nonatomic) IBOutlet UILabel* titleLabel;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem* tfButton;
 
 - (void)buildOnDutyTFs;
 - (IBAction)dutySegmentedControlChanged;
+- (IBAction)tfButtonPressed:(id)sender;
+- (void)toggleTFButton;
 
 @end
