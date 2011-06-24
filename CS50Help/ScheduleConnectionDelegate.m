@@ -43,7 +43,9 @@ static ScheduleConnectionDelegate* instance;
     // iterate over all TFs/CAs on the schedule for tonight
     NSMutableArray* tfs = [[NSMutableArray alloc] init];
     for (NSDictionary* tfInfo in [schedule valueForKey:@"schedule"]) {
-        TF* tf = [[TF alloc] initWithName:[tfInfo valueForKey:@"name"] 
+        TF* tf = [[TF alloc] initWithName:[tfInfo valueForKey:@"name"]
+                                    email:[tfInfo valueForKey:@"email"]
+                                    phone:[tfInfo valueForKey:@"phone"]
                                  isOnDuty:[[tfInfo valueForKey:@"on_duty"] intValue]];
         [tfs addObject:tf];
     }

@@ -122,11 +122,6 @@
 								<reference key="IBUICustomView" ref="891188325"/>
 								<reference key="IBUIToolbar" ref="707050218"/>
 							</object>
-							<object class="IBUIBarButtonItem" id="223694228">
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUIToolbar" ref="707050218"/>
-								<int key="IBUISystemItemIdentifier">4</int>
-							</object>
 							<object class="IBUIBarButtonItem" id="209888074">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
@@ -138,7 +133,7 @@
 								<reference key="IBUIToolbar" ref="707050218"/>
 								<int key="IBUISystemItemIdentifier">13</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="538589458">
+							<object class="IBUIBarButtonItem" id="259237171">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<float key="IBUIWidth">20</float>
 								<int key="IBUIStyle">1</int>
@@ -256,22 +251,6 @@
 					</object>
 					<int key="connectionID">94</int>
 				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">tfButton</string>
-						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="223694228"/>
-					</object>
-					<int key="connectionID">95</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">tfButtonPressed:</string>
-						<reference key="source" ref="223694228"/>
-						<reference key="destination" ref="841351856"/>
-					</object>
-					<int key="connectionID">96</int>
-				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -319,9 +298,8 @@
 							<reference ref="678889715"/>
 							<reference ref="209888074"/>
 							<reference ref="256148295"/>
-							<reference ref="223694228"/>
 							<reference ref="186445979"/>
-							<reference ref="538589458"/>
+							<reference ref="259237171"/>
 						</object>
 						<reference key="parent" ref="647120888"/>
 					</object>
@@ -351,11 +329,6 @@
 						<reference key="parent" ref="707050218"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">90</int>
-						<reference key="object" ref="223694228"/>
-						<reference key="parent" ref="707050218"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">91</int>
 						<reference key="object" ref="186445979"/>
 						<reference key="parent" ref="707050218"/>
@@ -367,7 +340,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">97</int>
-						<reference key="object" ref="538589458"/>
+						<reference key="object" ref="259237171"/>
 						<reference key="parent" ref="707050218"/>
 					</object>
 				</object>
@@ -387,7 +360,6 @@
 					<string>86.IBPluginDependency</string>
 					<string>88.IBPluginDependency</string>
 					<string>89.IBPluginDependency</string>
-					<string>90.IBPluginDependency</string>
 					<string>91.IBPluginDependency</string>
 					<string>92.IBPluginDependency</string>
 					<string>97.IBPluginDependency</string>
@@ -397,7 +369,6 @@
 					<string>DetailViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UIResponder</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -437,9 +408,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>dutySegmentedControlChanged</string>
 							<string>tfButtonPressed:</string>
+							<string>toggleRow:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -450,6 +423,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>dutySegmentedControlChanged</string>
 							<string>tfButtonPressed:</string>
+							<string>toggleRow:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -461,6 +435,10 @@
 								<string key="name">tfButtonPressed:</string>
 								<string key="candidateClassName">id</string>
 							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleRow:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -469,6 +447,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>dutySegmentedControl</string>
 							<string>tableView</string>
+							<string>tableViewCell</string>
 							<string>tfButton</string>
 							<string>titleLabel</string>
 						</object>
@@ -476,6 +455,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UISegmentedControl</string>
 							<string>UITableView</string>
+							<string>UITableViewCell</string>
 							<string>UIBarButtonItem</string>
 							<string>UILabel</string>
 						</object>
@@ -486,6 +466,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>dutySegmentedControl</string>
 							<string>tableView</string>
+							<string>tableViewCell</string>
 							<string>tfButton</string>
 							<string>titleLabel</string>
 						</object>
@@ -498,6 +479,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">tableView</string>
 								<string key="candidateClassName">UITableView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">tableViewCell</string>
+								<string key="candidateClassName">UITableViewCell</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tfButton</string>

@@ -12,9 +12,11 @@
     
 }
 
-@property (nonatomic, retain) NSString* name;
-@property (nonatomic, assign) int isOnDuty;
+@property (strong, nonatomic) NSString* email;
+@property (assign, nonatomic) int isOnDuty;
+@property (strong, nonatomic) NSString* name;
+@property (strong, nonatomic) NSString* phone;
 
-- (id)initWithName:(NSString*)name isOnDuty:(int)isOnDuty;
+- (id)initWithName:(NSString*)name email:(NSString*)email phone:(NSString*)phone isOnDuty:(int)isOnDuty;
 
 @end

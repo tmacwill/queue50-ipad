@@ -10,16 +10,20 @@
 
 @implementation TF
 
+@synthesize email=_email;
 @synthesize isOnDuty=_isOnDuty;
 @synthesize name=_name;
+@synthesize phone=_phone;
 
-- (id)initWithName:(NSString *)name isOnDuty:(int)isOnDuty
+- (id)initWithName:(NSString*)name email:(NSString*)email phone:(NSString*)phone isOnDuty:(int)isOnDuty;
 {
     self = [super init];
     
     if (self != nil) {
         self.name = name;
         self.isOnDuty = isOnDuty;
+        self.email = email;
+        self.phone = phone;
     }
     
     return self;

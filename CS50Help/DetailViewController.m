@@ -17,10 +17,9 @@
 @synthesize dutySegmentedControl=_dutySegmentedControl;
 @synthesize onDutyTFs=_onDutyTFs;
 @synthesize mode=_mode;
-@synthesize selectedRows=_selectedRows;
 @synthesize tableView=_tableView;
+@synthesize tableViewCell=_tableViewCell;
 @synthesize titleLabel=_titleLabel;
-@synthesize tfButton=_tfButton;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,7 +43,6 @@
     
     self.allTFs = [[NSMutableArray alloc] init];
     self.onDutyTFs = [[NSMutableArray alloc] init];
-    self.selectedRows = [[NSMutableArray alloc] init];
     self.mode = MODE_ON_DUTY;
     
     // seriously, why don't UIToolbars have titles
@@ -63,7 +61,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self toggleTFButton];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -100,19 +97,46 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier;
+    if (self.mode == MODE_ON_DUTY)
+        CellIdentifier = @"Cell";
+    else
+        CellIdentifier = @"StaffTableViewCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    if (cell == nil) { 
+        if (self.mode == MODE_ON_DUTY)
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        
+        else {
+            [[NSBundle mainBundle] loadNibNamed:@"StaffTableViewCell" owner:self options:nil];
+            cell = _tableViewCell;
+            self.tableViewCell = nil;
+        }
     }
     
-    // get TF from appropriate array
-    TF* tf = (self.mode == MODE_ON_DUTY) ? [self.onDutyTFs objectAtIndex:indexPath.row] : 
-    [self.allTFs objectAtIndex:indexPath.row];
-    
-    cell.textLabel.text = tf.name;
-    
+    if (self.mode == MODE_ON_DUTY) {
+        TF* tf = [self.onDutyTFs objectAtIndex:indexPath.row];
+        cell.textLabel.text = tf.name;
+    }
+    else if (self.mode == MODE_ALL) {
+        TF* tf = [self.allTFs objectAtIndex:indexPath.row];
+        for (UIView* contentView in cell.subviews) {
+            for (UIView* view in contentView.subviews) {
+                if ([view isKindOfClass:[UILabel class]]) {
+                    UILabel* label = (UILabel*)view;
+                    label.text = tf.name;
+                    // gray out TFs who are not on duty
+                    if (!tf.isOnDuty)
+                        label.textColor = [UIColor grayColor];
+                }
+                
+                else if ([view isKindOfClass:[UISwitch class]])
+                    ((UISwitch*)view).tag = indexPath.row;
+            }
+        }
+    }
+
     return cell;
 }
 
@@ -125,20 +149,15 @@
         [[ServerController sharedInstance] dispatchQuestionsToTFAtIndexPath:indexPath];
     }
     
+    // open mail client on row select
     else if (self.mode == MODE_ALL) {
-        UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-        
-        // already selected, so remove from selected rows and hide checkmark
-        if ([self.selectedRows containsObject:indexPath]) {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-            [self.selectedRows removeObject:indexPath];
-        }
-        
-        // not selected yet, so add to selected rows and show checkmark
-        else {
-            cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            [self.selectedRows addObject:indexPath];
-        }
+        TF* tf = [self.allTFs objectAtIndex:indexPath.row];
+
+        MFMailComposeViewController* mail = [[MFMailComposeViewController alloc] init];
+        mail.mailComposeDelegate = self;
+        [mail setToRecipients:[NSArray arrayWithObject:tf.email]];
+        [mail setSubject:@"Office Hours"];
+        [self presentModalViewController:mail animated:YES];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -174,33 +193,25 @@
 - (IBAction)dutySegmentedControlChanged
 {
     self.mode = self.dutySegmentedControl.selectedSegmentIndex;
-    [self toggleTFButton];    
     [self.tableView reloadData];
 }
 
-- (void)toggleTFButton
+- (IBAction)toggleRow:(id)sender
 {
-    if (self.mode == MODE_ON_DUTY)
-        self.tfButton.enabled = NO;
-    else if (self.mode == MODE_ALL)
-        self.tfButton.enabled = YES;    
-}
-
-- (IBAction)tfButtonPressed:(id)sender
-{
-    for (NSIndexPath* indexPath in self.selectedRows) {
-        // mark TF as on duty
-        TF* tf = [self.allTFs objectAtIndex:indexPath.row];
-        [self.onDutyTFs addObject:tf];
-        
-        UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-        
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
+    UISwitch* toggle = (UISwitch*)sender;
+    TF* tf = [self.allTFs objectAtIndex:[toggle tag]];
     
-    [self.selectedRows removeAllObjects];
+    if (toggle.on)
+        [self.onDutyTFs addObject:tf];
+    else
+        [self.onDutyTFs removeObject:tf];
+    
     [self.tableView reloadData];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissModalViewControllerAnimated:YES];
 }
 
 @end
