@@ -23,7 +23,6 @@
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem* tfButton;
 
-- (void)buildOnDutyTFs;
 - (IBAction)dutySegmentedControlChanged;
 - (IBAction)tfButtonPressed:(id)sender;
 - (void)toggleTFButton;

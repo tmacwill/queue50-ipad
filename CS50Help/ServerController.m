@@ -67,9 +67,6 @@ static ServerController* instance;
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                     [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"questions/dispatch"]]];
     NSString* params = [NSString stringWithFormat:@"%@&tf=%@", questionsParam, tf.name];
-    
-    NSLog(@"%@", questionsParam);
-    
     request.HTTPMethod = @"POST";
     request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
     

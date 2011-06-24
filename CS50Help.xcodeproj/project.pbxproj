@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */; };
 		938316EC13A5D48000B9D09A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938316EB13A5D48000B9D09A /* UIKit.framework */; };
 		938316EE13A5D48000B9D09A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938316ED13A5D48000B9D09A /* Foundation.framework */; };
 		938316F013A5D48000B9D09A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938316EF13A5D48000B9D09A /* CoreGraphics.framework */; };
@@ -41,6 +42,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionsTableViewCell.xib; sourceTree = "<group>"; };
 		938316E713A5D48000B9D09A /* CS50Help.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CS50Help.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		938316EB13A5D48000B9D09A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		938316ED13A5D48000B9D09A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -159,6 +161,7 @@
 				9383170413A5D48000B9D09A /* RootViewController.xib */,
 				9383174913A5D8C800B9D09A /* FilterViewController.xib */,
 				9383170713A5D48000B9D09A /* DetailViewController.xib */,
+				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
 				938316F213A5D48000B9D09A /* Supporting Files */,
 			);
 			path = CS50Help;
@@ -307,6 +310,7 @@
 				9383170613A5D48000B9D09A /* RootViewController.xib in Resources */,
 				9383170913A5D48000B9D09A /* DetailViewController.xib in Resources */,
 				9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */,
+				936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

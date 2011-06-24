@@ -171,19 +171,6 @@
 
 #pragma mark - Event handlers
 
-- (void)buildOnDutyTFs
-{
-    // clear array and add only those TFs who are on duty
-    [self.onDutyTFs removeAllObjects];
-    for (TF* tf in self.allTFs) {
-        if (tf.isOnDuty) {
-            [self.onDutyTFs addObject:tf];
-        }
-    }
-    
-    [self.tableView reloadData];
-}
-
 - (IBAction)dutySegmentedControlChanged
 {
     self.mode = self.dutySegmentedControl.selectedSegmentIndex;
@@ -204,7 +191,7 @@
     for (NSIndexPath* indexPath in self.selectedRows) {
         // mark TF as on duty
         TF* tf = [self.allTFs objectAtIndex:indexPath.row];
-        tf.isOnDuty = YES;
+        [self.onDutyTFs addObject:tf];
         
         UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
         cell.accessoryType = UITableViewCellAccessoryNone;
@@ -213,7 +200,7 @@
     }
     
     [self.selectedRows removeAllObjects];
-    [self buildOnDutyTFs];
+    [self.tableView reloadData];
 }
 
 @end

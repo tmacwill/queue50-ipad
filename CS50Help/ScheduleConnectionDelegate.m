@@ -48,9 +48,8 @@ static ScheduleConnectionDelegate* instance;
         [tfs addObject:tf];
     }
     
-    // @TODO: schedule will return a list of all TFs, with another property specifying if they are on duty
     self.viewController.allTFs = tfs;
-    [self.viewController buildOnDutyTFs];
+    [self.viewController.tableView reloadData];
 }
 
 @end

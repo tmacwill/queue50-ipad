@@ -6,9 +6,9 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "RootViewController.h"
 #import "DetailViewController.h"
 #import "FilterViewController.h"
+#import "RootViewController.h"
 #import "Question.h"
 #import "ServerController.h"
 
@@ -20,6 +20,7 @@
 @synthesize filterViewController=_filterViewController;
 @synthesize questions=_questions;
 @synthesize selectedRows=_selectedRows;
+@synthesize tableViewCell=_tableViewCell;
 @synthesize visibleQuestions=_visibleQuestions;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -111,16 +112,33 @@
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"QuestionsTableViewCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        //NSArray* cellNib = [[NSBundle mainBundle] loadNibNamed:@"QuestionsTableViewCell" 
+        //                                                 owner:self options:nil];
+        //cell = [cellNib objectAtIndex:0];
+        
+        //cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        [[NSBundle mainBundle] loadNibNamed:@"QuestionsTableViewCell" owner:self options:nil];
+        cell = _tableViewCell;
+        self.tableViewCell = nil;
     }
     
     Question* question = [self.visibleQuestions objectAtIndex:indexPath.row];
-    cell.textLabel.text = question.name;
-    cell.detailTextLabel.text = question.question;
+    UILabel* label = (UILabel*)[cell viewWithTag:10];
+    label.text = [NSString stringWithFormat:@"%d", question.position];
+    label = (UILabel*)[cell viewWithTag:11];
+    label.text = question.name;
+    label = (UILabel*)[cell viewWithTag:12];
+    label.text = question.question;
+    label = (UILabel*)[cell viewWithTag:13];
+    label.text = question.category;
+    
+    //cell.textLabel.text = question.name;
+    //cell.detailTextLabel.text = question.question;
     
     if ([self.selectedRows containsObject:indexPath])
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -128,6 +146,11 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 68.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -12,12 +12,14 @@
     
 }
 
-@property (assign, nonatomic) int questionId;
-@property (strong, nonatomic) NSString* name;
-@property (strong, nonatomic) NSString* question;
 @property (strong, nonatomic) NSString* category;
+@property (strong, nonatomic) NSString* name;
+@property (assign, nonatomic) int position;
+@property (assign, nonatomic) int questionId;
+@property (strong, nonatomic) NSString* question;
 
-- (id)initWithId:(int)questionId question:(NSString*)question studentName:(NSString*)name category:(NSString*)category;
 
+- (id)initWithId:(int)questionId question:(NSString*)question position:(int)position 
+     studentName:(NSString*)name category:(NSString*)category;
 
 @end

@@ -18,6 +18,7 @@
 @property (strong, nonatomic) FilterViewController* filterViewController;
 @property (strong, nonatomic) NSMutableArray* questions;
 @property (strong, nonatomic) NSMutableArray* selectedRows;
+@property (assign, nonatomic) IBOutlet UITableViewCell* tableViewCell;
 @property (strong, nonatomic) NSMutableArray* visibleQuestions;
 
 - (void)buildVisibleQuestions;

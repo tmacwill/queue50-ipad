@@ -43,6 +43,7 @@ static QueueConnectionDelegate* instance;
     for (NSDictionary* q in [queue valueForKey:@"queue"]) {
         Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
                                                  question:[q valueForKey:@"question"]
+                                                 position:[[q valueForKey:@"position"] intValue]
                                               studentName:[q valueForKey:@"name"]
                                                  category:[q valueForKey:@"category"]];
         
