@@ -20,17 +20,22 @@
 @synthesize filterViewController=_filterViewController;
 @synthesize questions=_questions;
 @synthesize selectedRows=_selectedRows;
+@synthesize tableView=_tableView;
 @synthesize tableViewCell=_tableViewCell;
 @synthesize visibleQuestions=_visibleQuestions;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+
+- (void)awakeFromNib
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.clearsSelectionOnViewWillAppear = NO;
-        self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
-    }
-    return self;
+    self.selectedRows = [[NSMutableArray alloc] init];
+    
+    // create popover
+    self.filterPopover = [[UIPopoverController alloc] initWithContentViewController:self.filterViewController];
+    self.filterPopover.delegate = self;
+    self.filterViewController.rootViewController = self;
+    
+    self.questions = [[NSMutableArray alloc] init];
+    self.visibleQuestions = [[NSMutableArray alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -48,26 +53,9 @@
 
 - (void)viewDidLoad
 {
-    [super viewDidLoad];
-    
-    self.navigationItem.title = @"Students";
-    self.selectedRows = [[NSMutableArray alloc] init];
-    
-    // create popover
-    self.filterPopover = [[UIPopoverController alloc] initWithContentViewController:self.filterViewController];
-    self.filterPopover.delegate = self;
-    self.filterViewController.rootViewController = self;
-    
-    // create filter button in top-right of left panel
-    self.filterButton = [[UIBarButtonItem alloc]
-                         initWithTitle:@"Filter" style:UIBarButtonItemStyleBordered 
-                         target:self action:@selector(filterButtonPressed)];
-    self.navigationItem.rightBarButtonItem = self.filterButton;
-    
-    self.questions = [[NSMutableArray alloc] init];
-    self.visibleQuestions = [[NSMutableArray alloc] init];
-
+    [super viewDidLoad];    
 }
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -116,12 +104,6 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        //NSArray* cellNib = [[NSBundle mainBundle] loadNibNamed:@"QuestionsTableViewCell" 
-        //                                                 owner:self options:nil];
-        //cell = [cellNib objectAtIndex:0];
-        
-        //cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        
         [[NSBundle mainBundle] loadNibNamed:@"QuestionsTableViewCell" owner:self options:nil];
         cell = _tableViewCell;
         self.tableViewCell = nil;

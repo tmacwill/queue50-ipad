@@ -7,27 +7,27 @@
 //
 
 #import "DetailViewController.h"
+#import "HalfViewController.h"
 #import "RootViewController.h"
 #import "ServerController.h"
 #import "TF.h"
 
 @implementation DetailViewController
 
-@synthesize allTFs=_allTFs;
-@synthesize dutySegmentedControl=_dutySegmentedControl;
-@synthesize onDutyTFs=_onDutyTFs;
-@synthesize mode=_mode;
-@synthesize tableView=_tableView;
-@synthesize tableViewCell=_tableViewCell;
-@synthesize titleLabel=_titleLabel;
+@synthesize allTFs = _allTFs;
+@synthesize dutySegmentedControl = _dutySegmentedControl;
+@synthesize halfViewController = _halfViewController;
+@synthesize onDutyTFs = _onDutyTFs;
+@synthesize mode = _mode;
+@synthesize tableView = _tableView;
+@synthesize tableViewCell = _tableViewCell;
+@synthesize titleLabel = _titleLabel;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)awakeFromNib
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = NSLocalizedString(@"Detail", @"Detail");
-    }
-    return self;
+    self.allTFs = [[NSMutableArray alloc] init];
+    self.onDutyTFs = [[NSMutableArray alloc] init];
+    self.mode = MODE_ON_DUTY;    
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,17 +40,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.allTFs = [[NSMutableArray alloc] init];
-    self.onDutyTFs = [[NSMutableArray alloc] init];
-    self.mode = MODE_ON_DUTY;
-    
-    // seriously, why don't UIToolbars have titles
-    self.titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
-    self.titleLabel.shadowOffset = CGSizeMake(0, 1);
-    self.titleLabel.shadowColor = [UIColor colorWithWhite:1.f alpha:.5f];
-    self.titleLabel.textColor = [UIColor colorWithRed:113.f/255.f green:120.f/255.f blue:127.f/255.f alpha:1.f];
-    self.titleLabel.backgroundColor = [UIColor clearColor];
 }
 
 - (void)viewDidUnload
@@ -158,7 +147,7 @@
         mail.mailComposeDelegate = self;
         [mail setToRecipients:[NSArray arrayWithObject:tf.email]];
         [mail setSubject:@"Office Hours"];
-        [self presentModalViewController:mail animated:YES];
+        [self.halfViewController presentModalViewController:mail animated:YES];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

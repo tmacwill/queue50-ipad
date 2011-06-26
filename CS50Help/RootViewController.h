@@ -10,19 +10,20 @@
 
 @class FilterViewController;
 
-@interface RootViewController : UITableViewController <UIPopoverControllerDelegate>
+@interface RootViewController : UIViewController 
+    <UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
-//@property (strong, nonatomic) IBOutlet DetailViewController *detailViewController;
-@property (strong, nonatomic) UIBarButtonItem* filterButton;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem* filterButton;
 @property (strong, nonatomic) UIPopoverController* filterPopover;
-@property (strong, nonatomic) FilterViewController* filterViewController;
+@property (strong, nonatomic) IBOutlet FilterViewController* filterViewController;
 @property (strong, nonatomic) NSMutableArray* questions;
 @property (strong, nonatomic) NSMutableArray* selectedRows;
+@property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (assign, nonatomic) IBOutlet UITableViewCell* tableViewCell;
 @property (strong, nonatomic) NSMutableArray* visibleQuestions;
 
 - (void)buildVisibleQuestions;
 - (void)dismissPopover;
-- (void)filterButtonPressed;
+- (IBAction)filterButtonPressed;
 
 @end

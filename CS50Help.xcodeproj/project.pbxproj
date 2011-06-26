@@ -19,8 +19,6 @@
 		938316FF13A5D48000B9D09A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938316FE13A5D48000B9D09A /* RootViewController.m */; };
 		9383170113A5D48000B9D09A /* DetailViewController.h in Resources */ = {isa = PBXBuildFile; fileRef = 9383170013A5D48000B9D09A /* DetailViewController.h */; };
 		9383170313A5D48000B9D09A /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383170213A5D48000B9D09A /* DetailViewController.m */; };
-		9383170613A5D48000B9D09A /* RootViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9383170413A5D48000B9D09A /* RootViewController.xib */; };
-		9383170913A5D48000B9D09A /* DetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9383170713A5D48000B9D09A /* DetailViewController.xib */; };
 		9383173613A5D6D100B9D09A /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171413A5D6D100B9D09A /* Question.m */; };
 		9383173713A5D6D100B9D09A /* QueueConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171613A5D6D100B9D09A /* QueueConnectionDelegate.m */; };
 		9383173813A5D6D100B9D09A /* ScheduleConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171813A5D6D100B9D09A /* ScheduleConnectionDelegate.m */; };
@@ -40,6 +38,8 @@
 		9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9383174913A5D8C800B9D09A /* FilterViewController.xib */; };
 		939290E013B5D23600C0BB87 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939290DE13B5D23500C0BB87 /* AuthViewController.m */; };
 		939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939290DF13B5D23600C0BB87 /* AuthViewController.xib */; };
+		939290F813B7186500C0BB87 /* HalfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939290F613B7186400C0BB87 /* HalfViewController.m */; };
+		939290F913B7186500C0BB87 /* HalfViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939290F713B7186400C0BB87 /* HalfViewController.xib */; };
 		939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */; };
 		939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */; };
 		939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */; };
@@ -63,8 +63,6 @@
 		938316FE13A5D48000B9D09A /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		9383170013A5D48000B9D09A /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		9383170213A5D48000B9D09A /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		9383170513A5D48000B9D09A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RootViewController.xib; sourceTree = "<group>"; };
-		9383170813A5D48000B9D09A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DetailViewController.xib; sourceTree = "<group>"; };
 		9383171313A5D6D100B9D09A /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
 		9383171413A5D6D100B9D09A /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
 		9383171513A5D6D100B9D09A /* QueueConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueConnectionDelegate.h; sourceTree = "<group>"; };
@@ -102,6 +100,9 @@
 		939290DD13B5D23500C0BB87 /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
 		939290DE13B5D23500C0BB87 /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
 		939290DF13B5D23600C0BB87 /* AuthViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
+		939290F513B7186300C0BB87 /* HalfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalfViewController.h; sourceTree = "<group>"; };
+		939290F613B7186400C0BB87 /* HalfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HalfViewController.m; sourceTree = "<group>"; };
+		939290F713B7186400C0BB87 /* HalfViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HalfViewController.xib; sourceTree = "<group>"; };
 		939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchConnectionDelegate.h; sourceTree = "<group>"; };
 		939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchConnectionDelegate.m; sourceTree = "<group>"; };
 		939E83EC13A9BACF00E5427D /* ConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionDelegate.h; sourceTree = "<group>"; };
@@ -156,6 +157,8 @@
 		938316F113A5D48000B9D09A /* CS50Help */ = {
 			isa = PBXGroup;
 			children = (
+				939290E713B6FF3100C0BB87 /* Nibs */,
+				939290E613B6FEF600C0BB87 /* View Controllers */,
 				9383171D13A5D6D100B9D09A /* TouchJSON */,
 				9383174513A5D6D800B9D09A /* Models */,
 				9383174613A5D6E000B9D09A /* Connection Delegates */,
@@ -163,20 +166,6 @@
 				9383171A13A5D6D100B9D09A /* ServerController.m */,
 				938316FA13A5D48000B9D09A /* CS50HelpAppDelegate.h */,
 				938316FB13A5D48000B9D09A /* CS50HelpAppDelegate.m */,
-				938316FD13A5D48000B9D09A /* RootViewController.h */,
-				938316FE13A5D48000B9D09A /* RootViewController.m */,
-				9383170013A5D48000B9D09A /* DetailViewController.h */,
-				9383170213A5D48000B9D09A /* DetailViewController.m */,
-				9383174713A5D8C800B9D09A /* FilterViewController.h */,
-				9383174813A5D8C800B9D09A /* FilterViewController.m */,
-				9383170413A5D48000B9D09A /* RootViewController.xib */,
-				9383174913A5D8C800B9D09A /* FilterViewController.xib */,
-				9383170713A5D48000B9D09A /* DetailViewController.xib */,
-				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
-				936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */,
-				939290DD13B5D23500C0BB87 /* AuthViewController.h */,
-				939290DE13B5D23500C0BB87 /* AuthViewController.m */,
-				939290DF13B5D23600C0BB87 /* AuthViewController.xib */,
 				938316F213A5D48000B9D09A /* Supporting Files */,
 			);
 			path = CS50Help;
@@ -273,6 +262,35 @@
 			name = "Connection Delegates";
 			sourceTree = "<group>";
 		};
+		939290E613B6FEF600C0BB87 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				938316FD13A5D48000B9D09A /* RootViewController.h */,
+				938316FE13A5D48000B9D09A /* RootViewController.m */,
+				9383170013A5D48000B9D09A /* DetailViewController.h */,
+				9383170213A5D48000B9D09A /* DetailViewController.m */,
+				9383174713A5D8C800B9D09A /* FilterViewController.h */,
+				9383174813A5D8C800B9D09A /* FilterViewController.m */,
+				939290DD13B5D23500C0BB87 /* AuthViewController.h */,
+				939290DE13B5D23500C0BB87 /* AuthViewController.m */,
+				939290F513B7186300C0BB87 /* HalfViewController.h */,
+				939290F613B7186400C0BB87 /* HalfViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		939290E713B6FF3100C0BB87 /* Nibs */ = {
+			isa = PBXGroup;
+			children = (
+				939290F713B7186400C0BB87 /* HalfViewController.xib */,
+				9383174913A5D8C800B9D09A /* FilterViewController.xib */,
+				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
+				936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */,
+				939290DF13B5D23600C0BB87 /* AuthViewController.xib */,
+			);
+			name = Nibs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -322,12 +340,11 @@
 			files = (
 				938316F613A5D48000B9D09A /* InfoPlist.strings in Resources */,
 				9383170113A5D48000B9D09A /* DetailViewController.h in Resources */,
-				9383170613A5D48000B9D09A /* RootViewController.xib in Resources */,
-				9383170913A5D48000B9D09A /* DetailViewController.xib in Resources */,
 				9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */,
 				936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */,
 				936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */,
 				939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */,
+				939290F913B7186500C0BB87 /* HalfViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,6 +379,7 @@
 				939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */,
 				939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */,
 				939290E013B5D23600C0BB87 /* AuthViewController.m in Sources */,
+				939290F813B7186500C0BB87 /* HalfViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,22 +392,6 @@
 				938316F513A5D48000B9D09A /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		9383170413A5D48000B9D09A /* RootViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9383170513A5D48000B9D09A /* en */,
-			);
-			name = RootViewController.xib;
-			sourceTree = "<group>";
-		};
-		9383170713A5D48000B9D09A /* DetailViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9383170813A5D48000B9D09A /* en */,
-			);
-			name = DetailViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

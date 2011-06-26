@@ -7,24 +7,22 @@
 //
 
 #import "CS50HelpAppDelegate.h"
-#import "FilterViewController.h"
 #import "DetailViewController.h"
+#import "FilterViewController.h"
+#import "HalfViewController.h"
 #import "RootViewController.h"
 #import "ServerController.h"
 
 @implementation CS50HelpAppDelegate
 
-@synthesize detailViewController=_detailViewController;
-@synthesize filterViewController=_filterViewController;
-@synthesize rootViewController=_rootViewController;
-@synthesize splitViewController = _splitViewController;
+@synthesize halfViewController=_halfViewController;
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
+    /*
     RootViewController *controller = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
 
@@ -38,7 +36,10 @@
     self.rootViewController = controller;
     self.detailViewController = detailViewController;
     self.splitViewController.viewControllers = [NSArray arrayWithObjects:navigationController, detailViewController, nil];
-    self.window.rootViewController = self.splitViewController;
+     */
+
+    self.halfViewController = [[HalfViewController alloc] init];
+    self.window.rootViewController = self.halfViewController;
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -69,10 +70,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     ServerController* serverController = [ServerController sharedInstance];
-    serverController.detailViewController = self.detailViewController;
-    serverController.filterViewController = self.filterViewController;
-    serverController.rootViewController = self.rootViewController;
-        
+    serverController.halfViewController = self.halfViewController;
+            
     [serverController refresh];
     
     /*

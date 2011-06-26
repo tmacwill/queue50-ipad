@@ -10,6 +10,7 @@
 #import "CategoriesConnectionDelegate.h"
 #import "DetailViewController.h"
 #import "DispatchConnectionDelegate.h"
+#import "HalfViewController.h"
 #import "QueueConnectionDelegate.h"
 #import "Question.h"
 #import "RootViewController.h"
@@ -20,11 +21,9 @@
 @implementation ServerController
 
 @synthesize authViewController=_authViewController;
-@synthesize detailViewController=_detailViewController;
-@synthesize filterViewController=_filterViewController;
+@synthesize halfViewController=_halfViewController;
 @synthesize hasLoadedQueue=_hasLoadedQueue;
 @synthesize isFormPresent=_isFormPresent;
-@synthesize rootViewController=_rootViewController;
 @synthesize user=_user;
 
 static ServerController* instance;
@@ -58,7 +57,8 @@ static ServerController* instance;
     if (!self.user && !self.isFormPresent) {
         self.isFormPresent = true;
         self.authViewController.delegate = self;
-        [self.detailViewController presentModalViewController:self.authViewController animated:YES];
+
+        [self.halfViewController presentModalViewController:self.authViewController animated:YES];
         return NO;
     }
     
@@ -87,17 +87,17 @@ static ServerController* instance;
 {    
     if ([self authenticate]) {
         // set up connection delegate
-        TF* tf = [self.detailViewController.onDutyTFs objectAtIndex:indexPath.row];
+        TF* tf = [self.halfViewController.detailViewController.onDutyTFs objectAtIndex:indexPath.row];
         DispatchConnectionDelegate* d = [[DispatchConnectionDelegate alloc] init];
-        d.rootViewController = self.rootViewController;
-        d.detailViewController = self.detailViewController;
+        d.rootViewController = self.halfViewController.rootViewController;
+        d.detailViewController = self.halfViewController.detailViewController;
         d.tfIndexPath = indexPath;
-        d.questionIndexPaths = self.rootViewController.selectedRows;
+        d.questionIndexPaths = self.halfViewController.rootViewController.selectedRows;
     
         // create comma separated 
         NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
-        for (NSIndexPath* questionIndexPath in self.rootViewController.selectedRows) {
-            Question* q = [self.rootViewController.questions objectAtIndex:questionIndexPath.row];
+        for (NSIndexPath* questionIndexPath in self.halfViewController.rootViewController.selectedRows) {
+            Question* q = [self.halfViewController.rootViewController.questions objectAtIndex:questionIndexPath.row];
             [questionsParam appendFormat:@"%d,", q.questionId];
         }
     
@@ -122,7 +122,7 @@ static ServerController* instance;
 {    
     if ([self authenticate]) {
         CategoriesConnectionDelegate* d = [[CategoriesConnectionDelegate alloc] init];
-        d.viewController = self.filterViewController;
+        d.viewController = self.halfViewController.filterViewController;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
@@ -143,7 +143,7 @@ static ServerController* instance;
 {    
     if ([self authenticate]) {
         QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
-        d.viewController = self.rootViewController;
+        d.viewController = self.halfViewController.rootViewController;
         NSMutableString* url = [[NSMutableString alloc] initWithString:
                                 [BASE_URL stringByAppendingString:@"questions/queue"]];
     
@@ -170,7 +170,7 @@ static ServerController* instance;
 {    
     if ([self authenticate]) {
         ScheduleConnectionDelegate* d = [[ScheduleConnectionDelegate alloc] init];
-        d.viewController = self.detailViewController;
+        d.viewController = self.halfViewController.detailViewController;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:

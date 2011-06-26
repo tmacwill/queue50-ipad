@@ -13,11 +13,14 @@
 #define MODE_ON_DUTY 0
 #define MODE_ALL 1
 
+@class HalfViewController;
+
 @interface DetailViewController : UIViewController 
     <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray* allTFs;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
+@property (strong, nonatomic) IBOutlet HalfViewController* halfViewController;
 @property (assign, nonatomic) int mode;
 @property (strong, nonatomic) NSMutableArray* onDutyTFs;
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
