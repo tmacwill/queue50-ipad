@@ -6,6 +6,8 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "DetailViewController.h"
 #import "FilterViewController.h"
 #import "RootViewController.h"
@@ -14,16 +16,15 @@
 
 @implementation RootViewController
 
-//@synthesize detailViewController=_detailViewController;
-@synthesize filterButton=_filterButton;
-@synthesize filterPopover=_filterPopover;
-@synthesize filterViewController=_filterViewController;
-@synthesize questions=_questions;
-@synthesize selectedRows=_selectedRows;
-@synthesize tableView=_tableView;
-@synthesize tableViewCell=_tableViewCell;
-@synthesize visibleQuestions=_visibleQuestions;
-
+@synthesize containerView = _containerView;
+@synthesize filterButton = _filterButton;
+@synthesize filterPopover = _filterPopover;
+@synthesize filterViewController = _filterViewController;
+@synthesize questions = _questions;
+@synthesize selectedRows = _selectedRows;
+@synthesize tableView = _tableView;
+@synthesize tableViewCell = _tableViewCell;
+@synthesize visibleQuestions = _visibleQuestions;
 
 - (void)awakeFromNib
 {
@@ -36,6 +37,11 @@
     
     self.questions = [[NSMutableArray alloc] init];
     self.visibleQuestions = [[NSMutableArray alloc] init];
+    
+    self.containerView.layer.cornerRadius = 5.0;
+    self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
+    self.containerView.layer.masksToBounds = YES;
+    self.containerView.layer.borderWidth = 0.5;
 }
 
 - (void)didReceiveMemoryWarning
@@ -86,7 +92,6 @@
     return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
             interfaceOrientation == UIInterfaceOrientationLandscapeRight);}
 
-// Customize the number of sections in the table view.
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -109,18 +114,28 @@
         self.tableViewCell = nil;
     }
     
+    // position label: gray with rounded corners
     Question* question = [self.visibleQuestions objectAtIndex:indexPath.row];
     UILabel* label = (UILabel*)[cell viewWithTag:10];
     label.text = [NSString stringWithFormat:@"%d", question.position];
+    label.backgroundColor = [UIColor lightGrayColor];
+    label.textColor = [UIColor whiteColor];
+    label.layer.cornerRadius = 8.0;
+    
     label = (UILabel*)[cell viewWithTag:11];
     label.text = question.name;
+    
+    // if question text is only one line, vertical align at top rather than center
     label = (UILabel*)[cell viewWithTag:12];
     label.text = question.question;
+    CGSize labelSize = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size 
+                                  lineBreakMode:label.lineBreakMode];
+    label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, 
+                             label.frame.size.width, labelSize.height);
+    
     label = (UILabel*)[cell viewWithTag:13];
     label.text = question.category;
     
-    //cell.textLabel.text = question.name;
-    //cell.detailTextLabel.text = question.question;
     
     if ([self.selectedRows containsObject:indexPath])
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -132,7 +147,7 @@
 
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 68.0;
+    return 73.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

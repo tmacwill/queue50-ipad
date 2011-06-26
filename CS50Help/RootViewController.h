@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @class FilterViewController;
 
 @interface RootViewController : UIViewController 
     <UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
+@property (strong, nonatomic) IBOutlet UIView* containerView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem* filterButton;
 @property (strong, nonatomic) UIPopoverController* filterPopover;
 @property (strong, nonatomic) IBOutlet FilterViewController* filterViewController;

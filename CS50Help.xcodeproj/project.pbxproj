@@ -43,6 +43,7 @@
 		939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */; };
 		939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */; };
 		939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */; };
+		93C160AF13B7CCCE00B018D9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C160AE13B7CCCE00B018D9 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,6 +110,7 @@
 		939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionDelegate.m; sourceTree = "<group>"; };
 		939E83EF13A9CE7700E5427D /* CategoriesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesConnectionDelegate.h; sourceTree = "<group>"; };
 		939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesConnectionDelegate.m; sourceTree = "<group>"; };
+		93C160AE13B7CCCE00B018D9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93C160AF13B7CCCE00B018D9 /* QuartzCore.framework in Frameworks */,
 				936653FD13B485C200D49A36 /* MessageUI.framework in Frameworks */,
 				938316EC13A5D48000B9D09A /* UIKit.framework in Frameworks */,
 				938316EE13A5D48000B9D09A /* Foundation.framework in Frameworks */,
@@ -129,6 +132,7 @@
 		938316DC13A5D47F00B9D09A = {
 			isa = PBXGroup;
 			children = (
+				93C160AE13B7CCCE00B018D9 /* QuartzCore.framework */,
 				936653FC13B485C200D49A36 /* MessageUI.framework */,
 				938316F113A5D48000B9D09A /* CS50Help */,
 				938316EA13A5D48000B9D09A /* Frameworks */,

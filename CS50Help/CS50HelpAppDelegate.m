@@ -21,24 +21,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    /*
-    RootViewController *controller = [[RootViewController alloc] initWithNibName:@"RootViewController" bundle:nil];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-
-    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
-    
-    self.filterViewController = [[FilterViewController alloc] init];
-    controller.filterViewController = self.filterViewController;
-
-    self.splitViewController = [[UISplitViewController alloc] init];
-    self.splitViewController.delegate = detailViewController;
-    self.rootViewController = controller;
-    self.detailViewController = detailViewController;
-    self.splitViewController.viewControllers = [NSArray arrayWithObjects:navigationController, detailViewController, nil];
-     */
-
     self.halfViewController = [[HalfViewController alloc] init];
+    
     self.window.rootViewController = self.halfViewController;
     [self.window makeKeyAndVisible];
     return YES;

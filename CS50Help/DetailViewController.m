@@ -15,6 +15,7 @@
 @implementation DetailViewController
 
 @synthesize allTFs = _allTFs;
+@synthesize containerView = _containerView;
 @synthesize dutySegmentedControl = _dutySegmentedControl;
 @synthesize halfViewController = _halfViewController;
 @synthesize onDutyTFs = _onDutyTFs;
@@ -25,6 +26,10 @@
 
 - (void)awakeFromNib
 {
+    self.containerView.layer.cornerRadius = 5.0;
+    self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
+    self.containerView.layer.borderWidth = 0.5;
+    
     self.allTFs = [[NSMutableArray alloc] init];
     self.onDutyTFs = [[NSMutableArray alloc] init];
     self.mode = MODE_ON_DUTY;    

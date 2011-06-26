@@ -19,6 +19,7 @@
     <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray* allTFs;
+@property (strong, nonatomic) IBOutlet UIView* containerView;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
 @property (strong, nonatomic) IBOutlet HalfViewController* halfViewController;
 @property (assign, nonatomic) int mode;
