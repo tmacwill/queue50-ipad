@@ -14,22 +14,10 @@
 
 @synthesize viewController=_viewController;
 
-static CategoriesConnectionDelegate* instance;
-
-/**
- * Class is a singleton, get the only instance
- *
- */
-+ (CategoriesConnectionDelegate*)sharedInstance
+- (id)init 
 {
-    @synchronized(self) {
-        if (!instance) {
-            instance = [[CategoriesConnectionDelegate alloc] init];
-            instance.data = [[NSMutableData alloc] init];
-        }
-    }
-    
-    return instance;
+    self = [super init];
+    return self;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection

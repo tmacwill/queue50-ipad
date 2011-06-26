@@ -12,6 +12,17 @@
 
 @synthesize data=_data;
 
+- (id)init
+{
+    self = [super init];
+    
+    if (self) {
+        self.data = [[NSMutableData alloc] init];
+    }
+    
+    return self;
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     [self.data setLength:0];

@@ -6,6 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import "AuthViewController.h"
 #import "CategoriesConnectionDelegate.h"
 #import "DetailViewController.h"
 #import "DispatchConnectionDelegate.h"
@@ -18,10 +19,13 @@
 
 @implementation ServerController
 
+@synthesize authViewController=_authViewController;
 @synthesize detailViewController=_detailViewController;
 @synthesize filterViewController=_filterViewController;
 @synthesize hasLoadedQueue=_hasLoadedQueue;
+@synthesize isFormPresent=_isFormPresent;
 @synthesize rootViewController=_rootViewController;
+@synthesize user=_user;
 
 static ServerController* instance;
 
@@ -35,10 +39,42 @@ static ServerController* instance;
         if (!instance) {
             instance = [[ServerController alloc] init];
             instance.hasLoadedQueue = false;
+            instance.isFormPresent = false;
+            instance.authViewController = [[AuthViewController alloc] init];
         }
     }
     
     return instance;
+}
+
+/**
+ * Check if user is authenticated and show login if not
+ * @return YES if authenticated, NO if not
+ *
+ */
+- (BOOL)authenticate
+{
+    // show login form if user is not authenticated
+    if (!self.user && !self.isFormPresent) {
+        self.isFormPresent = true;
+        self.authViewController.delegate = self;
+        [self.detailViewController presentModalViewController:self.authViewController animated:YES];
+        return NO;
+    }
+    
+    return YES;
+}
+
+/**
+ * Login form successfully authenticated
+ *
+ */
+- (void)didAuthenticateWithUser:(NSDictionary *)user
+{
+    [self.authViewController dismissModalViewControllerAnimated:YES];
+    self.user = user;
+    self.isFormPresent = NO;
+    [self refresh];
 }
 
 /**
@@ -49,29 +85,33 @@ static ServerController* instance;
  */
 - (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;
 {    
-    // set up connection delegate
-    TF* tf = [self.detailViewController.onDutyTFs objectAtIndex:indexPath.row];
-    DispatchConnectionDelegate* d = [DispatchConnectionDelegate sharedInstance];
-    d.rootViewController = self.rootViewController;
-    d.detailViewController = self.detailViewController;
-    d.tfIndexPath = indexPath;
-    d.questionIndexPaths = self.rootViewController.selectedRows;
+    if ([self authenticate]) {
+        // set up connection delegate
+        TF* tf = [self.detailViewController.onDutyTFs objectAtIndex:indexPath.row];
+        DispatchConnectionDelegate* d = [[DispatchConnectionDelegate alloc] init];
+        d.rootViewController = self.rootViewController;
+        d.detailViewController = self.detailViewController;
+        d.tfIndexPath = indexPath;
+        d.questionIndexPaths = self.rootViewController.selectedRows;
     
-    // create comma separated 
-    NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
-    for (NSIndexPath* questionIndexPath in self.rootViewController.selectedRows) {
-        Question* q = [self.rootViewController.questions objectAtIndex:questionIndexPath.row];
-        [questionsParam appendFormat:@"%d,", q.questionId];
+        // create comma separated 
+        NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
+        for (NSIndexPath* questionIndexPath in self.rootViewController.selectedRows) {
+            Question* q = [self.rootViewController.questions objectAtIndex:questionIndexPath.row];
+            [questionsParam appendFormat:@"%d,", q.questionId];
+        }
+    
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                        [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"questions/dispatch"]]];
+        NSString* params = [NSString stringWithFormat:@"%@&tf=%@", questionsParam, tf.name];
+        request.HTTPMethod = @"POST";
+        request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
+                                  forHTTPHeaderField:@"Cookie"];
+    
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+        [connection start];
     }
-    
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
-                                    [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"questions/dispatch"]]];
-    NSString* params = [NSString stringWithFormat:@"%@&tf=%@", questionsParam, tf.name];
-    request.HTTPMethod = @"POST";
-    request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
-    
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
-    [connection start];
 }
 
 /**
@@ -79,14 +119,20 @@ static ServerController* instance;
  *
  */
 - (void)getCategories
-{
-    CategoriesConnectionDelegate* d = [CategoriesConnectionDelegate sharedInstance];
-    d.viewController = self.filterViewController;
+{    
+    if ([self authenticate]) {
+        CategoriesConnectionDelegate* d = [[CategoriesConnectionDelegate alloc] init];
+        d.viewController = self.filterViewController;
     
-    NSURLRequest* request = [NSURLRequest requestWithURL:
-                             [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"spreadsheets/categories"]]];
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
-    [connection start];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                        [NSURL URLWithString:
+                                         [BASE_URL stringByAppendingFormat:@"spreadsheets/categories"]]];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
+                                  forHTTPHeaderField:@"Cookie"];
+        
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+        [connection start];
+    }
 }
 
 /**
@@ -94,21 +140,26 @@ static ServerController* instance;
  *
  */
 - (void)getQueue
-{
-    QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
-    d.viewController = self.rootViewController;
-    NSMutableString* url = [[NSMutableString alloc] initWithString:
-                            [BASE_URL stringByAppendingString:@"questions/queue"]];
+{    
+    if ([self authenticate]) {
+        QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
+        d.viewController = self.rootViewController;
+        NSMutableString* url = [[NSMutableString alloc] initWithString:
+                                [BASE_URL stringByAppendingString:@"questions/queue"]];
     
-    // if we have not loaded the queue yet, force an immediate response
-    if (!self.hasLoadedQueue)
-        [url appendString:@"/true"];
-    
-    NSURLRequest* request = [NSURLRequest requestWithURL:
-                             [NSURL URLWithString:url]];
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
-    [connection start];
-    self.hasLoadedQueue = true;
+        // if we have not loaded the queue yet, force an immediate response
+        if (!self.hasLoadedQueue)
+            [url appendString:@"/true"];
+        
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                        [NSURL URLWithString:url]];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@;", [self.user valueForKey:@"sessid"]]
+                                  forHTTPHeaderField:@"Cookie"];
+        
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+        [connection start];
+        self.hasLoadedQueue = true;
+    }
 }
 
 /**
@@ -116,14 +167,33 @@ static ServerController* instance;
  *
  */
 - (void)getSchedule
-{
-    ScheduleConnectionDelegate* d = [ScheduleConnectionDelegate sharedInstance];
-    d.viewController = self.detailViewController;
+{    
+    if ([self authenticate]) {
+        ScheduleConnectionDelegate* d = [[ScheduleConnectionDelegate alloc] init];
+        d.viewController = self.detailViewController;
     
-    NSURLRequest* request = [NSURLRequest requestWithURL:
-                             [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"spreadsheets/schedule"]]];
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
-    [connection start];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                        [NSURL URLWithString:
+                                         [BASE_URL stringByAppendingFormat:@"spreadsheets/schedule"]]];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
+                                  forHTTPHeaderField:@"Cookie"];
+        
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+        [connection start];
+    }
+}
+
+/**
+ * Refresh server data only if authenticated
+ *
+ */
+- (void)refresh
+{
+    if ([self authenticate]) {
+        [self getCategories];
+        [self getSchedule];
+        [self getQueue];
+    }
 }
 
 @end

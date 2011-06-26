@@ -15,6 +15,4 @@
 
 @property (strong, nonatomic) FilterViewController* viewController;
 
-+ (CategoriesConnectionDelegate*)sharedInstance;
-
 @end

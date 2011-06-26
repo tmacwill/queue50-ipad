@@ -33,6 +33,12 @@ static QueueConnectionDelegate* instance;
     return instance;
 }
 
+- (id)init 
+{
+    self = [super init];
+    return self;
+}
+
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     NSError* error;

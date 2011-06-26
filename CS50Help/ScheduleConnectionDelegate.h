@@ -15,6 +15,4 @@
 
 @property (strong, nonatomic) DetailViewController* viewController;
 
-+ (ScheduleConnectionDelegate*)sharedInstance;
-
 @end

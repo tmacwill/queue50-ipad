@@ -16,22 +16,10 @@
 
 @synthesize viewController=_viewController;
 
-static ScheduleConnectionDelegate* instance;
-
-/**
- * Class is a singleton, get the only instance
- *
- */
-+ (ConnectionDelegate*)sharedInstance
+- (id)init 
 {
-    @synchronized(self) {
-        if (!instance) {
-            instance = [[ScheduleConnectionDelegate alloc] init];
-            instance.data = [[NSMutableData alloc] init];
-        }
-    }
-    
-    return instance;
+    self = [super init];
+    return self;
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection

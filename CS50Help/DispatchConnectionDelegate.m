@@ -17,24 +17,6 @@
 @synthesize rootViewController=_rootViewController;
 @synthesize tfIndexPath=_tfIndexPath;
 
-static DispatchConnectionDelegate* instance;
-
-/**
- * Class is a singleton, get the only instance
- *
- */
-+ (DispatchConnectionDelegate*)sharedInstance
-{
-    @synchronized(self) {
-        if (!instance) {
-            instance = [[DispatchConnectionDelegate alloc] init];
-            instance.data = [[NSMutableData alloc] init];
-        }
-    }
-    
-    return instance;
-}
-
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     for (NSIndexPath* indexPath in self.questionIndexPaths) {

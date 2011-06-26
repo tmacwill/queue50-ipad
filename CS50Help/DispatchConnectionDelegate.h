@@ -19,6 +19,4 @@
 @property (strong, nonatomic) RootViewController* rootViewController;
 @property (strong, nonatomic) NSIndexPath* tfIndexPath;
 
-+ (DispatchConnectionDelegate*)sharedInstance;
-
 @end

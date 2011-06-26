@@ -38,6 +38,8 @@
 		9383174413A5D6D100B9D09A /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383173413A5D6D100B9D09A /* CJSONSerializer.m */; };
 		9383174A13A5D8C800B9D09A /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383174813A5D8C800B9D09A /* FilterViewController.m */; };
 		9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9383174913A5D8C800B9D09A /* FilterViewController.xib */; };
+		939290E013B5D23600C0BB87 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939290DE13B5D23500C0BB87 /* AuthViewController.m */; };
+		939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939290DF13B5D23600C0BB87 /* AuthViewController.xib */; };
 		939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */; };
 		939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */; };
 		939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */; };
@@ -97,6 +99,9 @@
 		9383174713A5D8C800B9D09A /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		9383174813A5D8C800B9D09A /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		9383174913A5D8C800B9D09A /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		939290DD13B5D23500C0BB87 /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
+		939290DE13B5D23500C0BB87 /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
+		939290DF13B5D23600C0BB87 /* AuthViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
 		939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchConnectionDelegate.h; sourceTree = "<group>"; };
 		939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchConnectionDelegate.m; sourceTree = "<group>"; };
 		939E83EC13A9BACF00E5427D /* ConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionDelegate.h; sourceTree = "<group>"; };
@@ -169,6 +174,9 @@
 				9383170713A5D48000B9D09A /* DetailViewController.xib */,
 				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
 				936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */,
+				939290DD13B5D23500C0BB87 /* AuthViewController.h */,
+				939290DE13B5D23500C0BB87 /* AuthViewController.m */,
+				939290DF13B5D23600C0BB87 /* AuthViewController.xib */,
 				938316F213A5D48000B9D09A /* Supporting Files */,
 			);
 			path = CS50Help;
@@ -319,6 +327,7 @@
 				9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */,
 				936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */,
 				936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */,
+				939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +361,7 @@
 				939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */,
 				939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */,
 				939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */,
+				939290E013B5D23600C0BB87 /* AuthViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

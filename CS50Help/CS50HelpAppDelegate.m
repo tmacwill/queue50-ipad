@@ -72,10 +72,8 @@
     serverController.detailViewController = self.detailViewController;
     serverController.filterViewController = self.filterViewController;
     serverController.rootViewController = self.rootViewController;
-    
-    [serverController getCategories];
-    [serverController getSchedule];
-    [serverController getQueue];
+        
+    [serverController refresh];
     
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
