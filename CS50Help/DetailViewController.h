@@ -16,7 +16,8 @@
 @class HalfViewController;
 
 @interface DetailViewController : UIViewController 
-    <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate>
+    <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate,
+        UISearchBarDelegate, UISearchDisplayDelegate>
 
 @property (strong, nonatomic) NSMutableArray* allTFs;
 @property (strong, nonatomic) IBOutlet UIView* containerView;
@@ -24,11 +25,15 @@
 @property (strong, nonatomic) IBOutlet HalfViewController* halfViewController;
 @property (assign, nonatomic) int mode;
 @property (strong, nonatomic) NSMutableArray* onDutyTFs;
+@property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
+@property (assign, nonatomic) BOOL searching;
+@property (strong, nonatomic) NSMutableArray* searchResults;
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (strong, nonatomic) IBOutlet UITableViewCell* tableViewCell;
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 
 - (IBAction)dutySegmentedControlChanged;
 - (IBAction)toggleRow:(id)sender;
+- (void)filterContentForSearchText:(NSString*)searchText;
 
 @end

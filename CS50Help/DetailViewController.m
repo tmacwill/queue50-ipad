@@ -20,6 +20,9 @@
 @synthesize halfViewController = _halfViewController;
 @synthesize onDutyTFs = _onDutyTFs;
 @synthesize mode = _mode;
+@synthesize searchBar = _searchBar;
+@synthesize searching = _searching;
+@synthesize searchResults = _searchResults;
 @synthesize tableView = _tableView;
 @synthesize tableViewCell = _tableViewCell;
 @synthesize titleLabel = _titleLabel;
@@ -32,44 +35,9 @@
     
     self.allTFs = [[NSMutableArray alloc] init];
     self.onDutyTFs = [[NSMutableArray alloc] init];
+    self.searchResults = [[NSMutableArray alloc] init];
+    self.searching = NO;
     self.mode = MODE_ON_DUTY;    
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -87,7 +55,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return (self.mode == MODE_ON_DUTY) ? [self.onDutyTFs count] : [self.allTFs count];
+    if (self.searching)
+        return [self.searchResults count];
+    else
+        return (self.mode == MODE_ON_DUTY) ? [self.onDutyTFs count] : [self.allTFs count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -111,11 +82,20 @@
     }
     
     if (self.mode == MODE_ON_DUTY) {
-        TF* tf = [self.onDutyTFs objectAtIndex:indexPath.row];
+        TF* tf = nil;
+        if (self.searching)
+            tf = [self.searchResults objectAtIndex:indexPath.row];
+        else
+            tf = [self.onDutyTFs objectAtIndex:indexPath.row];
         cell.textLabel.text = tf.name;
     }
     else if (self.mode == MODE_ALL) {
-        TF* tf = [self.allTFs objectAtIndex:indexPath.row];
+        TF* tf = nil;
+        if (self.searching)
+            tf = [self.searchResults objectAtIndex:indexPath.row];
+        else
+            tf = [self.allTFs objectAtIndex:indexPath.row];
+        
         for (UIView* contentView in cell.subviews) {
             for (UIView* view in contentView.subviews) {
                 if ([view isKindOfClass:[UILabel class]]) {
@@ -134,8 +114,6 @@
 
     return cell;
 }
-
-#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -159,31 +137,52 @@
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)filterContentForSearchText:(NSString*)searchText
 {
-    // we can only delete TFs who are on duty
+    // clear previous results
+	[self.searchResults removeAllObjects]; 
+    
+    
+    // determine source for search
+	NSMutableArray* collection = nil;
     if (self.mode == MODE_ON_DUTY)
-        return YES;
-    else
-        return NO;
+        collection = self.onDutyTFs;
+    else if (self.mode == MODE_ALL)
+        collection = self.allTFs;
+    
+    // iterate over all or on-duty TFs, depending on current mond
+	for (TF* tf in collection) {
+        // search within TF name
+        NSComparisonResult result = [tf.name compare:searchText
+                                             options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
+                                               range:NSMakeRange(0, [searchText length])];
+        if (result == NSOrderedSame)
+            [self.searchResults addObject:tf];
+	}
 }
 
-- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
+    self.searching = YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString *)searchText
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // remove selected TF from model
-        [self.onDutyTFs removeObjectAtIndex:indexPath.row];
-        // remove selected TF from view
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] 
-                              withRowAnimation:UITableViewRowAnimationFade];
-    }
+    [self filterContentForSearchText:searchText];
+    [self.tableView reloadData];
 }
 
-#pragma mark - Event handlers
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.searching = NO;
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.searchBar resignFirstResponder];
+    [self.tableView reloadData];
+}
 
 - (IBAction)dutySegmentedControlChanged
 {

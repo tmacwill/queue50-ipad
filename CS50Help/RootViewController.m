@@ -21,32 +21,33 @@
 @synthesize filterPopover = _filterPopover;
 @synthesize filterViewController = _filterViewController;
 @synthesize questions = _questions;
+@synthesize searchBar = _searchBar;
+@synthesize searching = _searching;
+@synthesize searchResults = _searchResults;
 @synthesize selectedRows = _selectedRows;
 @synthesize tableView = _tableView;
 @synthesize tableViewCell = _tableViewCell;
 @synthesize visibleQuestions = _visibleQuestions;
 
 - (void)awakeFromNib
-{
-    self.selectedRows = [[NSMutableArray alloc] init];
-    
+{    
     // create popover
     self.filterPopover = [[UIPopoverController alloc] initWithContentViewController:self.filterViewController];
     self.filterPopover.delegate = self;
     self.filterViewController.rootViewController = self;
-    
+        
+    // initialize models
     self.questions = [[NSMutableArray alloc] init];
     self.visibleQuestions = [[NSMutableArray alloc] init];
+    self.selectedRows = [[NSMutableArray alloc] init];
+    self.searchResults = [[NSMutableArray alloc] init];
+    self.searching = NO;
     
+    // create border around tableview
     self.containerView.layer.cornerRadius = 5.0;
     self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
     self.containerView.layer.masksToBounds = YES;
     self.containerView.layer.borderWidth = 0.5;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 - (void)filterButtonPressed
@@ -55,42 +56,11 @@
                                permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
-#pragma mark - View lifecycle
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];    
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-	[super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-	[super viewDidDisappear:animated];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
-            interfaceOrientation == UIInterfaceOrientationLandscapeRight);}
+            interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -99,7 +69,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.visibleQuestions count];
+    // get length of appropriate source
+    if (self.searching)
+        return [self.searchResults count];
+    else
+        return [self.visibleQuestions count];
 }
 
 // Customize the appearance of table view cells.
@@ -114,14 +88,22 @@
         self.tableViewCell = nil;
     }
     
-    // position label: gray with rounded corners
-    Question* question = [self.visibleQuestions objectAtIndex:indexPath.row];
+    // get question from appropriate source
+    Question* question = nil;
+    if (self.searching)
+        question = [self.searchResults objectAtIndex:indexPath.row];
+
+    else
+        question = [self.visibleQuestions objectAtIndex:indexPath.row];
+    
+    // make position label gray with rounded corners
     UILabel* label = (UILabel*)[cell viewWithTag:10];
     label.text = [NSString stringWithFormat:@"%d", question.position];
     label.backgroundColor = [UIColor lightGrayColor];
     label.textColor = [UIColor whiteColor];
     label.layer.cornerRadius = 8.0;
     
+    // student's name
     label = (UILabel*)[cell viewWithTag:11];
     label.text = question.name;
     
@@ -133,6 +115,7 @@
     label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, 
                              label.frame.size.width, labelSize.height);
     
+    // question category
     label = (UILabel*)[cell viewWithTag:13];
     label.text = question.category;
     
@@ -167,6 +150,50 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)filterContentForSearchText:(NSString*)searchText
+{
+    // clear previous results
+	[self.searchResults removeAllObjects]; 
+	
+    // iterate over all questions
+	for (Question* question in self.questions) {
+        // search witin question text
+        NSComparisonResult questionResult = [question.question compare:searchText 
+                                                               options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
+                                                                 range:NSMakeRange(0, [searchText length])];
+        // search within student name
+        NSComparisonResult nameResult = [question.name compare:searchText 
+                                                       options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
+                                                         range:NSMakeRange(0, [searchText length])];
+
+        if (questionResult == NSOrderedSame || nameResult == NSOrderedSame)
+            [self.searchResults addObject:question];        
+	}
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
+{
+    self.searching = YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.searching = NO;
+    [self.tableView reloadData];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.searchBar resignFirstResponder];
+    [self.tableView reloadData];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self filterContentForSearchText:searchText];
+    [self.tableView reloadData];
 }
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
