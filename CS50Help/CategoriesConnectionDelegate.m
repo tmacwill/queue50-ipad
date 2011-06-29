@@ -29,8 +29,8 @@
     // iterate over all TFs/CAs on the schedule for tonight
     NSMutableArray* categories = [[NSMutableArray alloc] init];
     [categories addObject:@"All"];
-    for (NSString* category in [categoriesData valueForKey:@"categories"]) {
-        [categories addObject:category];
+    for (NSDictionary* category in [categoriesData valueForKey:@"categories"]) {
+        [categories addObject:[category valueForKey:@"category"]];
     }
     
     self.viewController.categories = [categories mutableCopy];
