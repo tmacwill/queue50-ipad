@@ -102,7 +102,8 @@ static ServerController* instance;
         }
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
-                                        [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"questions/dispatch"]]];
+                                        [NSURL URLWithString:[BASE_URL stringByAppendingFormat:
+                                                              @"api/v1/questions/dispatch"]]];
         NSString* params = [NSString stringWithFormat:@"%@&tf=%@", questionsParam, tf.name];
         request.HTTPMethod = @"POST";
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
@@ -126,7 +127,7 @@ static ServerController* instance;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
-                                         [BASE_URL stringByAppendingFormat:@"spreadsheets/categories"]]];
+                                         [BASE_URL stringByAppendingFormat:@"api/v1/spreadsheets/categories"]]];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
                                   forHTTPHeaderField:@"Cookie"];
         
@@ -145,7 +146,7 @@ static ServerController* instance;
         QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
         d.viewController = self.halfViewController.rootViewController;
         NSMutableString* url = [[NSMutableString alloc] initWithString:
-                                [BASE_URL stringByAppendingString:@"questions/queue"]];
+                                [BASE_URL stringByAppendingString:@"api/v1/questions/queue"]];
     
         // if we have not loaded the queue yet, force an immediate response
         if (!self.hasLoadedQueue)
@@ -174,7 +175,7 @@ static ServerController* instance;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
-                                         [BASE_URL stringByAppendingFormat:@"spreadsheets/schedule"]]];
+                                         [BASE_URL stringByAppendingFormat:@"api/v1/spreadsheets/schedule"]]];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
                                   forHTTPHeaderField:@"Cookie"];
         
