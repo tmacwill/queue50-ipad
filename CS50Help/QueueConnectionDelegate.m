@@ -46,7 +46,7 @@ static QueueConnectionDelegate* instance;
                                                                               error:&error];
     
     [self.viewController.questions removeAllObjects];
-    for (NSDictionary* q in [queue valueForKey:@"queue"]) {
+    for (NSDictionary* q in [queue valueForKey:@"cs50_queue"]) {
         Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
                                                  question:[q valueForKey:@"question"]
                                                  position:[[q valueForKey:@"position"] intValue]

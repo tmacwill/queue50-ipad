@@ -28,7 +28,7 @@
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:
                                [NSURL URLWithString:
-                                [BASE_URL stringByAppendingFormat:@"auth/login?format=ipad"]]]];
+                                [BASE_URL stringByAppendingFormat:@"auth/login?format=ipad&staff_required=true"]]]];
 }
 
 - (void)viewDidUnload
