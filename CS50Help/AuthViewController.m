@@ -7,16 +7,24 @@
 //
 
 #import "AuthViewController.h"
+#import "Course.h"
 #import "ServerController.h"
 
 @implementation AuthViewController
 
+@synthesize course = _course;
 @synthesize delegate=_delegate;
 @synthesize webView=_webView;
 
-- (void)didReceiveMemoryWarning
+- (id)initWithCourse:(Course*)course
 {
-    [super didReceiveMemoryWarning];
+    self = [super init];
+    
+    if (self) {
+        self.course = course;
+    }
+    
+    return self;
 }
 
 #pragma mark - View lifecycle
@@ -24,11 +32,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"Log in";
     
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:
-                               [NSURL URLWithString:
-                                [BASE_URL stringByAppendingFormat:@"auth/login?format=ipad&staff_required=true"]]]];
+                               [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"%@/auth/login?format=ipad&staff_required=true", self.course.url]]]];
 }
 
 - (void)viewDidUnload
@@ -53,7 +61,7 @@
                               [NSArray arrayWithObjects:@"identity", @"name", @"sessid", nil]];
 
         // send user to delegate
-        [self.delegate didAuthenticateWithUser:user];
+        [self.delegate didAuthenticateWithUser:user inCourse:self.course];
         return NO;
     }
     else {

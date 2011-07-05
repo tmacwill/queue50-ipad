@@ -44,6 +44,9 @@
 		939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */; };
 		939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */; };
 		93C160AF13B7CCCE00B018D9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C160AE13B7CCCE00B018D9 /* QuartzCore.framework */; };
+		93ED88CB13C2E1F100C18CE0 /* CourseSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED88C913C2E1F100C18CE0 /* CourseSelectionViewController.m */; };
+		93ED88CC13C2E1F100C18CE0 /* CourseSelectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93ED88CA13C2E1F100C18CE0 /* CourseSelectionViewController.xib */; };
+		93ED890713C2EB0D00C18CE0 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 93ED890613C2EB0D00C18CE0 /* Course.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +114,11 @@
 		939E83EF13A9CE7700E5427D /* CategoriesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesConnectionDelegate.h; sourceTree = "<group>"; };
 		939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoriesConnectionDelegate.m; sourceTree = "<group>"; };
 		93C160AE13B7CCCE00B018D9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		93ED88C813C2E1F100C18CE0 /* CourseSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CourseSelectionViewController.h; sourceTree = "<group>"; };
+		93ED88C913C2E1F100C18CE0 /* CourseSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CourseSelectionViewController.m; sourceTree = "<group>"; };
+		93ED88CA13C2E1F100C18CE0 /* CourseSelectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CourseSelectionViewController.xib; sourceTree = "<group>"; };
+		93ED890513C2EB0D00C18CE0 /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
+		93ED890613C2EB0D00C18CE0 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +253,8 @@
 				9383171413A5D6D100B9D09A /* Question.m */,
 				9383171B13A5D6D100B9D09A /* TF.h */,
 				9383171C13A5D6D100B9D09A /* TF.m */,
+				93ED890513C2EB0D00C18CE0 /* Course.h */,
+				93ED890613C2EB0D00C18CE0 /* Course.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -269,6 +279,8 @@
 		939290E613B6FEF600C0BB87 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				93ED88C813C2E1F100C18CE0 /* CourseSelectionViewController.h */,
+				93ED88C913C2E1F100C18CE0 /* CourseSelectionViewController.m */,
 				938316FD13A5D48000B9D09A /* RootViewController.h */,
 				938316FE13A5D48000B9D09A /* RootViewController.m */,
 				9383170013A5D48000B9D09A /* DetailViewController.h */,
@@ -286,6 +298,7 @@
 		939290E713B6FF3100C0BB87 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				93ED88CA13C2E1F100C18CE0 /* CourseSelectionViewController.xib */,
 				939290F713B7186400C0BB87 /* HalfViewController.xib */,
 				9383174913A5D8C800B9D09A /* FilterViewController.xib */,
 				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
@@ -349,6 +362,7 @@
 				936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */,
 				939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */,
 				939290F913B7186500C0BB87 /* HalfViewController.xib in Resources */,
+				93ED88CC13C2E1F100C18CE0 /* CourseSelectionViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,6 +398,8 @@
 				939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */,
 				939290E013B5D23600C0BB87 /* AuthViewController.m in Sources */,
 				939290F813B7186500C0BB87 /* HalfViewController.m in Sources */,
+				93ED88CB13C2E1F100C18CE0 /* CourseSelectionViewController.m in Sources */,
+				93ED890713C2EB0D00C18CE0 /* Course.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

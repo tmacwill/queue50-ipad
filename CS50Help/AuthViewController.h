@@ -8,13 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class Course;
+
 @protocol AuthViewControllerDelegate <NSObject>
-- (void)didAuthenticateWithUser:(NSDictionary*)user;
+- (void)didAuthenticateWithUser:(NSDictionary*)user inCourse:(Course*)course;
 @end
 
 @interface AuthViewController : UIViewController <UIWebViewDelegate>
 
+@property (strong, nonatomic) Course* course;
 @property (strong, nonatomic) id<AuthViewControllerDelegate> delegate;
 @property (strong, nonatomic) IBOutlet UIWebView* webView;
+
+- (id)initWithCourse:(Course*)course;
 
 @end

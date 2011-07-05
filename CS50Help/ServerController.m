@@ -8,6 +8,8 @@
 
 #import "AuthViewController.h"
 #import "CategoriesConnectionDelegate.h"
+#import "CourseSelectionViewController.h"
+#import "Course.h"
 #import "DetailViewController.h"
 #import "DispatchConnectionDelegate.h"
 #import "HalfViewController.h"
@@ -20,11 +22,14 @@
 
 @implementation ServerController
 
-@synthesize authViewController=_authViewController;
-@synthesize halfViewController=_halfViewController;
-@synthesize hasLoadedQueue=_hasLoadedQueue;
-@synthesize isFormPresent=_isFormPresent;
-@synthesize user=_user;
+@synthesize course = _course;
+@synthesize courseSelectionViewController = _courseSelectionViewController;
+@synthesize halfViewController = _halfViewController;
+@synthesize hasLoadedQueue = _hasLoadedQueue;
+@synthesize isFormPresent = _isFormPresent;
+@synthesize navController = _navController;
+@synthesize url = _url;
+@synthesize user = _user;
 
 static ServerController* instance;
 
@@ -39,7 +44,8 @@ static ServerController* instance;
             instance = [[ServerController alloc] init];
             instance.hasLoadedQueue = false;
             instance.isFormPresent = false;
-            instance.authViewController = [[AuthViewController alloc] init];
+            instance.courseSelectionViewController = [[CourseSelectionViewController alloc] init];
+            instance.url = [[NSMutableString alloc] initWithString:BASE_URL];
         }
     }
     
@@ -56,9 +62,9 @@ static ServerController* instance;
     // show login form if user is not authenticated
     if (!self.user && !self.isFormPresent) {
         self.isFormPresent = true;
-        self.authViewController.delegate = self;
-
-        [self.halfViewController presentModalViewController:self.authViewController animated:YES];
+        self.navController = [[UINavigationController alloc] 
+                              initWithRootViewController:self.courseSelectionViewController];
+        [self.halfViewController presentModalViewController:self.navController animated:YES];
         return NO;
     }
     
@@ -69,11 +75,13 @@ static ServerController* instance;
  * Login form successfully authenticated
  *
  */
-- (void)didAuthenticateWithUser:(NSDictionary *)user
+- (void)didAuthenticateWithUser:(NSDictionary*)user inCourse:(Course*)course
 {
-    [self.authViewController dismissModalViewControllerAnimated:YES];
+    [self.navController dismissModalViewControllerAnimated:YES];
     self.user = user;
+    self.course = course;
     self.isFormPresent = NO;
+    [self.url appendFormat:@"%@/", course.url];
     [self refresh];
 }
 
@@ -102,7 +110,7 @@ static ServerController* instance;
         }
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
-                                        [NSURL URLWithString:[BASE_URL stringByAppendingFormat:
+                                        [NSURL URLWithString:[self.url stringByAppendingFormat:
                                                               @"api/v1/questions/dispatch"]]];
         NSString* params = [NSString stringWithFormat:@"%@&tf=%@", questionsParam, tf.name];
         request.HTTPMethod = @"POST";
@@ -127,7 +135,7 @@ static ServerController* instance;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
-                                         [BASE_URL stringByAppendingFormat:@"api/v1/spreadsheets/categories"]]];
+                                         [self.url stringByAppendingFormat:@"api/v1/spreadsheets/categories"]]];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
                                   forHTTPHeaderField:@"Cookie"];
         
@@ -146,7 +154,7 @@ static ServerController* instance;
         QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
         d.viewController = self.halfViewController.rootViewController;
         NSMutableString* url = [[NSMutableString alloc] initWithString:
-                                [BASE_URL stringByAppendingString:@"api/v1/questions/queue"]];
+                                [self.url stringByAppendingString:@"api/v1/questions/queue"]];
     
         // if we have not loaded the queue yet, force an immediate response
         if (!self.hasLoadedQueue)
@@ -175,7 +183,7 @@ static ServerController* instance;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
-                                         [BASE_URL stringByAppendingFormat:@"api/v1/spreadsheets/schedule"]]];
+                                         [self.url stringByAppendingFormat:@"api/v1/spreadsheets/schedule"]]];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
                                   forHTTPHeaderField:@"Cookie"];
         

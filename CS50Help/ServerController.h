@@ -9,18 +9,23 @@
 #import <Foundation/Foundation.h>
 #import "AuthViewController.h"
 
+@class Course;
+@class CourseSelectionViewController;
 @class HalfViewController;
 @class Question;
 @class TF;
 
-#define BASE_URL @"http://tommymacwilliam.com/cs50help/cs50/"
+#define BASE_URL @"http://tommymacwilliam.com/cs50help/"
 
 @interface ServerController : NSObject <AuthViewControllerDelegate>
 
-@property (strong, nonatomic) AuthViewController* authViewController;
+@property (strong, nonatomic) Course* course;
+@property (strong, nonatomic) CourseSelectionViewController* courseSelectionViewController;
 @property (strong, nonatomic) HalfViewController* halfViewController;
 @property (assign, nonatomic) BOOL hasLoadedQueue;
 @property (assign, nonatomic) BOOL isFormPresent;
+@property (strong, nonatomic) UINavigationController* navController;
+@property (strong, nonatomic) NSMutableString* url;
 @property (strong, nonatomic) NSDictionary* user;
 
 + (ServerController*)sharedInstance;
