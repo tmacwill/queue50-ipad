@@ -32,6 +32,7 @@
 - (BOOL)authenticate;
 - (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;
 - (void)getCategories;
+- (void)getCourses;
 - (void)getQueue;
 - (void)getSchedule;
 - (void)refresh;

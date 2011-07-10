@@ -21,7 +21,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"Select a course";
-    self.courses = [[NSMutableArray alloc] initWithObjects:[[Course alloc] initWithName:@"CS50" url:@"cs50"], nil];
+    self.courses = [[NSMutableArray alloc] init];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

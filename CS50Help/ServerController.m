@@ -8,6 +8,7 @@
 
 #import "AuthViewController.h"
 #import "CategoriesConnectionDelegate.h"
+#import "CoursesConnectionDelegate.h"
 #import "CourseSelectionViewController.h"
 #import "Course.h"
 #import "DetailViewController.h"
@@ -64,6 +65,7 @@ static ServerController* instance;
         self.isFormPresent = true;
         self.navController = [[UINavigationController alloc] 
                               initWithRootViewController:self.courseSelectionViewController];
+        [self getCourses];
         [self.halfViewController presentModalViewController:self.navController animated:YES];
         return NO;
     }
@@ -102,7 +104,7 @@ static ServerController* instance;
         d.tfIndexPath = indexPath;
         d.questionIndexPaths = self.halfViewController.rootViewController.selectedRows;
     
-        // create comma separated 
+        // create comma separated list of question ids
         NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
         for (NSIndexPath* questionIndexPath in self.halfViewController.rootViewController.selectedRows) {
             Question* q = [self.halfViewController.rootViewController.questions objectAtIndex:questionIndexPath.row];
@@ -142,6 +144,25 @@ static ServerController* instance;
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
     }
+}
+
+/**
+ * Get all registered courses
+ *
+ */
+- (void)getCourses
+{
+    CoursesConnectionDelegate* d = [[CoursesConnectionDelegate alloc] init];
+    d.viewController = self.courseSelectionViewController;
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                    [NSURL URLWithString:
+                                     [self.url stringByAppendingFormat:@"a/api/v1/courses/all"]]];
+    
+    NSLog(@"%@", request.URL);
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+    [connection start];
+    
 }
 
 /**

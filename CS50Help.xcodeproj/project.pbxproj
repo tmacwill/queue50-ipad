@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */; };
 		936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */; };
 		936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */; };
 		936653FD13B485C200D49A36 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936653FC13B485C200D49A36 /* MessageUI.framework */; };
@@ -50,6 +51,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursesConnectionDelegate.h; sourceTree = "<group>"; };
+		93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursesConnectionDelegate.m; sourceTree = "<group>"; };
 		936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionsTableViewCell.xib; sourceTree = "<group>"; };
 		936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StaffTableViewCell.xib; sourceTree = "<group>"; };
 		936653FC13B485C200D49A36 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -272,6 +275,8 @@
 				939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */,
 				939E83EF13A9CE7700E5427D /* CategoriesConnectionDelegate.h */,
 				939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */,
+				93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */,
+				93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */,
 			);
 			name = "Connection Delegates";
 			sourceTree = "<group>";
@@ -400,6 +405,7 @@
 				939290F813B7186500C0BB87 /* HalfViewController.m in Sources */,
 				93ED88CB13C2E1F100C18CE0 /* CourseSelectionViewController.m in Sources */,
 				93ED890713C2EB0D00C18CE0 /* Course.m in Sources */,
+				93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

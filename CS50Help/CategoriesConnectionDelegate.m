@@ -12,13 +12,7 @@
 
 @implementation CategoriesConnectionDelegate
 
-@synthesize viewController=_viewController;
-
-- (id)init 
-{
-    self = [super init];
-    return self;
-}
+@synthesize viewController = _viewController;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
