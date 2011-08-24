@@ -13,8 +13,8 @@
 @implementation AuthViewController
 
 @synthesize course = _course;
-@synthesize delegate=_delegate;
-@synthesize webView=_webView;
+@synthesize delegate = _delegate;
+@synthesize webView = _webView;
 
 - (id)initWithCourse:(Course*)course
 {

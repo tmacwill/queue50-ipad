@@ -14,7 +14,7 @@
 
 @implementation ScheduleConnectionDelegate
 
-@synthesize viewController=_viewController;
+@synthesize viewController = _viewController;
 
 - (id)init 
 {

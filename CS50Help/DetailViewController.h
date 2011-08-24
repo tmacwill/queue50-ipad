@@ -23,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UIView* containerView;
 @property (strong, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
 @property (strong, nonatomic) IBOutlet HalfViewController* halfViewController;
+@property (strong, nonatomic) NSMutableDictionary* lastDispatchTimes;
 @property (assign, nonatomic) int mode;
 @property (strong, nonatomic) NSMutableArray* onDutyTFs;
 @property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) IBOutlet UILabel* titleLabel;
 
 - (IBAction)dutySegmentedControlChanged;
+- (void)onTick:(NSTimer*)timer;
 - (IBAction)toggleRow:(id)sender;
 - (void)filterContentForSearchText:(NSString*)searchText;
 

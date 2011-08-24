@@ -18,6 +18,7 @@
 @synthesize containerView = _containerView;
 @synthesize dutySegmentedControl = _dutySegmentedControl;
 @synthesize halfViewController = _halfViewController;
+@synthesize lastDispatchTimes = _lastDispatchTimes;
 @synthesize onDutyTFs = _onDutyTFs;
 @synthesize mode = _mode;
 @synthesize searchBar = _searchBar;
@@ -36,8 +37,12 @@
     self.allTFs = [[NSMutableArray alloc] init];
     self.onDutyTFs = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
+    self.lastDispatchTimes = [[NSMutableDictionary alloc] init];
     self.searching = NO;
-    self.mode = MODE_ON_DUTY;    
+    self.mode = MODE_ON_DUTY;
+    
+    // create background thread to refresh tableview every second so dispatch timers stay updated
+    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -72,8 +77,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) { 
         if (self.mode == MODE_ON_DUTY)
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
         
+        // all-TF mode uses custom table view cell
         else {
             [[NSBundle mainBundle] loadNibNamed:@"StaffTableViewCell" owner:self options:nil];
             cell = _tableViewCell;
@@ -82,20 +88,39 @@
     }
     
     if (self.mode == MODE_ON_DUTY) {
+        // get row from appropriate source
         TF* tf = nil;
         if (self.searching)
             tf = [self.searchResults objectAtIndex:indexPath.row];
         else
             tf = [self.onDutyTFs objectAtIndex:indexPath.row];
+        
+        // set cell text
+        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"hh:mm:ss";
         cell.textLabel.text = tf.name;
+        
+        // get TF's last dispatch time, and don't try to set text if non-existant
+        NSDate* lastDispatchTime = [self.lastDispatchTimes valueForKey:tf.name];
+        if (!lastDispatchTime)
+            return cell;
+        
+        // calculate time between right now and dispatch time
+        NSTimeInterval interval = [lastDispatchTime timeIntervalSinceNow];
+        long minutes = -(long)interval / 60;
+        long seconds = -(long)interval % 60;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
     }
+    
     else if (self.mode == MODE_ALL) {
+        // get row from appropriate source
         TF* tf = nil;
         if (self.searching)
             tf = [self.searchResults objectAtIndex:indexPath.row];
         else
             tf = [self.allTFs objectAtIndex:indexPath.row];
         
+        // we can't just search by tags here, because the switch in each row has a different tag
         for (UIView* contentView in cell.subviews) {
             for (UIView* view in contentView.subviews) {
                 if ([view isKindOfClass:[UILabel class]]) {
@@ -106,6 +131,7 @@
                         label.textColor = [UIColor grayColor];
                 }
                 
+                // idenitify each switch by the row its in, since toggling is independent of row
                 else if ([view isKindOfClass:[UISwitch class]])
                     ((UISwitch*)view).tag = indexPath.row;
             }
@@ -115,21 +141,29 @@
     return cell;
 }
 
+#pragma mark - Table view delegate
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // dispatch all selected questions to selected TF
+    // dispatch all selected questions on on-duty row select
     if (self.mode == MODE_ON_DUTY) {
+        // update the most recent dispatch time for selected TF
+        [self.lastDispatchTimes setValue:[NSDate date] forKey:((TF*)[self.onDutyTFs objectAtIndex:indexPath.row]).name];
+        [self.halfViewController.rootViewController.selectedRows removeAllObjects];
         [[ServerController sharedInstance] dispatchQuestionsToTFAtIndexPath:indexPath];
     }
     
-    // open mail client on row select
+    // open mail client on all-tf row select
     else if (self.mode == MODE_ALL) {
         TF* tf = [self.allTFs objectAtIndex:indexPath.row];
 
+        // pre-populate with TF's email address
         MFMailComposeViewController* mail = [[MFMailComposeViewController alloc] init];
         mail.mailComposeDelegate = self;
-        [mail setToRecipients:[NSArray arrayWithObject:tf.email]];
+        [mail setToRecipients:[NSArray arrayWithObjects:tf.email, nil]];
+        [mail setCcRecipients:[NSArray arrayWithObjects:@"heads@cs50.net", nil]];
         [mail setSubject:@"Office Hours"];
+        [mail setMessageBody:[NSString stringWithFormat:@"Hey %@,\n\nYou're scheduled for CS50 Office Hours tonight!", tf.name] isHTML:NO];
         [self.halfViewController presentModalViewController:mail animated:YES];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -137,11 +171,12 @@
     }
 }
 
+#pragma mark - Search bar event handlers
+
 - (void)filterContentForSearchText:(NSString*)searchText
 {
     // clear previous results
 	[self.searchResults removeAllObjects]; 
-    
     
     // determine source for search
 	NSMutableArray* collection = nil;
@@ -184,14 +219,22 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - Event handlers
+
 - (IBAction)dutySegmentedControlChanged
 {
     self.mode = self.dutySegmentedControl.selectedSegmentIndex;
     [self.tableView reloadData];
 }
 
+- (void)onTick:(NSTimer *)timer
+{
+    [self.tableView reloadData];
+}
+
 - (IBAction)toggleRow:(id)sender
 {
+    // add or remove TF from on duty list, depending on state of switch
     UISwitch* toggle = (UISwitch*)sender;
     TF* tf = [self.allTFs objectAtIndex:[toggle tag]];
     
@@ -203,8 +246,11 @@
     [self.tableView reloadData];
 }
 
+#pragma mark - Mail compose delegate
+
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
+    // hide controller once user finishes composing mail
     [controller dismissModalViewControllerAnimated:YES];
 }
 

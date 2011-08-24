@@ -92,7 +92,6 @@
     Question* question = nil;
     if (self.searching)
         question = [self.searchResults objectAtIndex:indexPath.row];
-
     else
         question = [self.visibleQuestions objectAtIndex:indexPath.row];
     
@@ -168,6 +167,7 @@
                                                        options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
                                                          range:NSMakeRange(0, [searchText length])];
 
+        // add question to search results of name or question matches
         if (questionResult == NSOrderedSame || nameResult == NSOrderedSame)
             [self.searchResults addObject:question];        
 	}
@@ -181,6 +181,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     self.searching = NO;
+    // refresh tableview with non-search-result data
     [self.tableView reloadData];
 }
 

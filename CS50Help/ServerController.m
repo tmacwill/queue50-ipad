@@ -174,6 +174,7 @@ static ServerController* instance;
     if ([self authenticate]) {
         QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
         d.viewController = self.halfViewController.rootViewController;
+        d.course = self.course;
         NSMutableString* url = [[NSMutableString alloc] initWithString:
                                 [self.url stringByAppendingString:@"api/v1/questions/queue"]];
     

@@ -6,6 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import "Course.h"
 #import "CJSONDeserializer.h"
 #import "RootViewController.h"
 #import "Question.h"
@@ -13,7 +14,8 @@
 
 @implementation QueueConnectionDelegate
 
-@synthesize viewController=_viewController;
+@synthesize course = _course;
+@synthesize viewController = _viewController;
 
 static QueueConnectionDelegate* instance;
 
@@ -46,7 +48,7 @@ static QueueConnectionDelegate* instance;
                                                                               error:&error];
     
     [self.viewController.questions removeAllObjects];
-    for (NSDictionary* q in [queue valueForKey:@"cs50_queue"]) {
+    for (NSDictionary* q in [queue valueForKey:[NSString stringWithFormat:@"%@_queue", self.course.url]]) {
         Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
                                                  question:[q valueForKey:@"question"]
                                                  position:[[q valueForKey:@"position"] intValue]

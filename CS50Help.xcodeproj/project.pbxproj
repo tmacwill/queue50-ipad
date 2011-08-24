@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */; };
+		936246A014057D2A00BA4916 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9362469F14057D2A00BA4916 /* logo.png */; };
 		936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */; };
 		936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */; };
 		936653FD13B485C200D49A36 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936653FC13B485C200D49A36 /* MessageUI.framework */; };
@@ -53,6 +54,7 @@
 /* Begin PBXFileReference section */
 		93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursesConnectionDelegate.h; sourceTree = "<group>"; };
 		93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursesConnectionDelegate.m; sourceTree = "<group>"; };
+		9362469F14057D2A00BA4916 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionsTableViewCell.xib; sourceTree = "<group>"; };
 		936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StaffTableViewCell.xib; sourceTree = "<group>"; };
 		936653FC13B485C200D49A36 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -143,6 +145,7 @@
 		938316DC13A5D47F00B9D09A = {
 			isa = PBXGroup;
 			children = (
+				9362469F14057D2A00BA4916 /* logo.png */,
 				93C160AE13B7CCCE00B018D9 /* QuartzCore.framework */,
 				936653FC13B485C200D49A36 /* MessageUI.framework */,
 				938316F113A5D48000B9D09A /* CS50Help */,
@@ -338,6 +341,9 @@
 /* Begin PBXProject section */
 		938316DE13A5D47F00B9D09A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 938316E113A5D47F00B9D09A /* Build configuration list for PBXProject "CS50Help" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -368,6 +374,7 @@
 				939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */,
 				939290F913B7186500C0BB87 /* HalfViewController.xib in Resources */,
 				93ED88CC13C2E1F100C18CE0 /* CourseSelectionViewController.xib in Resources */,
+				936246A014057D2A00BA4916 /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
