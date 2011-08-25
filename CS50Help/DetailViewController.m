@@ -149,7 +149,6 @@
     if (self.mode == MODE_ON_DUTY) {
         // update the most recent dispatch time for selected TF
         [self.lastDispatchTimes setValue:[NSDate date] forKey:((TF*)[self.onDutyTFs objectAtIndex:indexPath.row]).name];
-        [self.halfViewController.rootViewController.selectedRows removeAllObjects];
         [[ServerController sharedInstance] dispatchQuestionsToTFAtIndexPath:indexPath];
     }
     

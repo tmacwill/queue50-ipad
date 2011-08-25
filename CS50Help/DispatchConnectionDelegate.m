@@ -24,6 +24,7 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
+    [self.rootViewController.selectedRows removeAllObjects];
     [self.detailViewController.tableView deselectRowAtIndexPath:self.tfIndexPath animated:YES];
 }
 
