@@ -10,14 +10,15 @@
 
 @implementation Question
 
-@synthesize category=_category;
-@synthesize name=_name;
-@synthesize position=_position;
-@synthesize question=_question;
-@synthesize questionId=_questionId;
+@synthesize category = _category;
+@synthesize categoryColor = _categoryColor;
+@synthesize name = _name;
+@synthesize position = _position;
+@synthesize question = _question;
+@synthesize questionId = _questionId;
 
 - (id)initWithId:(int)questionId question:(NSString*)question position:(int)position
-     studentName:(NSString*)name category:(NSString*)category
+     studentName:(NSString*)name category:(NSString*)category categoryColor:(int)categoryColor
 {
     self = [super init];
     
@@ -27,6 +28,7 @@
         self.name = name;
         self.question = question;
         self.category = category;
+        self.categoryColor = categoryColor;
     }
     
     return self;

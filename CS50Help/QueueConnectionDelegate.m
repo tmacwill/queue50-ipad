@@ -53,7 +53,8 @@ static QueueConnectionDelegate* instance;
                                                  question:[q valueForKey:@"question"]
                                                  position:[[q valueForKey:@"position"] intValue]
                                               studentName:[q valueForKey:@"name"]
-                                                 category:[q valueForKey:@"category"]];
+                                                 category:[q valueForKey:@"category"]
+                                            categoryColor:[[q valueForKey:@"category_color"] intValue]];
         
         [self.viewController.questions addObject:question];
     }

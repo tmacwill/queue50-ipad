@@ -16,6 +16,8 @@
 
 @implementation RootViewController
 
+@synthesize categoryBackgroundColors = _categoryBackgroundColors;
+@synthesize categoryForegroundColors = _categoryForegroundColors;
 @synthesize containerView = _containerView;
 @synthesize filterButton = _filterButton;
 @synthesize filterPopover = _filterPopover;
@@ -48,12 +50,45 @@
     self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
     self.containerView.layer.masksToBounds = YES;
     self.containerView.layer.borderWidth = 0.5;
-}
-
-- (void)filterButtonPressed
-{
-    [self.filterPopover presentPopoverFromBarButtonItem:self.filterButton 
-                               permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    // colors for category labels
+    self.categoryBackgroundColors = [[NSArray alloc] initWithObjects:
+                                     [UIColor colorWithRed:222.0 / 255.0 green:229.0 / 255.0 blue:242.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:0.0 / 255.0 green:0.0 / 255.0 blue:204.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:204.0 / 255.0 green:0.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:236.0 / 255.0 green:112.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:0.0 / 255.0 green:102.0 / 255.0 blue:51.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:0.0 / 255.0 green:0.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:102.0 / 255.0 green:0.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:222.0 / 255.0 green:229.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:82.0 / 255.0 green:41.0 / 255.0 blue:163.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:32.0 / 255.0 green:108.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:171.0 / 255.0 green:139.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:255.0 / 255.0 green:227.0 / 255.0 blue:227.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:133.0 / 255.0 green:79.0 / 255.0 blue:97.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:100.0 / 255.0 green:153.0 / 255.0 blue:44.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:224.0 / 255.0 green:213.0 / 255.0 blue:249.0 / 255.0 alpha:1.0],
+                                     nil];
+    
+    self.categoryForegroundColors = [[NSArray alloc] initWithObjects:
+                                     [UIColor colorWithRed:90.0 / 255.0 green:105.0 / 255.0 blue:134.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:223.0 / 255.0 green:226.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:255.0 / 255.0 green:227.0 / 255.0 blue:227.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:255.0 / 255.0 green:240.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:241.0 / 255.0 green:245.0 / 255.0 blue:236.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:127.0 / 255.0 green:96.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:90.0 / 255.0 green:105.0 / 255.0 blue:134.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:224.0 / 255.0 green:213.0 / 255.0 blue:249.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:224.0 / 255.0 green:236.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:243.0 / 255.0 green:231.0 / 255.0 blue:179.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:204.0 / 255.0 green:0.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:253.0 / 255.0 green:233.0 / 255.0 blue:244.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:249.0 / 255.0 green:255.0 / 255.0 blue:239.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:82.0 / 255.0 green:41.0 / 255.0 blue:163.0 / 255.0 alpha:1.0],
+                                     nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -61,6 +96,8 @@
     return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft ||
             interfaceOrientation == UIInterfaceOrientationLandscapeRight);
 }
+
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -102,35 +139,45 @@
     label.textColor = [UIColor whiteColor];
     label.layer.cornerRadius = 8.0;
     
-    // student's name
-    label = (UILabel*)[cell viewWithTag:11];
-    label.text = question.name;
-    
-    // if question text is only one line, vertical align at top rather than center
+    // question text
     label = (UILabel*)[cell viewWithTag:12];
     label.text = question.question;
+    // if question text is only one line, vertical align at top rather than center
     CGSize labelSize = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size 
                                   lineBreakMode:label.lineBreakMode];
     label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, 
                              label.frame.size.width, labelSize.height);
     
     // question category
-    label = (UILabel*)[cell viewWithTag:13];
-    label.text = question.category;
+    UILabel* categoryLabel = (UILabel*)[cell viewWithTag:13];
+    categoryLabel.text = [NSString stringWithFormat:@" %@ ", question.category];
+    // autosize label width to text width (plus padding)
+    CGSize categorySize = [categoryLabel.text sizeWithFont:categoryLabel.font];
+    categoryLabel.frame = CGRectMake(categoryLabel.frame.origin.x, categoryLabel.frame.origin.y, 
+                                     categorySize.width, categoryLabel.frame.size.height);
+    // use the category color sent from server
+    categoryLabel.backgroundColor = [self.categoryBackgroundColors objectAtIndex:question.categoryColor];
+    categoryLabel.textColor = [self.categoryForegroundColors objectAtIndex:question.categoryColor];
+    categoryLabel.layer.cornerRadius = 4.0;
     
     
-    if ([self.selectedRows containsObject:indexPath])
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    else
-        cell.accessoryType = UITableViewCellAccessoryNone;
+    // student's name
+    UILabel* nameLabel = (UILabel*)[cell viewWithTag:11];
+    nameLabel.text = question.name;
+    CGSize nameSize = [nameLabel.text sizeWithFont:nameLabel.font];
+    // place student name to the right of the category label
+    nameLabel.frame = CGRectMake(categoryLabel.frame.origin.x + categoryLabel.frame.size.width + 10,
+                                 nameLabel.frame.origin.y, nameSize.width, nameLabel.frame.size.height);
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 73.0;
+    return 65.0;
 }
+
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -138,18 +185,20 @@
     
     // already selected, so remove from selected rows
     if ([self.selectedRows containsObject:indexPath]) {
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.backgroundColor = [UIColor whiteColor];
         [self.selectedRows removeObject:indexPath];
     }
     
     // not selected yet, so add to selected rows 
     else {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        cell.backgroundColor = [UIColor yellowColor];
         [self.selectedRows addObject:indexPath];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+#pragma mark - Search bar event handlers
 
 - (void)filterContentForSearchText:(NSString*)searchText
 {
@@ -197,10 +246,7 @@
     [self.tableView reloadData];
 }
 
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
-{
-    [self buildVisibleQuestions];
-}
+#pragma mark - Event handlers
 
 - (void)buildVisibleQuestions
 {
@@ -223,6 +269,17 @@
 - (void)dismissPopover
 {
     [self.filterPopover dismissPopoverAnimated:YES];
+    [self buildVisibleQuestions];
+}
+
+- (void)filterButtonPressed
+{
+    [self.filterPopover presentPopoverFromBarButtonItem:self.filterButton 
+                               permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
     [self buildVisibleQuestions];
 }
 

@@ -170,7 +170,7 @@ static ServerController* instance;
  *
  */
 - (void)getQueue
-{    
+{
     if ([self authenticate]) {
         QueueConnectionDelegate* d = [QueueConnectionDelegate sharedInstance];
         d.viewController = self.halfViewController.rootViewController;

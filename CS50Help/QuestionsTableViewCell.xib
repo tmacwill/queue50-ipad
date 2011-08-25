@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1280</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1864</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<string key="IBDocument.SystemVersion">11C26</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1910</string>
+		<string key="IBDocument.AppKitVersion">1138.11</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">865</string>
+			<string key="NS.object.0">911</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -50,7 +50,7 @@
 								<string key="NSFrame">{{5, 5}, {27, 25}}</string>
 								<reference key="NSSuperview" ref="467033570"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="119684839"/>
+								<reference key="NSNextKeyView" ref="117209540"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -79,10 +79,10 @@
 							<object class="IBUILabel" id="119684839">
 								<reference key="NSNextResponder" ref="467033570"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{40, 0}, {275, 21}}</string>
+								<string key="NSFrame">{{110, 3}, {275, 21}}</string>
 								<reference key="NSSuperview" ref="467033570"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="117209540"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -107,7 +107,7 @@
 							<object class="IBUILabel" id="117209540">
 								<reference key="NSNextResponder" ref="467033570"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{40, 15}, {265, 21}}</string>
+								<string key="NSFrame">{{40, 4}, {62, 20}}</string>
 								<reference key="NSSuperview" ref="467033570"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="536917284"/>
@@ -138,28 +138,27 @@
 							<object class="IBUILabel" id="536917284">
 								<reference key="NSNextResponder" ref="467033570"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{40, 37}, {265, 30}}</string>
+								<string key="NSFrame">{{40, 25}, {445, 40}}</string>
 								<reference key="NSSuperview" ref="467033570"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
+								<reference key="NSNextKeyView" ref="119684839"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">5</int>
 								<int key="IBUITag">12</int>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<string key="IBUIText">I have a really long question, it has so many words that it needs two lines</string>
+								<string key="IBUIText">I have a long question I have a long question I have a long question I have a long question </string>
 								<reference key="IBUITextColor" ref="623763159"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
 								<float key="IBUIMinimumFontSize">10</float>
 								<int key="IBUINumberOfLines">2</int>
-								<int key="IBUILineBreakMode">3</int>
 								<reference key="IBUIFontDescription" ref="465503837"/>
 								<reference key="IBUIFont" ref="903986581"/>
 							</object>
 						</object>
-						<string key="NSFrameSize">{320, 73}</string>
+						<string key="NSFrameSize">{505, 65}</string>
 						<reference key="NSSuperview" ref="366254547"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="89540967"/>
@@ -174,7 +173,7 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 73}</string>
+				<string key="NSFrameSize">{505, 65}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="467033570"/>
@@ -183,7 +182,6 @@
 					<bytes key="NSRGB">MSAxIDEAA</bytes>
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-				<int key="IBUISeparatorStyle">1</int>
 				<reference key="IBUIContentView" ref="467033570"/>
 				<object class="IBUIFontDescription" key="IBUIFontDescription">
 					<int key="type">1</int>
@@ -195,7 +193,7 @@
 					<int key="NSfFlags">16</int>
 				</object>
 				<string key="IBUIReuseIdentifier">QuestionsTableViewCell</string>
-				<real value="73" key="IBUIRowHeight"/>
+				<real value="65" key="IBUIRowHeight"/>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -238,9 +236,9 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="89540967"/>
-							<reference ref="119684839"/>
 							<reference ref="117209540"/>
 							<reference ref="536917284"/>
+							<reference ref="119684839"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -255,13 +253,13 @@
 						<reference key="parent" ref="366254547"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">6</int>
-						<reference key="object" ref="536917284"/>
+						<int key="objectID">3</int>
+						<reference key="object" ref="89540967"/>
 						<reference key="parent" ref="366254547"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">3</int>
-						<reference key="object" ref="89540967"/>
+						<int key="objectID">6</int>
+						<reference key="object" ref="536917284"/>
 						<reference key="parent" ref="366254547"/>
 					</object>
 				</object>
@@ -336,15 +334,19 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>containerView</string>
 							<string>filterButton</string>
 							<string>filterViewController</string>
+							<string>searchBar</string>
 							<string>tableView</string>
 							<string>tableViewCell</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>FilterViewController</string>
+							<string>UISearchBar</string>
 							<string>UITableView</string>
 							<string>UITableViewCell</string>
 						</object>
@@ -353,13 +355,19 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>containerView</string>
 							<string>filterButton</string>
 							<string>filterViewController</string>
+							<string>searchBar</string>
 							<string>tableView</string>
 							<string>tableViewCell</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">containerView</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">filterButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
@@ -367,6 +375,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">filterViewController</string>
 								<string key="candidateClassName">FilterViewController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchBar</string>
+								<string key="candidateClassName">UISearchBar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">tableView</string>
@@ -393,6 +405,6 @@
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">865</string>
+		<string key="IBCocoaTouchPluginVersion">911</string>
 	</data>
 </archive>

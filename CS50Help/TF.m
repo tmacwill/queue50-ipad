@@ -10,10 +10,10 @@
 
 @implementation TF
 
-@synthesize email=_email;
-@synthesize isOnDuty=_isOnDuty;
-@synthesize name=_name;
-@synthesize phone=_phone;
+@synthesize email = _email;
+@synthesize isOnDuty = _isOnDuty;
+@synthesize name = _name;
+@synthesize phone = _phone;
 
 - (id)initWithName:(NSString*)name email:(NSString*)email phone:(NSString*)phone isOnDuty:(int)isOnDuty;
 {

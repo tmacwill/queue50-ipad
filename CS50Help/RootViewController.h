@@ -15,6 +15,8 @@
     <UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate, 
         UISearchDisplayDelegate, UISearchBarDelegate>
 
+@property (strong, nonatomic) NSArray* categoryBackgroundColors;
+@property (strong, nonatomic) NSArray* categoryForegroundColors;
 @property (strong, nonatomic) IBOutlet UIView* containerView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem* filterButton;
 @property (strong, nonatomic) UIPopoverController* filterPopover;
