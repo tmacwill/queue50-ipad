@@ -30,6 +30,7 @@
 
 - (void)awakeFromNib
 {
+    // border around right hand side
     self.containerView.layer.cornerRadius = 5.0;
     self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
     self.containerView.layer.borderWidth = 0.5;
@@ -95,9 +96,7 @@
         else
             tf = [self.onDutyTFs objectAtIndex:indexPath.row];
         
-        // set cell text
-        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"hh:mm:ss";
+        // set name text
         cell.textLabel.text = tf.name;
         
         // get TF's last dispatch time, and don't try to set text if non-existant
@@ -105,11 +104,18 @@
         if (!lastDispatchTime)
             return cell;
         
-        // calculate time between right now and dispatch time
+        // calculate time between right now and dispatch time and 
         NSTimeInterval interval = [lastDispatchTime timeIntervalSinceNow];
         long minutes = -(long)interval / 60;
-        long seconds = -(long)interval % 60;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+        
+        // set timer text
+        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"hh:mm:ss";
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", minutes];
+        
+        // minutes:seconds, leaving this here in case we want to switch later
+        // long seconds = -(long)interval % 60;
+        // cell.detailTextLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
     }
     
     else if (self.mode == MODE_ALL) {
@@ -132,12 +138,20 @@
                 }
                 
                 // idenitify each switch by the row its in, since toggling is independent of row
-                else if ([view isKindOfClass:[UISwitch class]])
-                    ((UISwitch*)view).tag = indexPath.row;
+                else if ([view isKindOfClass:[UISwitch class]]) {
+                    UISwitch* s = (UISwitch*)view;
+                    s.tag = [self.allTFs indexOfObject:tf];
+                    
+                    // because cells are re-used, we need to manually set the toggle state
+                    if ([self.onDutyTFs containsObject:tf])
+                        s.on = YES;
+                    else
+                        s.on = NO;
+                }
             }
         }
     }
-
+    
     return cell;
 }
 
@@ -184,7 +198,7 @@
     else if (self.mode == MODE_ALL)
         collection = self.allTFs;
     
-    // iterate over all or on-duty TFs, depending on current mond
+    // iterate over all or on-duty TFs, depending on current mode
 	for (TF* tf in collection) {
         // search within TF name
         NSComparisonResult result = [tf.name compare:searchText
@@ -228,7 +242,8 @@
 
 - (void)onTick:(NSTimer *)timer
 {
-    [self.tableView reloadData];
+    if (self.mode == MODE_ON_DUTY)
+        [self.tableView reloadData];
 }
 
 - (IBAction)toggleRow:(id)sender
@@ -241,8 +256,6 @@
         [self.onDutyTFs addObject:tf];
     else
         [self.onDutyTFs removeObject:tf];
-    
-    [self.tableView reloadData];
 }
 
 #pragma mark - Mail compose delegate

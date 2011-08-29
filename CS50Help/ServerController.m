@@ -106,8 +106,8 @@ static ServerController* instance;
     
         // create comma separated list of question ids
         NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
-        for (NSIndexPath* questionIndexPath in self.halfViewController.rootViewController.selectedRows) {
-            Question* q = [self.halfViewController.rootViewController.questions objectAtIndex:questionIndexPath.row];
+        for (NSNumber* questionRow in self.halfViewController.rootViewController.selectedRows) {
+            Question* q = [self.halfViewController.rootViewController.questions objectAtIndex:[questionRow intValue]];
             [questionsParam appendFormat:@"%d,", q.questionId];
         }
     

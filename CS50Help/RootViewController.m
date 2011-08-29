@@ -53,7 +53,7 @@
     
     // colors for category labels
     self.categoryBackgroundColors = [[NSArray alloc] initWithObjects:
-                                     [UIColor colorWithRed:222.0 / 255.0 green:229.0 / 255.0 blue:242.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:51.0 / 255.0 green:51.0 / 255.0 blue:51.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:0.0 / 255.0 green:0.0 / 255.0 blue:204.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:204.0 / 255.0 green:0.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:236.0 / 255.0 green:112.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
@@ -72,7 +72,7 @@
                                      nil];
     
     self.categoryForegroundColors = [[NSArray alloc] initWithObjects:
-                                     [UIColor colorWithRed:90.0 / 255.0 green:105.0 / 255.0 blue:134.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:223.0 / 255.0 green:226.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:255.0 / 255.0 green:227.0 / 255.0 blue:227.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:255.0 / 255.0 green:240.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
@@ -166,7 +166,7 @@
     nameLabel.text = question.name;
     CGSize nameSize = [nameLabel.text sizeWithFont:nameLabel.font];
     // place student name to the right of the category label
-    nameLabel.frame = CGRectMake(categoryLabel.frame.origin.x + categoryLabel.frame.size.width + 10,
+    nameLabel.frame = CGRectMake(categoryLabel.frame.origin.x + categoryLabel.frame.size.width + 4,
                                  nameLabel.frame.origin.y, nameSize.width, nameLabel.frame.size.height);
     
     return cell;
@@ -181,18 +181,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // determine row number from cell text, because indexPath will vary when the user is searching
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    UILabel* cellRow = (UILabel*)[cell viewWithTag:10];
+    NSNumber* row = [NSNumber numberWithInt:([cellRow.text intValue] - 1)];
     
     // already selected, so remove from selected rows
-    if ([self.selectedRows containsObject:indexPath]) {
+    if ([self.selectedRows containsObject:row]) {
         cell.backgroundColor = [UIColor whiteColor];
-        [self.selectedRows removeObject:indexPath];
+        [self.selectedRows removeObject:row];
     }
     
     // not selected yet, so add to selected rows 
     else {
         cell.backgroundColor = [UIColor yellowColor];
-        [self.selectedRows addObject:indexPath];
+        [self.selectedRows addObject:row];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];

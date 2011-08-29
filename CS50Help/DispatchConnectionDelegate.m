@@ -19,11 +19,6 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    for (NSIndexPath* indexPath in self.questionIndexPaths) {
-        UITableViewCell* cell = [self.rootViewController.tableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
     [self.rootViewController.selectedRows removeAllObjects];
     [self.detailViewController.tableView deselectRowAtIndexPath:self.tfIndexPath animated:YES];
 }
