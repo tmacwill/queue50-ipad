@@ -15,7 +15,6 @@
 @interface DispatchConnectionDelegate : ConnectionDelegate
 
 @property (strong, nonatomic) DetailViewController* detailViewController;
-@property (strong, nonatomic) NSArray* questionIndexPaths;
 @property (strong, nonatomic) RootViewController* rootViewController;
 @property (strong, nonatomic) NSIndexPath* tfIndexPath;
 

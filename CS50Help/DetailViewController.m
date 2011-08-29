@@ -107,6 +107,8 @@
         // calculate time between right now and dispatch time and 
         NSTimeInterval interval = [lastDispatchTime timeIntervalSinceNow];
         long minutes = -(long)interval / 60;
+        if (minutes > 10L)
+            cell.textLabel.textColor = [UIColor redColor];
         
         // set timer text
         NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
@@ -132,9 +134,10 @@
                 if ([view isKindOfClass:[UILabel class]]) {
                     UILabel* label = (UILabel*)view;
                     label.text = tf.name;
-                    // gray out TFs who are not on duty
-                    if (!tf.isOnDuty)
-                        label.textColor = [UIColor grayColor];
+                    
+                    // TFs who are supposed to be on duty are red
+                    if (tf.isOnDuty)
+                        label.textColor = [UIColor redColor];
                 }
                 
                 // idenitify each switch by the row its in, since toggling is independent of row

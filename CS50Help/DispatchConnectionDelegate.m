@@ -13,13 +13,12 @@
 @implementation DispatchConnectionDelegate
 
 @synthesize detailViewController = _detailViewController;
-@synthesize questionIndexPaths = _questionIndexPaths;
 @synthesize rootViewController = _rootViewController;
 @synthesize tfIndexPath = _tfIndexPath;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    [self.rootViewController.selectedRows removeAllObjects];
+    [self.rootViewController.selectedQuestions removeAllObjects];
     [self.detailViewController.tableView deselectRowAtIndexPath:self.tfIndexPath animated:YES];
 }
 

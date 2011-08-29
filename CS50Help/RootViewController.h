@@ -25,7 +25,7 @@
 @property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
 @property (assign, nonatomic) BOOL searching;
 @property (strong, nonatomic) NSMutableArray* searchResults;
-@property (strong, nonatomic) NSMutableArray* selectedRows;
+@property (strong, nonatomic) NSMutableArray* selectedQuestions;
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (assign, nonatomic) IBOutlet UITableViewCell* tableViewCell;
 @property (strong, nonatomic) NSMutableArray* visibleQuestions;
@@ -34,5 +34,6 @@
 - (void)dismissPopover;
 - (IBAction)filterButtonPressed;
 - (void)filterContentForSearchText:(NSString*)searchText;
+- (IBAction)refresh:(id)sender;
 
 @end

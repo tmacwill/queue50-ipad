@@ -102,14 +102,11 @@ static ServerController* instance;
         d.rootViewController = self.halfViewController.rootViewController;
         d.detailViewController = self.halfViewController.detailViewController;
         d.tfIndexPath = indexPath;
-        d.questionIndexPaths = self.halfViewController.rootViewController.selectedRows;
     
         // create comma separated list of question ids
         NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
-        for (NSNumber* questionRow in self.halfViewController.rootViewController.selectedRows) {
-            Question* q = [self.halfViewController.rootViewController.questions objectAtIndex:[questionRow intValue]];
+        for (Question* q in self.halfViewController.rootViewController.selectedQuestions)
             [questionsParam appendFormat:@"%d,", q.questionId];
-        }
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:[self.url stringByAppendingFormat:

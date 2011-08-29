@@ -26,7 +26,7 @@
 @synthesize searchBar = _searchBar;
 @synthesize searching = _searching;
 @synthesize searchResults = _searchResults;
-@synthesize selectedRows = _selectedRows;
+@synthesize selectedQuestions = _selectedQuestions;
 @synthesize tableView = _tableView;
 @synthesize tableViewCell = _tableViewCell;
 @synthesize visibleQuestions = _visibleQuestions;
@@ -41,7 +41,7 @@
     // initialize models
     self.questions = [[NSMutableArray alloc] init];
     self.visibleQuestions = [[NSMutableArray alloc] init];
-    self.selectedRows = [[NSMutableArray alloc] init];
+    self.selectedQuestions = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
     self.searching = NO;
     
@@ -181,21 +181,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // determine row number from cell text, because indexPath will vary when the user is searching
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    UILabel* cellRow = (UILabel*)[cell viewWithTag:10];
-    NSNumber* row = [NSNumber numberWithInt:([cellRow.text intValue] - 1)];
+    Question* question;
+    if (self.searching)
+        question = [self.searchResults objectAtIndex:indexPath.row];
+    else
+        question = [self.questions objectAtIndex:indexPath.row];
     
     // already selected, so remove from selected rows
-    if ([self.selectedRows containsObject:row]) {
+    if ([self.selectedQuestions containsObject:question]) {
         cell.backgroundColor = [UIColor whiteColor];
-        [self.selectedRows removeObject:row];
+        [self.selectedQuestions removeObject:question];
     }
     
     // not selected yet, so add to selected rows 
     else {
         cell.backgroundColor = [UIColor yellowColor];
-        [self.selectedRows addObject:row];
+        [self.selectedQuestions addObject:question];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -218,7 +220,7 @@
         NSComparisonResult nameResult = [question.name compare:searchText 
                                                        options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
                                                          range:NSMakeRange(0, [searchText length])];
-
+ 
         // add question to search results of name or question matches
         if (questionResult == NSOrderedSame || nameResult == NSOrderedSame)
             [self.searchResults addObject:question];        
@@ -284,6 +286,11 @@
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     [self buildVisibleQuestions];
+}
+
+- (IBAction)refresh:(id)sender
+{
+    [[ServerController sharedInstance] refresh];
 }
 
 @end
