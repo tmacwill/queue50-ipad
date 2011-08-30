@@ -8,12 +8,14 @@
 
 #import "DetailViewController.h"
 #import "HalfViewController.h"
+#import "Question.h"
 #import "RootViewController.h"
 #import "ServerController.h"
 #import "TF.h"
 
 @implementation DetailViewController
 
+@synthesize assignedStudents = _assignedStudents;
 @synthesize allTFs = _allTFs;
 @synthesize containerView = _containerView;
 @synthesize dutySegmentedControl = _dutySegmentedControl;
@@ -24,6 +26,7 @@
 @synthesize searchBar = _searchBar;
 @synthesize searching = _searching;
 @synthesize searchResults = _searchResults;
+@synthesize selectedIndexPath = _selectedIndexPath;
 @synthesize tableView = _tableView;
 @synthesize tableViewCell = _tableViewCell;
 @synthesize titleLabel = _titleLabel;
@@ -35,6 +38,7 @@
     self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
     self.containerView.layer.borderWidth = 0.5;
     
+    self.assignedStudents = [[NSMutableDictionary alloc] init];
     self.allTFs = [[NSMutableArray alloc] init];
     self.onDutyTFs = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
@@ -164,9 +168,11 @@
 {
     // dispatch all selected questions on on-duty row select
     if (self.mode == MODE_ON_DUTY) {
-        // update the most recent dispatch time for selected TF
-        [self.lastDispatchTimes setValue:[NSDate date] forKey:((TF*)[self.onDutyTFs objectAtIndex:indexPath.row]).name];
-        [[ServerController sharedInstance] dispatchQuestionsToTFAtIndexPath:indexPath];
+        TF* tf = [self.onDutyTFs objectAtIndex:indexPath.row];
+        self.selectedIndexPath = indexPath;
+        NSString* message = [NSString stringWithFormat:@"Dispatch to %@?", tf.name];
+        UIAlertView* confirm = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [confirm show];
     }
     
     // open mail client on all-tf row select
@@ -236,6 +242,16 @@
 }
 
 #pragma mark - Event handlers
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
+        // update the most recent dispatch time for selected TF
+        TF* tf = [self.onDutyTFs objectAtIndex:self.selectedIndexPath.row];
+        [self.lastDispatchTimes setValue:[NSDate date] forKey:tf.name];
+        [[ServerController sharedInstance] dispatchQuestionsToTFAtIndexPath:self.selectedIndexPath];
+    }
+}
 
 - (IBAction)dutySegmentedControlChanged
 {

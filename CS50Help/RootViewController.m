@@ -181,6 +181,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // get question from appropriate source
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     Question* question;
     if (self.searching)
