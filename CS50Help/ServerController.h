@@ -15,7 +15,15 @@
 @class Question;
 @class TF;
 
-#define BASE_URL @"http://ohs.cs50.net/"
+//#define DEBUG_URL 1
+
+#ifdef DEBUG_URL
+    #define BASE_URL @"http://192.168.56.50/"
+#endif
+
+#ifndef DEBUG_URL
+    #define BASE_URL @"http://queue.cs50.net/"
+#endif
 
 @interface ServerController : NSObject <AuthViewControllerDelegate>
 
@@ -30,7 +38,7 @@
 
 + (ServerController*)sharedInstance;
 - (BOOL)authenticate;
-- (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;
+- (void)dispatchQuestionsToTF:(TF*)tf;
 - (void)getCategories;
 - (void)getCourses;
 - (void)getQueue;

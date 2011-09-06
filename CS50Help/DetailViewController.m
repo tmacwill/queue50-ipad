@@ -105,14 +105,18 @@
         
         // get TF's last dispatch time, and don't try to set text if non-existant
         NSDate* lastDispatchTime = [self.lastDispatchTimes valueForKey:tf.name];
-        if (!lastDispatchTime)
+        if (!lastDispatchTime) {
+            cell.detailTextLabel.text = @"";
             return cell;
+        }
         
         // calculate time between right now and dispatch time and 
         NSTimeInterval interval = [lastDispatchTime timeIntervalSinceNow];
         long minutes = -(long)interval / 60;
         if (minutes > 10L)
             cell.textLabel.textColor = [UIColor redColor];
+        else
+            cell.textLabel.textColor = [UIColor blackColor];
         
         // set timer text
         NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
@@ -142,6 +146,8 @@
                     // TFs who are supposed to be on duty are red
                     if (tf.isOnDuty)
                         label.textColor = [UIColor redColor];
+                    else
+                        label.textColor = [UIColor blackColor];
                 }
                 
                 // idenitify each switch by the row its in, since toggling is independent of row
@@ -168,7 +174,14 @@
 {
     // dispatch all selected questions on on-duty row select
     if (self.mode == MODE_ON_DUTY) {
-        TF* tf = [self.onDutyTFs objectAtIndex:indexPath.row];
+        // get tf from appropriate source
+        TF* tf;
+        if (self.searching)
+            tf = [self.searchResults objectAtIndex:indexPath.row];
+        else
+            tf = [self.onDutyTFs objectAtIndex:indexPath.row];
+        
+        // keep track of selected TF and show confirm dialog
         self.selectedIndexPath = indexPath;
         NSString* message = [NSString stringWithFormat:@"Dispatch to %@?", tf.name];
         UIAlertView* confirm = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
@@ -245,12 +258,21 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    // dispatch button pressed
     if (buttonIndex == 1) {
+        // get tf from appropriate source
+        TF* tf;
+        if (self.searching)
+            tf = [self.searchResults objectAtIndex:self.selectedIndexPath.row];
+        else
+            tf = [self.onDutyTFs objectAtIndex:self.selectedIndexPath.row];
+
         // update the most recent dispatch time for selected TF
-        TF* tf = [self.onDutyTFs objectAtIndex:self.selectedIndexPath.row];
         [self.lastDispatchTimes setValue:[NSDate date] forKey:tf.name];
-        [[ServerController sharedInstance] dispatchQuestionsToTFAtIndexPath:self.selectedIndexPath];
+        [[ServerController sharedInstance] dispatchQuestionsToTF:tf];
     }
+    else
+        self.selectedIndexPath = nil;
 }
 
 - (IBAction)dutySegmentedControlChanged
@@ -272,7 +294,7 @@
     TF* tf = [self.allTFs objectAtIndex:[toggle tag]];
     
     if (toggle.on)
-        [self.onDutyTFs addObject:tf];
+        [self.onDutyTFs insertObject:tf atIndex:0];
     else
         [self.onDutyTFs removeObject:tf];
 }

@@ -93,15 +93,14 @@ static ServerController* instance;
  * @param tf TF/CA to which question will be dispatched
  *
  */
-- (void)dispatchQuestionsToTFAtIndexPath:(NSIndexPath*)indexPath;
+- (void)dispatchQuestionsToTF:(TF*)tf;
 {    
     if ([self authenticate]) {
         // set up connection delegate
-        TF* tf = [self.halfViewController.detailViewController.onDutyTFs objectAtIndex:indexPath.row];
         DispatchConnectionDelegate* d = [[DispatchConnectionDelegate alloc] init];
         d.rootViewController = self.halfViewController.rootViewController;
         d.detailViewController = self.halfViewController.detailViewController;
-        d.tfIndexPath = indexPath;
+        d.tf = tf;
     
         // create comma separated list of question ids
         NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];

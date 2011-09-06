@@ -53,7 +53,7 @@
     
     // colors for category labels
     self.categoryBackgroundColors = [[NSArray alloc] initWithObjects:
-                                     [UIColor colorWithRed:51.0 / 255.0 green:51.0 / 255.0 blue:51.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:222.0 / 255.0 green:229.0 / 255.0 blue:242.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:0.0 / 255.0 green:0.0 / 255.0 blue:204.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:204.0 / 255.0 green:0.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:236.0 / 255.0 green:112.0 / 255.0 blue:0.0 / 255.0 alpha:1.0],
@@ -72,7 +72,7 @@
                                      nil];
     
     self.categoryForegroundColors = [[NSArray alloc] initWithObjects:
-                                     [UIColor colorWithRed:255.0 / 255.0 green:255.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
+                                     [UIColor colorWithRed:90.0 / 255.0 green:105.0 / 255.0 blue:134.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:223.0 / 255.0 green:226.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:255.0 / 255.0 green:227.0 / 255.0 blue:227.0 / 255.0 alpha:1.0],
                                      [UIColor colorWithRed:255.0 / 255.0 green:240.0 / 255.0 blue:255.0 / 255.0 alpha:1.0],
@@ -159,7 +159,6 @@
     categoryLabel.backgroundColor = [self.categoryBackgroundColors objectAtIndex:question.categoryColor];
     categoryLabel.textColor = [self.categoryForegroundColors objectAtIndex:question.categoryColor];
     categoryLabel.layer.cornerRadius = 4.0;
-    
     
     // student's name
     UILabel* nameLabel = (UILabel*)[cell viewWithTag:11];

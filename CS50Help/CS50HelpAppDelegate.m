@@ -22,6 +22,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.halfViewController = [[HalfViewController alloc] init];
+    [UIApplication sharedApplication].idleTimerDisabled = YES;
     
     self.window.rootViewController = self.halfViewController;
     [self.window makeKeyAndVisible];
