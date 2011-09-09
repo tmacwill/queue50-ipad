@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 @class FilterViewController;
+@class Question;
 
 @interface RootViewController : UIViewController 
     <UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate, 
@@ -34,6 +35,8 @@
 - (void)dismissPopover;
 - (IBAction)filterButtonPressed;
 - (void)filterContentForSearchText:(NSString*)searchText;
+- (BOOL)inSelectedQuestions:(Question*)question;
 - (IBAction)refresh:(id)sender;
+- (void)removeQuestionFromSelected:(Question*)question;
 
 @end

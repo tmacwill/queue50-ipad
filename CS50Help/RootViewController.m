@@ -171,6 +171,22 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // get question from appropriate source
+    Question* question = nil;
+    if (self.searching)
+        question = [self.searchResults objectAtIndex:indexPath.row];
+    else
+        question = [self.visibleQuestions objectAtIndex:indexPath.row];
+
+    // if cell is selected, make sure it is highlighted
+    if ([self inSelectedQuestions:question])
+        cell.backgroundColor = [UIColor yellowColor];
+    else
+        cell.backgroundColor = [UIColor whiteColor];
+}
+
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 65.0;
@@ -189,15 +205,21 @@
         question = [self.questions objectAtIndex:indexPath.row];
     
     // already selected, so remove from selected rows
-    if ([self.selectedQuestions containsObject:question]) {
+    if ([self inSelectedQuestions:question]) {
         cell.backgroundColor = [UIColor whiteColor];
-        [self.selectedQuestions removeObject:question];
+        [self removeQuestionFromSelected:question];
     }
     
     // not selected yet, so add to selected rows 
     else {
         cell.backgroundColor = [UIColor yellowColor];
-        [self.selectedQuestions addObject:question];
+        // copy object, since it will be removed from memory on the next refresh
+        [self.selectedQuestions addObject:[[Question alloc] initWithId:question.questionId
+                                                              question:question.question 
+                                                              position:question.position
+                                                           studentName:question.name
+                                                              category:question.category
+                                                         categoryColor:question.categoryColor]];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -205,6 +227,11 @@
 
 #pragma mark - Search bar event handlers
 
+/**
+ * Filter visible questions based on search text
+ * @param searchText [NSString*] Text to search for
+ *
+ */
 - (void)filterContentForSearchText:(NSString*)searchText
 {
     // clear previous results
@@ -227,11 +254,19 @@
 	}
 }
 
+/**
+ * Switch to searching mode
+ *
+ */
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     self.searching = YES;
 }
 
+/**
+ * Exit search mode
+ *
+ */
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     self.searching = NO;
@@ -239,12 +274,20 @@
     [self.tableView reloadData];
 }
 
+/**
+ * Hide keyboard when search is pressed
+ *
+ */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [self.searchBar resignFirstResponder];
     [self.tableView reloadData];
 }
 
+/**
+ * Filter visible questions based on search text
+ *
+ */
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self filterContentForSearchText:searchText];
@@ -253,6 +296,10 @@
 
 #pragma mark - Event handlers
 
+/**
+ * Parse the server response of pending questions into the table model
+ *
+ */
 - (void)buildVisibleQuestions
 {
     // only show those questions whose categories are marked as shown
@@ -271,26 +318,73 @@
     [[ServerController sharedInstance] getQueue];
 }
 
+/**
+ * Dismiss categories popover
+ *
+ */
 - (void)dismissPopover
 {
     [self.filterPopover dismissPopoverAnimated:YES];
     [self buildVisibleQuestions];
 }
 
+/**
+ * Show filter popover
+ *
+ */
 - (void)filterButtonPressed
 {
     [self.filterPopover presentPopoverFromBarButtonItem:self.filterButton 
                                permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
+/**
+ * Check if a question is in the selected questions list
+ * @param question [Question*] Question to look for
+ * @return True iff question is in selected questions list
+ *
+ */
+- (BOOL)inSelectedQuestions:(Question *)question
+{    
+    for (Question* q in self.selectedQuestions) {
+        if (q.questionId == question.questionId) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
+/**
+ * Reload questions after category is selected
+ *
+ */
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
     [self buildVisibleQuestions];
 }
 
+/**
+ * Refresh everything and restart poll loops
+ *
+ */
 - (IBAction)refresh:(id)sender
 {
     [[ServerController sharedInstance] refresh];
+}
+
+/**
+ * Remove a question from the selected questions
+ * @param question [Question*] Question to remove
+ *
+ */
+- (void)removeQuestionFromSelected:(Question*)question
+{
+    for (Question* q in self.selectedQuestions) {
+        if (q.questionId == question.questionId) {
+            [self.selectedQuestions removeObject:q];
+        }
+    }
 }
 
 @end
