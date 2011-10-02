@@ -45,6 +45,7 @@
 - (void)getQueue;
 - (void)getSchedule;
 - (void)refresh;
+- (void)setArrival:(TF*)tf;
 - (void)setCanAsk:(BOOL)canAsk;
 
 @end

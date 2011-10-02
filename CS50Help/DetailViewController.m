@@ -297,8 +297,10 @@
     UISwitch* toggle = (UISwitch*)sender;
     TF* tf = [self.allTFs objectAtIndex:[toggle tag]];
     
-    if (toggle.on)
+    if (toggle.on) {
         [self.onDutyTFs insertObject:tf atIndex:0];
+        [[ServerController sharedInstance] setArrival:tf];
+    }
     else
         [self.onDutyTFs removeObject:tf];
 }

@@ -112,7 +112,6 @@ static ServerController* instance;
                                         [NSURL URLWithString:[self.url stringByAppendingFormat:
                                                               @"api/v1/questions/dispatch"]]];
         NSString* params = [NSString stringWithFormat:@"%@&tf=%d", questionsParam, tf.staffId];
-        NSLog(@"%@", params);
         request.HTTPMethod = @"POST";
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
@@ -178,7 +177,6 @@ static ServerController* instance;
                                     [NSURL URLWithString:
                                      [self.url stringByAppendingFormat:@"a/api/v1/courses/all"]]];
     
-    NSLog(@"%@", request.URL);
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
     [connection start];
     
@@ -248,12 +246,36 @@ static ServerController* instance;
 }
 
 /**
+ * Mark a TF as being here
+ *
+ */
+- (void)setArrival:(TF *)tf
+{
+    if ([self authenticate]) {        
+        // construct URL and POSTDATA
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                        [NSURL URLWithString:[self.url stringByAppendingFormat:
+                                                              @"api/v1/staffers/arrival"]]];
+        NSString* params = [NSString stringWithFormat:@"id=%d", tf.staffId];
+        request.HTTPMethod = @"POST";
+        request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
+       forHTTPHeaderField:@"Cookie"];
+        
+        // send request
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+        [connection start];
+    }
+}
+
+/**
  * Get whether or not students can ask questions
  *
  */
 - (void)setCanAsk:(BOOL)canAsk
 {    
     if ([self authenticate]) {
+        // set up delegate to handle response
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
         d.viewController = self.halfViewController.rootViewController;
         
@@ -264,12 +286,14 @@ static ServerController* instance;
         else
             [u appendString:@"disable"];
         
+        // construct request
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
                                          [self.url stringByAppendingString:u]]];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] 
        forHTTPHeaderField:@"Cookie"];
         
+        // send request
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
     }
