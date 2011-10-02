@@ -48,7 +48,8 @@ static QueueConnectionDelegate* instance;
                                                                               error:&error];
     
     
-    if (!error) {
+    // only reload queue on success and change
+    if (!error && [queue valueForKey:@"changed"]) {
         [self.viewController.questions removeAllObjects];
         for (NSDictionary* q in [queue valueForKey:[NSString stringWithFormat:@"%@_queue", self.course.url]]) {
             Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]

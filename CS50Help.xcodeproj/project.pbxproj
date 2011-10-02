@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */; };
 		932D5FFF1419A1B100919E56 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932D5FFE1419A1B100919E56 /* Entitlements.plist */; };
+		9330534F143850F20043746E /* CanAskConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330534E143850F20043746E /* CanAskConnectionDelegate.m */; };
 		936246A014057D2A00BA4916 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9362469F14057D2A00BA4916 /* logo.png */; };
 		936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */; };
 		936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */; };
@@ -56,6 +57,8 @@
 		93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursesConnectionDelegate.h; sourceTree = "<group>"; };
 		93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursesConnectionDelegate.m; sourceTree = "<group>"; };
 		932D5FFE1419A1B100919E56 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		9330534D143850F20043746E /* CanAskConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CanAskConnectionDelegate.h; sourceTree = "<group>"; };
+		9330534E143850F20043746E /* CanAskConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanAskConnectionDelegate.m; sourceTree = "<group>"; };
 		9362469F14057D2A00BA4916 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionsTableViewCell.xib; sourceTree = "<group>"; };
 		936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StaffTableViewCell.xib; sourceTree = "<group>"; };
@@ -283,6 +286,8 @@
 				939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */,
 				93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */,
 				93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */,
+				9330534D143850F20043746E /* CanAskConnectionDelegate.h */,
+				9330534E143850F20043746E /* CanAskConnectionDelegate.m */,
 			);
 			name = "Connection Delegates";
 			sourceTree = "<group>";
@@ -417,6 +422,7 @@
 				93ED88CB13C2E1F100C18CE0 /* CourseSelectionViewController.m in Sources */,
 				93ED890713C2EB0D00C18CE0 /* Course.m in Sources */,
 				93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */,
+				9330534F143850F20043746E /* CanAskConnectionDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

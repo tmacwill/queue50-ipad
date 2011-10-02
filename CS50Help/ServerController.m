@@ -7,6 +7,7 @@
 //
 
 #import "AuthViewController.h"
+#import "CanAskConnectionDelegate.h"
 #import "CategoriesConnectionDelegate.h"
 #import "CoursesConnectionDelegate.h"
 #import "CourseSelectionViewController.h"
@@ -123,6 +124,27 @@ static ServerController* instance;
 }
 
 /**
+ * Get whether or not students can ask questions
+ *
+ */
+- (void)getCanAsk
+{    
+    if ([self authenticate]) {
+        CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
+        d.viewController = self.halfViewController.rootViewController;
+        
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                        [NSURL URLWithString:
+                                         [self.url stringByAppendingFormat:@"api/v1/questions/can_ask"]]];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] 
+       forHTTPHeaderField:@"Cookie"];
+        
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+        [connection start];
+    }
+}
+
+/**
  * Get the categories for today's OHs
  *
  */
@@ -179,8 +201,8 @@ static ServerController* instance;
         if (!self.hasLoadedQueue)
             [url appendString:@"/true"];
         
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
-                                        [NSURL URLWithString:url]];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@;", [self.user valueForKey:@"sessid"]]
                                   forHTTPHeaderField:@"Cookie"];
         
@@ -218,9 +240,38 @@ static ServerController* instance;
 - (void)refresh
 {
     if ([self authenticate]) {
+        [self getCanAsk];
         [self getCategories];
         [self getSchedule];
         [self getQueue];
+    }
+}
+
+/**
+ * Get whether or not students can ask questions
+ *
+ */
+- (void)setCanAsk:(BOOL)canAsk
+{    
+    if ([self authenticate]) {
+        CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
+        d.viewController = self.halfViewController.rootViewController;
+        
+        // construct URL based on whether we are enabling or disabling queue
+        NSMutableString* u = [NSMutableString stringWithString:@"api/v1/questions/"];
+        if (canAsk)
+            [u appendString:@"enable"];
+        else
+            [u appendString:@"disable"];
+        
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
+                                        [NSURL URLWithString:
+                                         [self.url stringByAppendingString:u]]];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] 
+       forHTTPHeaderField:@"Cookie"];
+        
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+        [connection start];
     }
 }
 

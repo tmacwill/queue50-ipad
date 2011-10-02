@@ -14,14 +14,16 @@
 
 @interface RootViewController : UIViewController 
     <UIPopoverControllerDelegate, UITableViewDataSource, UITableViewDelegate, 
-        UISearchDisplayDelegate, UISearchBarDelegate>
+        UISearchDisplayDelegate, UISearchBarDelegate, UIAlertViewDelegate>
 
+@property (assign, nonatomic) BOOL canAsk;
 @property (strong, nonatomic) NSArray* categoryBackgroundColors;
 @property (strong, nonatomic) NSArray* categoryForegroundColors;
 @property (strong, nonatomic) IBOutlet UIView* containerView;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem* filterButton;
 @property (strong, nonatomic) UIPopoverController* filterPopover;
 @property (strong, nonatomic) IBOutlet FilterViewController* filterViewController;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem* queueButton;
 @property (strong, atomic) NSMutableArray* questions;
 @property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
 @property (assign, nonatomic) BOOL searching;
@@ -29,7 +31,8 @@
 @property (strong, atomic) NSMutableArray* selectedQuestions;
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (assign, nonatomic) IBOutlet UITableViewCell* tableViewCell;
-@property (strong, nonatomic) NSMutableArray* visibleQuestions;
+@property (strong, nonatomic) IBOutlet UINavigationBar* toolbar;
+@property (strong, atomic) NSMutableArray* visibleQuestions;
 
 - (void)buildVisibleQuestions;
 - (void)dismissPopover;
@@ -38,5 +41,6 @@
 - (BOOL)inSelectedQuestions:(Question*)question;
 - (IBAction)refresh:(id)sender;
 - (void)removeQuestionFromSelected:(Question*)question;
+- (IBAction)toggleQueue:(id)sender;
 
 @end

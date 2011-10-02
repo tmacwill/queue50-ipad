@@ -16,12 +16,14 @@
 
 @implementation RootViewController
 
+@synthesize canAsk = _canAsk;
 @synthesize categoryBackgroundColors = _categoryBackgroundColors;
 @synthesize categoryForegroundColors = _categoryForegroundColors;
 @synthesize containerView = _containerView;
 @synthesize filterButton = _filterButton;
 @synthesize filterPopover = _filterPopover;
 @synthesize filterViewController = _filterViewController;
+@synthesize queueButton = _queueButton;
 @synthesize questions = _questions;
 @synthesize searchBar = _searchBar;
 @synthesize searching = _searching;
@@ -29,6 +31,7 @@
 @synthesize selectedQuestions = _selectedQuestions;
 @synthesize tableView = _tableView;
 @synthesize tableViewCell = _tableViewCell;
+@synthesize toolbar = _toolbar;
 @synthesize visibleQuestions = _visibleQuestions;
 
 - (void)awakeFromNib
@@ -44,6 +47,7 @@
     self.selectedQuestions = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
     self.searching = NO;
+    self.canAsk = NO;
     
     // create border around tableview
     self.containerView.layer.cornerRadius = 5.0;
@@ -298,6 +302,19 @@
 
 #pragma mark - Event handlers
 
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    // confirmation dialog for enabling/disabling queue
+    if (alertView.tag == 0) {
+        if (buttonIndex == 1) {
+            // flip current state and send to server
+            self.canAsk = !self.canAsk;
+            [[ServerController sharedInstance] setCanAsk:self.canAsk];
+        }
+    }
+}
+
 /**
  * Parse the server response of pending questions into the table model
  *
@@ -393,6 +410,23 @@
             [self.selectedQuestions removeObject:q];
         }
     }
+}
+
+/**
+ * Toggle the state of the queue
+ *
+ */
+- (void)toggleQueue:(id)sender
+{
+    NSMutableString* message = [NSMutableString stringWithString:@"Are you sure you want to "];
+    if (self.canAsk)
+        [message appendString:@"disable the queue?"];
+    else
+        [message appendString:@"enable the queue?"];
+
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    alert.tag = 0;
+    [alert show];
 }
 
 @end

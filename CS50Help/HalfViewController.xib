@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1280</int>
-		<string key="IBDocument.SystemVersion">11C26</string>
+		<string key="IBDocument.SystemVersion">11C62</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1910</string>
-		<string key="IBDocument.AppKitVersion">1138.11</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.AppKitVersion">1138.23</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			<string key="NS.object.0">911</string>
@@ -157,7 +157,7 @@
 											<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 											<int key="IBUIStyle">1</int>
 											<reference key="IBUINavigationItem" ref="568155768"/>
-											<int key="IBUISystemItemIdentifier">13</int>
+											<int key="IBUISystemItemIdentifier">17</int>
 										</object>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 									</object>
@@ -257,7 +257,6 @@
 										<string key="NSFrameSize">{519, 44}</string>
 										<reference key="NSSuperview" ref="963322995"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
 										<int key="IBUIContentMode">3</int>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<object class="IBUITextInputTraits" key="IBTextInputTraits">
@@ -399,6 +398,14 @@
 					<int key="connectionID">34</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">toggleQueue:</string>
+						<reference key="source" ref="912409841"/>
+						<reference key="destination" ref="546657992"/>
+					</object>
+					<int key="connectionID">103</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">tableView</string>
 						<reference key="source" ref="958661932"/>
@@ -493,6 +500,22 @@
 						<reference key="destination" ref="839896049"/>
 					</object>
 					<int key="connectionID">100</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">queueButton</string>
+						<reference key="source" ref="546657992"/>
+						<reference key="destination" ref="912409841"/>
+					</object>
+					<int key="connectionID">102</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">toolbar</string>
+						<reference key="source" ref="546657992"/>
+						<reference key="destination" ref="502490047"/>
+					</object>
+					<int key="connectionID">104</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -775,7 +798,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">101</int>
+			<int key="maxID">104</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -951,9 +974,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>filterButtonPressed</string>
 							<string>refresh:</string>
+							<string>toggleQueue:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -964,6 +989,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>filterButtonPressed</string>
 							<string>refresh:</string>
+							<string>toggleQueue:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -975,6 +1001,10 @@
 								<string key="name">refresh:</string>
 								<string key="candidateClassName">id</string>
 							</object>
+							<object class="IBActionInfo">
+								<string key="name">toggleQueue:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
@@ -984,18 +1014,22 @@
 							<string>containerView</string>
 							<string>filterButton</string>
 							<string>filterViewController</string>
+							<string>queueButton</string>
 							<string>searchBar</string>
 							<string>tableView</string>
 							<string>tableViewCell</string>
+							<string>toolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>FilterViewController</string>
+							<string>UIBarButtonItem</string>
 							<string>UISearchBar</string>
 							<string>UITableView</string>
 							<string>UITableViewCell</string>
+							<string>UINavigationBar</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1005,9 +1039,11 @@
 							<string>containerView</string>
 							<string>filterButton</string>
 							<string>filterViewController</string>
+							<string>queueButton</string>
 							<string>searchBar</string>
 							<string>tableView</string>
 							<string>tableViewCell</string>
+							<string>toolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1024,6 +1060,10 @@
 								<string key="candidateClassName">FilterViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">queueButton</string>
+								<string key="candidateClassName">UIBarButtonItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">searchBar</string>
 								<string key="candidateClassName">UISearchBar</string>
 							</object>
@@ -1034,6 +1074,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">tableViewCell</string>
 								<string key="candidateClassName">UITableViewCell</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">toolbar</string>
+								<string key="candidateClassName">UINavigationBar</string>
 							</object>
 						</object>
 					</object>

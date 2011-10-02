@@ -39,10 +39,12 @@
 + (ServerController*)sharedInstance;
 - (BOOL)authenticate;
 - (void)dispatchQuestionsToTF:(TF*)tf;
+- (void)getCanAsk;
 - (void)getCategories;
 - (void)getCourses;
 - (void)getQueue;
 - (void)getSchedule;
 - (void)refresh;
+- (void)setCanAsk:(BOOL)canAsk;
 
 @end
