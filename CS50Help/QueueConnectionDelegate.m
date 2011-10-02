@@ -43,20 +43,23 @@ static QueueConnectionDelegate* instance;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSError* error;
+    NSError* error = nil;
     NSDictionary* queue = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data 
                                                                               error:&error];
     
-    [self.viewController.questions removeAllObjects];
-    for (NSDictionary* q in [queue valueForKey:[NSString stringWithFormat:@"%@_queue", self.course.url]]) {
-        Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
-                                                 question:[q valueForKey:@"question"]
-                                                 position:[[q valueForKey:@"position"] intValue]
-                                              studentName:[q valueForKey:@"name"]
-                                                 category:[q valueForKey:@"category"]
-                                            categoryColor:[[q valueForKey:@"category_color"] intValue]];
-        
-        [self.viewController.questions addObject:question];
+    
+    if (!error) {
+        [self.viewController.questions removeAllObjects];
+        for (NSDictionary* q in [queue valueForKey:[NSString stringWithFormat:@"%@_queue", self.course.url]]) {
+            Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
+                                                     question:[q valueForKey:@"question"]
+                                                     position:[[q valueForKey:@"position"] intValue]
+                                                  studentName:[q valueForKey:@"name"]
+                                                     category:[q valueForKey:@"category"]
+                                                categoryColor:[[q valueForKey:@"category_color"] intValue]];
+            
+            [self.viewController.questions addObject:question];
+        }
     }
     
     [self.viewController buildVisibleQuestions];

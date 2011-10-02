@@ -198,28 +198,30 @@
 {
     // get question from appropriate source
     UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    Question* question;
+    Question* question = nil;
     if (self.searching)
         question = [self.searchResults objectAtIndex:indexPath.row];
     else
         question = [self.questions objectAtIndex:indexPath.row];
     
-    // already selected, so remove from selected rows
-    if ([self inSelectedQuestions:question]) {
-        cell.backgroundColor = [UIColor whiteColor];
-        [self removeQuestionFromSelected:question];
-    }
-    
-    // not selected yet, so add to selected rows 
-    else {
-        cell.backgroundColor = [UIColor yellowColor];
-        // copy object, since it will be removed from memory on the next refresh
-        [self.selectedQuestions addObject:[[Question alloc] initWithId:question.questionId
-                                                              question:question.question 
-                                                              position:question.position
-                                                           studentName:question.name
-                                                              category:question.category
-                                                         categoryColor:question.categoryColor]];
+    if (question) {
+        // already selected, so remove from selected rows
+        if ([self inSelectedQuestions:question]) {
+            cell.backgroundColor = [UIColor whiteColor];
+            [self removeQuestionFromSelected:question];
+        }
+        
+        // not selected yet, so add to selected rows 
+        else {
+            cell.backgroundColor = [UIColor yellowColor];
+            // copy object, since it will be removed from memory on the next refresh
+            [self.selectedQuestions addObject:[[Question alloc] initWithId:question.questionId
+                                                                  question:question.question 
+                                                                  position:question.position
+                                                               studentName:question.name
+                                                                  category:question.category
+                                                             categoryColor:question.categoryColor]];
+        }
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -345,14 +347,17 @@
  *
  */
 - (BOOL)inSelectedQuestions:(Question *)question
-{    
+{
+    if (!self.selectedQuestions)
+        return NO;
+    
     for (Question* q in self.selectedQuestions) {
         if (q.questionId == question.questionId) {
-            return true;
+            return YES;
         }
     }
     
-    return false;
+    return NO;
 }
 
 /**
@@ -370,7 +375,7 @@
  */
 - (IBAction)refresh:(id)sender
 {
-    [[ServerController sharedInstance] refresh];
+    //[[ServerController sharedInstance] refresh];
 }
 
 /**
@@ -380,6 +385,9 @@
  */
 - (void)removeQuestionFromSelected:(Question*)question
 {
+    if (!self.selectedQuestions)
+        return;
+    
     for (Question* q in self.selectedQuestions) {
         if (q.questionId == question.questionId) {
             [self.selectedQuestions removeObject:q];

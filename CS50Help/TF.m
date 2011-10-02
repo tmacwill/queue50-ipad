@@ -14,8 +14,9 @@
 @synthesize isOnDuty = _isOnDuty;
 @synthesize name = _name;
 @synthesize phone = _phone;
+@synthesize staffId = _staffId;
 
-- (id)initWithName:(NSString*)name email:(NSString*)email phone:(NSString*)phone isOnDuty:(int)isOnDuty;
+- (id)initWithId:(int)staffId name:(NSString*)name email:(NSString*)email phone:(NSString*)phone isOnDuty:(int)isOnDuty;
 {
     self = [super init];
     
@@ -24,6 +25,7 @@
         self.isOnDuty = isOnDuty;
         self.email = email;
         self.phone = phone;
+        self.staffId = staffId;
     }
     
     return self;

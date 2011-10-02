@@ -16,7 +16,8 @@
 @property (assign, nonatomic) int isOnDuty;
 @property (strong, nonatomic) NSString* name;
 @property (strong, nonatomic) NSString* phone;
+@property (assign, nonatomic) int staffId;
 
-- (id)initWithName:(NSString*)name email:(NSString*)email phone:(NSString*)phone isOnDuty:(int)isOnDuty;
+- (id)initWithId:(int)staffId name:(NSString*)name email:(NSString*)email phone:(NSString*)phone isOnDuty:(int)isOnDuty;
 
 @end

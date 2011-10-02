@@ -16,19 +16,21 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSError* error;
+    NSError* error = nil;
     NSDictionary* categoriesData = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
                                                                                  error:&error];
     
-    // iterate over all TFs/CAs on the schedule for tonight
-    NSMutableArray* categories = [[NSMutableArray alloc] init];
-    [categories addObject:@"All"];
-    for (NSDictionary* category in [categoriesData valueForKey:@"categories"]) {
-        [categories addObject:[category valueForKey:@"category"]];
+    if (!error) {
+        // iterate over all TFs/CAs on the schedule for tonight
+        NSMutableArray* categories = [[NSMutableArray alloc] init];
+        [categories addObject:@"All"];
+        for (NSDictionary* category in [categoriesData valueForKey:@"categories"]) {
+            [categories addObject:[category valueForKey:@"category"]];
+        }
+        
+        self.viewController.categories = [categories mutableCopy];
+        [self.viewController.tableView reloadData];
     }
-    
-    self.viewController.categories = [categories mutableCopy];
-    [self.viewController.tableView reloadData];
 }
 
 

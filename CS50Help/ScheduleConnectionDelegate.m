@@ -24,22 +24,25 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSError* error;
+    NSError* error = nil;
     NSDictionary* schedule = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
                                                                                  error:&error];
     
-    // iterate over all TFs/CAs on the schedule for tonight
-    NSMutableArray* tfs = [[NSMutableArray alloc] init];
-    for (NSDictionary* tfInfo in [schedule valueForKey:@"schedule"]) {
-        TF* tf = [[TF alloc] initWithName:[tfInfo valueForKey:@"name"]
-                                    email:[tfInfo valueForKey:@"email"]
-                                    phone:[tfInfo valueForKey:@"phone"]
-                                 isOnDuty:[[tfInfo valueForKey:@"on_duty"] intValue]];
-        [tfs addObject:tf];
-    }
+    if (!error) {
+        // iterate over all TFs/CAs on the schedule for tonight
+        NSMutableArray* tfs = [[NSMutableArray alloc] init];
+        for (NSDictionary* tfInfo in [schedule valueForKey:@"schedule"]) {
+            TF* tf = [[TF alloc] initWithId:[[tfInfo valueForKey:@"id"] intValue] 
+                                       name:[tfInfo valueForKey:@"name"] 
+                                      email:[tfInfo valueForKey:@"email"]
+                                      phone:[tfInfo valueForKey:@"phone"]
+                                   isOnDuty:[[tfInfo valueForKey:@"on_duty"] intValue]];
+            [tfs addObject:tf];
+        }
     
-    self.viewController.allTFs = tfs;
-    [self.viewController.tableView reloadData];
+        self.viewController.allTFs = tfs;
+        [self.viewController.tableView reloadData];
+    }
 }
 
 @end

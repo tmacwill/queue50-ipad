@@ -175,34 +175,38 @@
     // dispatch all selected questions on on-duty row select
     if (self.mode == MODE_ON_DUTY) {
         // get tf from appropriate source
-        TF* tf;
+        TF* tf = nil;
         if (self.searching)
             tf = [self.searchResults objectAtIndex:indexPath.row];
         else
             tf = [self.onDutyTFs objectAtIndex:indexPath.row];
         
-        // keep track of selected TF and show confirm dialog
-        self.selectedIndexPath = indexPath;
-        NSString* message = [NSString stringWithFormat:@"Dispatch to %@?", tf.name];
-        UIAlertView* confirm = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-        [confirm show];
+        // make sure TF exists
+        if (tf) {
+            // keep track of selected TF and show confirm dialog
+            self.selectedIndexPath = indexPath;
+            NSString* message = [NSString stringWithFormat:@"Dispatch to %@?", tf.name];
+            UIAlertView* confirm = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+            [confirm show];
+        }
     }
     
     // open mail client on all-tf row select
     else if (self.mode == MODE_ALL) {
         TF* tf = [self.allTFs objectAtIndex:indexPath.row];
 
-        // pre-populate with TF's email address
-        MFMailComposeViewController* mail = [[MFMailComposeViewController alloc] init];
-        mail.mailComposeDelegate = self;
-        [mail setToRecipients:[NSArray arrayWithObjects:tf.email, nil]];
-        [mail setCcRecipients:[NSArray arrayWithObjects:@"heads@cs50.net", nil]];
-        [mail setSubject:@"Office Hours"];
-        [mail setMessageBody:[NSString stringWithFormat:@"Hey %@,\n\nYou're scheduled for CS50 Office Hours tonight!", tf.name] isHTML:NO];
-        [self.halfViewController presentModalViewController:mail animated:YES];
-        
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+        if (tf) {
+            // pre-populate with TF's email address
+            MFMailComposeViewController* mail = [[MFMailComposeViewController alloc] init];
+            mail.mailComposeDelegate = self;
+            [mail setToRecipients:[NSArray arrayWithObjects:tf.email, nil]];
+            [mail setCcRecipients:[NSArray arrayWithObjects:@"heads@cs50.net", nil]];
+            [mail setSubject:@"Office Hours"];
+            [mail setMessageBody:[NSString stringWithFormat:@"Hey %@,\n\nYou're scheduled for CS50 Office Hours tonight!", tf.name] isHTML:NO];
+            [self.halfViewController presentModalViewController:mail animated:YES];
+            
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
     }
 }
 

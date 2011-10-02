@@ -110,7 +110,8 @@ static ServerController* instance;
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:[self.url stringByAppendingFormat:
                                                               @"api/v1/questions/dispatch"]]];
-        NSString* params = [NSString stringWithFormat:@"%@&tf=%@", questionsParam, tf.name];
+        NSString* params = [NSString stringWithFormat:@"%@&tf=%d", questionsParam, tf.staffId];
+        NSLog(@"%@", params);
         request.HTTPMethod = @"POST";
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
@@ -133,7 +134,7 @@ static ServerController* instance;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
-                                         [self.url stringByAppendingFormat:@"api/v1/spreadsheets/categories"]]];
+                                         [self.url stringByAppendingFormat:@"api/v1/categories/today"]]];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
                                   forHTTPHeaderField:@"Cookie"];
         
@@ -201,7 +202,7 @@ static ServerController* instance;
     
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
                                         [NSURL URLWithString:
-                                         [self.url stringByAppendingFormat:@"api/v1/spreadsheets/schedule"]]];
+                                         [self.url stringByAppendingFormat:@"api/v1/staffers/schedule"]]];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]]
                                   forHTTPHeaderField:@"Cookie"];
         

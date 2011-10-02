@@ -22,11 +22,11 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem* filterButton;
 @property (strong, nonatomic) UIPopoverController* filterPopover;
 @property (strong, nonatomic) IBOutlet FilterViewController* filterViewController;
-@property (strong, nonatomic) NSMutableArray* questions;
+@property (strong, atomic) NSMutableArray* questions;
 @property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
 @property (assign, nonatomic) BOOL searching;
-@property (strong, nonatomic) NSMutableArray* searchResults;
-@property (strong, nonatomic) NSMutableArray* selectedQuestions;
+@property (strong, atomic) NSMutableArray* searchResults;
+@property (strong, atomic) NSMutableArray* selectedQuestions;
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (assign, nonatomic) IBOutlet UITableViewCell* tableViewCell;
 @property (strong, nonatomic) NSMutableArray* visibleQuestions;

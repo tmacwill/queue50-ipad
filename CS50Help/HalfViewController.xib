@@ -257,6 +257,7 @@
 										<string key="NSFrameSize">{519, 44}</string>
 										<reference key="NSSuperview" ref="963322995"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
 										<int key="IBUIContentMode">3</int>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<object class="IBUITextInputTraits" key="IBTextInputTraits">
@@ -396,14 +397,6 @@
 						<reference key="destination" ref="546657992"/>
 					</object>
 					<int key="connectionID">34</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">refresh:</string>
-						<reference key="source" ref="912409841"/>
-						<reference key="destination" ref="546657992"/>
-					</object>
-					<int key="connectionID">101</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">

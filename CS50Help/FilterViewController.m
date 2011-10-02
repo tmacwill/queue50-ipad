@@ -6,6 +6,8 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+/***** CRASHING ON SELECT/DISMISS ****/
+
 #import "FilterViewController.h"
 #import "RootViewController.h"
 
