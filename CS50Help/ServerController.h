@@ -15,7 +15,7 @@
 @class Question;
 @class TF;
 
-#define DEBUG_URL 1
+//#define DEBUG_URL 1
 
 #ifdef DEBUG_URL
     #define BASE_URL @"http://192.168.56.50/"
