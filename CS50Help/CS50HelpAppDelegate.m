@@ -10,16 +10,20 @@
 #import "DetailViewController.h"
 #import "FilterViewController.h"
 #import "HalfViewController.h"
+#import <Parse/Parse.h>
 #import "RootViewController.h"
 #import "ServerController.h"
 
 @implementation CS50HelpAppDelegate
 
-@synthesize halfViewController=_halfViewController;
+@synthesize halfViewController = _halfViewController;
 @synthesize window = _window;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // register for push notifications
+    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.halfViewController = [[HalfViewController alloc] init];
     [UIApplication sharedApplication].idleTimerDisabled = YES;
@@ -71,6 +75,21 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)newDeviceToken
+{
+    // send device token to parse
+    [PFPush storeDeviceToken:newDeviceToken];
+
+    // subscribe to push notification channel 
+    [PFPush subscribeToChannelInBackground:@"queue_suite_id_1" block:^(BOOL succeeded, NSError *error) {
+    }];
+}
+
+- (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
+{
+    [[ServerController sharedInstance] getQueue];
 }
 
 @end

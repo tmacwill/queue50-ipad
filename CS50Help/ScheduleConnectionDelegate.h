@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ConnectionDelegate.h"
 
-@class DetailViewController;
-
 @interface ScheduleConnectionDelegate : ConnectionDelegate
-
-@property (strong, nonatomic) DetailViewController* viewController;
 
 @end

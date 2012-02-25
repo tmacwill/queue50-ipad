@@ -136,9 +136,21 @@
     else
         question = [self.visibleQuestions objectAtIndex:indexPath.row];
     
+    // determine question's position in the queue
+    int position = 0;
+    int n = [self.questions count];
+    for (int i = 0; i < n; i++) {
+        Question* q = [self.questions objectAtIndex:i];
+        if (q.questionId == question.questionId) {
+            position = i + 1;
+            break;
+        }
+            
+    }
+    
     // make position label gray with rounded corners
     UILabel* label = (UILabel*)[cell viewWithTag:10];
-    label.text = [NSString stringWithFormat:@"%d", question.position];
+    label.text = [NSString stringWithFormat:@"%d", position];
     label.backgroundColor = [UIColor lightGrayColor];
     label.textColor = [UIColor whiteColor];
     label.layer.cornerRadius = 8.0;
@@ -154,14 +166,14 @@
     
     // question category
     UILabel* categoryLabel = (UILabel*)[cell viewWithTag:13];
-    categoryLabel.text = [NSString stringWithFormat:@" %@ ", question.category];
+    categoryLabel.text = [NSString stringWithFormat:@" %@ ", question.label];
     // autosize label width to text width (plus padding)
     CGSize categorySize = [categoryLabel.text sizeWithFont:categoryLabel.font];
     categoryLabel.frame = CGRectMake(categoryLabel.frame.origin.x, categoryLabel.frame.origin.y, 
                                      categorySize.width, categoryLabel.frame.size.height);
     // use the category color sent from server
-    categoryLabel.backgroundColor = [self.categoryBackgroundColors objectAtIndex:question.categoryColor];
-    categoryLabel.textColor = [self.categoryForegroundColors objectAtIndex:question.categoryColor];
+    categoryLabel.backgroundColor = [self.categoryBackgroundColors objectAtIndex:0];
+    categoryLabel.textColor = [self.categoryForegroundColors objectAtIndex:0];
     categoryLabel.layer.cornerRadius = 4.0;
     
     // student's name
@@ -218,13 +230,9 @@
         // not selected yet, so add to selected rows 
         else {
             cell.backgroundColor = [UIColor yellowColor];
-            // copy object, since it will be removed from memory on the next refresh
-            [self.selectedQuestions addObject:[[Question alloc] initWithId:question.questionId
-                                                                  question:question.question 
-                                                                  position:question.position
-                                                               studentName:question.name
-                                                                  category:question.category
-                                                             categoryColor:question.categoryColor]];
+            
+            // TODO: SHOULD THIS BE A COPY OF THE QUESTION??? (AS IT WAS BEFORE)
+            [self.selectedQuestions addObject:question];
         }
     }
     
@@ -275,8 +283,8 @@
  */
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
-    self.searching = NO;
     // refresh tableview with non-search-result data
+    self.searching = NO;
     [self.tableView reloadData];
 }
 
@@ -323,8 +331,9 @@
 {
     // only show those questions whose categories are marked as shown
     [self.visibleQuestions removeAllObjects];
+    
     for (Question* q in self.questions) {
-        if ([self.filterViewController.selectedCategory isEqualToString:q.category] || 
+        if ([self.filterViewController.selectedCategory isEqualToString:q.label] || 
             [self.filterViewController.selectedCategory isEqualToString:@"All"] ||
             self.filterViewController.selectedCategory == nil) {
             
@@ -332,9 +341,7 @@
         }
     }
     
-    // reload table and continue loop of loading questions once we have received a response
     [self.tableView reloadData];
-    [[ServerController sharedInstance] getQueue];
 }
 
 /**
@@ -368,11 +375,9 @@
     if (!self.selectedQuestions)
         return NO;
     
-    for (Question* q in self.selectedQuestions) {
-        if (q.questionId == question.questionId) {
+    for (Question* q in self.selectedQuestions)
+        if (q.questionId == question.questionId)
             return YES;
-        }
-    }
     
     return NO;
 }
@@ -387,15 +392,6 @@
 }
 
 /**
- * Refresh everything and restart poll loops
- *
- */
-- (IBAction)refresh:(id)sender
-{
-    //[[ServerController sharedInstance] refresh];
-}
-
-/**
  * Remove a question from the selected questions
  * @param question [Question*] Question to remove
  *
@@ -404,10 +400,16 @@
 {
     if (!self.selectedQuestions)
         return;
-    
-    for (Question* q in self.selectedQuestions) {
+
+    // not using for-in because we're going to mutate the collection: does that even matter?
+    int n = [self.selectedQuestions count];
+    for (int i = 0; i < n; i++) {
+        Question* q = [self.selectedQuestions objectAtIndex:i];
+        
+        // if IDs match, then remove
         if (q.questionId == question.questionId) {
             [self.selectedQuestions removeObject:q];
+            return;
         }
     }
 }

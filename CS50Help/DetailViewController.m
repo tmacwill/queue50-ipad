@@ -200,9 +200,9 @@
             MFMailComposeViewController* mail = [[MFMailComposeViewController alloc] init];
             mail.mailComposeDelegate = self;
             [mail setToRecipients:[NSArray arrayWithObjects:tf.email, nil]];
-            [mail setCcRecipients:[NSArray arrayWithObjects:@"heads@cs50.net", nil]];
+            //[mail setCcRecipients:[NSArray arrayWithObjects:@"heads@cs50.net", nil]];
             [mail setSubject:@"Office Hours"];
-            [mail setMessageBody:[NSString stringWithFormat:@"Hey %@,\n\nYou're scheduled for CS50 Office Hours tonight!", tf.name] isHTML:NO];
+            [mail setMessageBody:[NSString stringWithFormat:@"Hey %@,\n\nYou're scheduled for Office Hours tonight!", tf.name] isHTML:NO];
             [self.halfViewController presentModalViewController:mail animated:YES];
             
             [tableView deselectRowAtIndexPath:indexPath animated:YES];

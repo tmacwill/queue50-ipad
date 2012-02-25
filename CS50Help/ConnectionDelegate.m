@@ -10,7 +10,7 @@
 
 @implementation ConnectionDelegate
 
-@synthesize data=_data;
+@synthesize data = _data;
 
 - (id)init
 {

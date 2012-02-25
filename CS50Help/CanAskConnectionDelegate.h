@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "ConnectionDelegate.h"
 
-@class RootViewController;
-
 @interface CanAskConnectionDelegate : ConnectionDelegate
-
-@property (strong, nonatomic) RootViewController* viewController;
 
 @end

@@ -6,16 +6,13 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Course.h"
-#import "CJSONDeserializer.h"
+#import "CS50HelpAppDelegate.h"
+#import "HalfViewController.h"
 #import "RootViewController.h"
 #import "Question.h"
 #import "QueueConnectionDelegate.h"
 
 @implementation QueueConnectionDelegate
-
-@synthesize course = _course;
-@synthesize viewController = _viewController;
 
 static QueueConnectionDelegate* instance;
 
@@ -43,27 +40,25 @@ static QueueConnectionDelegate* instance;
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    CS50HelpAppDelegate* delegate = [UIApplication sharedApplication].delegate;
     NSError* error = nil;
-    NSDictionary* queue = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data 
-                                                                              error:&error];
-    
+    NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
     
     // only reload queue on success and change
-    if (!error && [queue valueForKey:@"changed"]) {
-        [self.viewController.questions removeAllObjects];
-        for (NSDictionary* q in [queue valueForKey:[NSString stringWithFormat:@"%@_queue", self.course.url]]) {
+    if (!error) {
+        [delegate.halfViewController.rootViewController.questions removeAllObjects];
+        for (NSDictionary* q in [json valueForKey:@"questions"]) {
+            
             Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
                                                      question:[q valueForKey:@"question"]
-                                                     position:[[q valueForKey:@"position"] intValue]
-                                                  studentName:[q valueForKey:@"name"]
-                                                     category:[q valueForKey:@"category"]
-                                                categoryColor:[[q valueForKey:@"category_color"] intValue]];
+                                                  studentName:[[q valueForKey:@"student"] valueForKey:@"name"]
+                                                        label:[[[q valueForKey:@"labels"] firstObject] valueForKey:@"name"]];
             
-            [self.viewController.questions addObject:question];
+            [delegate.halfViewController.rootViewController.questions addObject:question];
         }
     }
     
-    [self.viewController buildVisibleQuestions];
+    [delegate.halfViewController.rootViewController buildVisibleQuestions];
 }
 
 @end

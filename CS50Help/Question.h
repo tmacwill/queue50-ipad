@@ -12,15 +12,15 @@
     
 }
 
-@property (strong, nonatomic) NSString* category;
-@property (assign, nonatomic) int categoryColor;
+@property (strong, nonatomic) NSString* label;
 @property (strong, nonatomic) NSString* name;
-@property (assign, nonatomic) int position;
 @property (assign, nonatomic) int questionId;
 @property (strong, nonatomic) NSString* question;
 
 
-- (id)initWithId:(int)questionId question:(NSString*)question position:(int)position 
-     studentName:(NSString*)name category:(NSString*)category categoryColor:(int)categoryColor;
+- (id)initWithId:(int)questionId 
+        question:(NSString*)question 
+     studentName:(NSString*)name 
+           label:(NSString*)label;
 
 @end

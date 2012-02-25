@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <Parse/Parse.h>
 #import "CS50HelpAppDelegate.h"
 
 int main(int argc, char *argv[])
 {
     int retVal = 0;
     @autoreleasepool {
+        [Parse setApplicationId:@"IwrE84o8YUVtrIGvMsztIYQ4aYVrRvOpBidzWdk1" 
+                      clientKey:@"AhXYxSxmc7vGPLddTRyA9SZKGX1f4bId4jBCkzdv"];
         retVal = UIApplicationMain(argc, argv, nil, NSStringFromClass([CS50HelpAppDelegate class]));
     }
     return retVal;

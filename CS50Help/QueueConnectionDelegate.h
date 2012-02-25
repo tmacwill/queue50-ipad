@@ -9,13 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ConnectionDelegate.h"
 
-@class Course;
-@class RootViewController;
-
 @interface QueueConnectionDelegate : ConnectionDelegate
-
-@property (strong, nonatomic) RootViewController* viewController;
-@property (strong, nonatomic) Course* course;
 
 + (QueueConnectionDelegate*)sharedInstance;
 

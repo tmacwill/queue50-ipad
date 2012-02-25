@@ -8,34 +8,33 @@
 
 #import "CanAskConnectionDelegate.h"
 #import "CategoriesConnectionDelegate.h"
-#import "CJSONDeserializer.h"
+#import "CS50HelpAppDelegate.h"
+#import "HalfViewController.h"
 #import "RootViewController.h"
 
 @implementation CanAskConnectionDelegate
 
-@synthesize viewController = _viewController;
-
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    CS50HelpAppDelegate* delegate = [UIApplication sharedApplication].delegate;
     NSError* error = nil;
-    NSDictionary* canAskData = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
-                                                                                   error:&error];
+    NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
     
     if (!error) {
-        BOOL canAsk = [[canAskData valueForKey:@"can_ask"] boolValue];
-        self.viewController.canAsk = canAsk;
+        BOOL canAsk = [[json valueForKey:@"queue"] intValue];
+        delegate.halfViewController.rootViewController.canAsk = canAsk;
         
-        UINavigationItem* item = (UINavigationItem*)[self.viewController.toolbar.items objectAtIndex:0];
+        UINavigationItem* item = (UINavigationItem*)[delegate.halfViewController.rootViewController.toolbar.items objectAtIndex:0];
         
         // update UI to reflect state on server
         if (canAsk) {
             item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
-                                                                                    target:self.viewController
+                                                                                    target:delegate.halfViewController.rootViewController
                                                                                     action:@selector(toggleQueue:)];
         }
         else {
             item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
-                                                                                    target:self.viewController
+                                                                                    target:delegate.halfViewController.rootViewController
                                                                                     action:@selector(toggleQueue:)];
         }
     }

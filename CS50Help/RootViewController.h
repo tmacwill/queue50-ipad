@@ -39,7 +39,6 @@
 - (IBAction)filterButtonPressed;
 - (void)filterContentForSearchText:(NSString*)searchText;
 - (BOOL)inSelectedQuestions:(Question*)question;
-- (IBAction)refresh:(id)sender;
 - (void)removeQuestionFromSelected:(Question*)question;
 - (IBAction)toggleQueue:(id)sender;
 

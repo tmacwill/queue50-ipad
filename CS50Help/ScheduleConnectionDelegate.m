@@ -6,15 +6,13 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "CJSONDeserializer.h"
+#import "CS50HelpAppDelegate.h"
 #import "DetailViewController.h"
-#import "RootViewController.h"
+#import "HalfViewController.h"
 #import "ScheduleConnectionDelegate.h"
 #import "TF.h"
 
 @implementation ScheduleConnectionDelegate
-
-@synthesize viewController = _viewController;
 
 - (id)init 
 {
@@ -24,24 +22,23 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    CS50HelpAppDelegate* delegate = [UIApplication sharedApplication].delegate;
     NSError* error = nil;
-    NSDictionary* schedule = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
-                                                                                 error:&error];
+    NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
     
     if (!error) {
         // iterate over all TFs/CAs on the schedule for tonight
         NSMutableArray* tfs = [[NSMutableArray alloc] init];
-        for (NSDictionary* tfInfo in [schedule valueForKey:@"schedule"]) {
+        for (NSDictionary* tfInfo in [json valueForKey:@"staff"]) {
             TF* tf = [[TF alloc] initWithId:[[tfInfo valueForKey:@"id"] intValue] 
                                        name:[tfInfo valueForKey:@"name"] 
                                       email:[tfInfo valueForKey:@"email"]
-                                      phone:[tfInfo valueForKey:@"phone"]
                                    isOnDuty:[[tfInfo valueForKey:@"on_duty"] intValue]];
             [tfs addObject:tf];
         }
     
-        self.viewController.allTFs = tfs;
-        [self.viewController.tableView reloadData];
+        delegate.halfViewController.detailViewController.allTFs = tfs;
+        [delegate.halfViewController.detailViewController.tableView reloadData];
     }
 }
 
