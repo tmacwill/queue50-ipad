@@ -13,6 +13,4 @@
 
 @interface CategoriesConnectionDelegate : ConnectionDelegate
 
-@property (strong, nonatomic) FilterViewController* viewController;
-
 @end

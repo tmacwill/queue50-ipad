@@ -11,6 +11,4 @@
 
 @interface QueueConnectionDelegate : ConnectionDelegate
 
-+ (QueueConnectionDelegate*)sharedInstance;
-
 @end

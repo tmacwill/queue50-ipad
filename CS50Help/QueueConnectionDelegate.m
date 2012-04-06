@@ -9,34 +9,11 @@
 #import "CS50HelpAppDelegate.h"
 #import "HalfViewController.h"
 #import "RootViewController.h"
-#import "Question.h"
 #import "QueueConnectionDelegate.h"
+#import "Token.h"
 
 @implementation QueueConnectionDelegate
 
-static QueueConnectionDelegate* instance;
-
-/**
- * Class is a singleton, get the only instance
- *
- */
-+ (QueueConnectionDelegate*)sharedInstance
-{
-    @synchronized(self) {
-        if (!instance) {
-            instance = [[QueueConnectionDelegate alloc] init];
-            instance.data = [[NSMutableData alloc] init];
-        }
-    }
-    
-    return instance;
-}
-
-- (id)init 
-{
-    self = [super init];
-    return self;
-}
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
@@ -44,21 +21,35 @@ static QueueConnectionDelegate* instance;
     NSError* error = nil;
     NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
     
-    // only reload queue on success and change
     if (!error) {
-        [delegate.halfViewController.rootViewController.questions removeAllObjects];
-        for (NSDictionary* q in [json valueForKey:@"questions"]) {
+        // clear all previous questions
+        [delegate.halfViewController.rootViewController.tokens removeAllObjects];
+        
+        // iterate over all tokens in the queue
+        for (NSDictionary* q in [json valueForKey:@"tokens"]) {
+            // get each question associated with the current token
+            NSMutableArray* questionIds = [[NSMutableArray alloc] init];
+            for (NSDictionary* questionToken in [q valueForKey:@"QuestionTokens"])
+                [questionIds addObject:[NSNumber numberWithInt:[[[questionToken valueForKey:@"Question"] valueForKey:@"id"] intValue]]];
             
-            Question* question = [[Question alloc] initWithId:[[q valueForKey:@"id"] intValue]
-                                                     question:[q valueForKey:@"question"]
-                                                  studentName:[[q valueForKey:@"student"] valueForKey:@"name"]
-                                                        label:[[[q valueForKey:@"labels"] firstObject] valueForKey:@"name"]];
-            
-            [delegate.halfViewController.rootViewController.questions addObject:question];
+            // extract label from each question associated with the current token
+            NSMutableArray* labels = [[NSMutableArray alloc] init];
+            for (NSDictionary* questionToken in [q valueForKey:@"QuestionTokens"])
+                [labels addObject:[[[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] firstObject] valueForKey:@"name"]];
+                 
+            // create token containing question and labels
+            Token* token = [[Token alloc] initWithId:[[[q valueForKey:@"Token"] valueForKey:@"id"] intValue]
+                                         questionIds:questionIds
+                                          withLabels:labels
+                                           byStudent:[[q valueForKey:@"User"] valueForKey:@"name"]];
+                        
+            // add row to left side
+            [delegate.halfViewController.rootViewController.tokens addObject:token];
         }
     }
     
-    [delegate.halfViewController.rootViewController buildVisibleQuestions];
+    // refresh left side
+    [delegate.halfViewController.rootViewController refreshTable];
 }
 
 @end

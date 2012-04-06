@@ -14,12 +14,6 @@
 
 @implementation ScheduleConnectionDelegate
 
-- (id)init 
-{
-    self = [super init];
-    return self;
-}
-
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     CS50HelpAppDelegate* delegate = [UIApplication sharedApplication].delegate;
@@ -37,6 +31,7 @@
             [tfs addObject:tf];
         }
     
+        // refresh right side
         delegate.halfViewController.detailViewController.allTFs = tfs;
         [delegate.halfViewController.detailViewController.tableView reloadData];
     }

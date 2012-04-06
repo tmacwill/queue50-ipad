@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 @class FilterViewController;
+@class HalfViewController;
 @class Question;
 
 @interface RootViewController : UIViewController 
@@ -23,23 +24,22 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem* filterButton;
 @property (strong, nonatomic) UIPopoverController* filterPopover;
 @property (strong, nonatomic) IBOutlet FilterViewController* filterViewController;
+@property (strong, nonatomic) NSMutableArray* labels;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem* queueButton;
-@property (strong, atomic) NSMutableArray* questions;
 @property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
 @property (assign, nonatomic) BOOL searching;
 @property (strong, atomic) NSMutableArray* searchResults;
-@property (strong, atomic) NSMutableArray* selectedQuestions;
 @property (strong, nonatomic) IBOutlet UITableView* tableView;
 @property (assign, nonatomic) IBOutlet UITableViewCell* tableViewCell;
+@property (strong, atomic) NSMutableArray* tokens;
 @property (strong, nonatomic) IBOutlet UINavigationBar* toolbar;
-@property (strong, atomic) NSMutableArray* visibleQuestions;
+@property (strong, atomic) NSMutableArray* visibleTokens;
 
-- (void)buildVisibleQuestions;
 - (void)dismissPopover;
+- (void)refreshTable;
+- (NSArray*)selectedTokens;
 - (IBAction)filterButtonPressed;
 - (void)filterContentForSearchText:(NSString*)searchText;
-- (BOOL)inSelectedQuestions:(Question*)question;
-- (void)removeQuestionFromSelected:(Question*)question;
 - (IBAction)toggleQueue:(id)sender;
 
 @end

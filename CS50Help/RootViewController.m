@@ -8,11 +8,14 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import "CS50HelpAppDelegate.h"
 #import "DetailViewController.h"
 #import "FilterViewController.h"
+#import "HalfViewController.h"
+#import "QuestionThreadViewController.h"
 #import "RootViewController.h"
-#import "Question.h"
 #import "ServerController.h"
+#import "Token.h"
 
 @implementation RootViewController
 
@@ -23,16 +26,16 @@
 @synthesize filterButton = _filterButton;
 @synthesize filterPopover = _filterPopover;
 @synthesize filterViewController = _filterViewController;
+@synthesize labels = _labels;
 @synthesize queueButton = _queueButton;
-@synthesize questions = _questions;
 @synthesize searchBar = _searchBar;
 @synthesize searching = _searching;
 @synthesize searchResults = _searchResults;
-@synthesize selectedQuestions = _selectedQuestions;
 @synthesize tableView = _tableView;
 @synthesize tableViewCell = _tableViewCell;
+@synthesize tokens = _tokens;
 @synthesize toolbar = _toolbar;
-@synthesize visibleQuestions = _visibleQuestions;
+@synthesize visibleTokens = _visibleTokens;
 
 - (void)awakeFromNib
 {    
@@ -42,10 +45,10 @@
     self.filterViewController.rootViewController = self;
         
     // initialize models
-    self.questions = [[NSMutableArray alloc] init];
-    self.visibleQuestions = [[NSMutableArray alloc] init];
-    self.selectedQuestions = [[NSMutableArray alloc] init];
+    self.tokens = [[NSMutableArray alloc] init];
+    self.visibleTokens = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
+    self.labels = [[NSMutableArray alloc] init];
     self.searching = NO;
     self.canAsk = NO;
     
@@ -54,7 +57,7 @@
     self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
     self.containerView.layer.masksToBounds = YES;
     self.containerView.layer.borderWidth = 0.5;
-    
+        
     // colors for category labels
     self.categoryBackgroundColors = [[NSArray alloc] initWithObjects:
                                      [UIColor colorWithRed:222.0 / 255.0 green:229.0 / 255.0 blue:242.0 / 255.0 alpha:1.0],
@@ -114,7 +117,7 @@
     if (self.searching)
         return [self.searchResults count];
     else
-        return [self.visibleQuestions count];
+        return [self.visibleTokens count];
 }
 
 // Customize the appearance of table view cells.
@@ -129,23 +132,22 @@
         self.tableViewCell = nil;
     }
     
-    // get question from appropriate source
-    Question* question = nil;
+    // get token from appropriate source
+    Token* token = nil;
     if (self.searching)
-        question = [self.searchResults objectAtIndex:indexPath.row];
+        token = [self.searchResults objectAtIndex:indexPath.row];
     else
-        question = [self.visibleQuestions objectAtIndex:indexPath.row];
+        token = [self.visibleTokens objectAtIndex:indexPath.row];
     
     // determine question's position in the queue
     int position = 0;
-    int n = [self.questions count];
+    int n = [self.tokens count];
     for (int i = 0; i < n; i++) {
-        Question* q = [self.questions objectAtIndex:i];
-        if (q.questionId == question.questionId) {
+        Token* t = [self.tokens objectAtIndex:i];
+        if (t.tokenId == token.tokenId) {
             position = i + 1;
             break;
         }
-            
     }
     
     // make position label gray with rounded corners
@@ -155,52 +157,61 @@
     label.textColor = [UIColor whiteColor];
     label.layer.cornerRadius = 8.0;
     
-    // question text
-    label = (UILabel*)[cell viewWithTag:12];
-    label.text = question.question;
-    // if question text is only one line, vertical align at top rather than center
-    CGSize labelSize = [label.text sizeWithFont:label.font constrainedToSize:label.frame.size 
-                                  lineBreakMode:label.lineBreakMode];
-    label.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y, 
-                             label.frame.size.width, labelSize.height);
+    // starting coordinates for labels
+    int labelIndex = 20;
+    int x = 41;
+    // iterate through labels to display each one
+    for (NSString* tokenLabel in token.labels) {
+        // get next label in sequence by its tag and show it
+        label = (UILabel*)[cell viewWithTag:labelIndex++];
+        label.hidden = NO;
+        label.textAlignment = UITextAlignmentCenter;
+        
+        // display label at current x position
+        label.frame = CGRectMake(x, 31, 43, 21);
+        
+        // size label to fit text
+        label.text = tokenLabel;
+        [label sizeToFit];
+        
+        // add padding
+        CGRect paddedFrame = label.frame;
+        paddedFrame.size.width += 6;
+        paddedFrame.size.height += 4;
+        label.frame = paddedFrame;
+        
+        // color label corresponding to category
+        int colorIndex = [self.labels indexOfObject:tokenLabel] % self.categoryBackgroundColors.count;
+        label.backgroundColor = [self.categoryBackgroundColors objectAtIndex:colorIndex];
+        label.textColor = [self.categoryForegroundColors objectAtIndex:colorIndex];
+        label.layer.cornerRadius = 3.0;
+        
+        // move next label to the right of this label
+        x += label.frame.size.width + 5;
+        
+        // stop displaying labels if we have run out of space
+        if (x > 500)
+            break;
+    }
     
-    // question category
-    UILabel* categoryLabel = (UILabel*)[cell viewWithTag:13];
-    categoryLabel.text = [NSString stringWithFormat:@" %@ ", question.label];
-    // autosize label width to text width (plus padding)
-    CGSize categorySize = [categoryLabel.text sizeWithFont:categoryLabel.font];
-    categoryLabel.frame = CGRectMake(categoryLabel.frame.origin.x, categoryLabel.frame.origin.y, 
-                                     categorySize.width, categoryLabel.frame.size.height);
-    // use the category color sent from server
-    categoryLabel.backgroundColor = [self.categoryBackgroundColors objectAtIndex:0];
-    categoryLabel.textColor = [self.categoryForegroundColors objectAtIndex:0];
-    categoryLabel.layer.cornerRadius = 4.0;
-    
+    // make sure remaining labels are hidden
+    for (int i = labelIndex; i < 25; i++) {
+        label = (UILabel*)[cell viewWithTag:i];
+        label.hidden = YES;
+    }
+         
     // student's name
     UILabel* nameLabel = (UILabel*)[cell viewWithTag:11];
-    nameLabel.text = question.name;
-    CGSize nameSize = [nameLabel.text sizeWithFont:nameLabel.font];
-    // place student name to the right of the category label
-    nameLabel.frame = CGRectMake(categoryLabel.frame.origin.x + categoryLabel.frame.size.width + 4,
-                                 nameLabel.frame.origin.y, nameSize.width, nameLabel.frame.size.height);
+    nameLabel.text = token.student;
+    
+    // selection checkmark
+    UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
+    if ([self.tableView.indexPathsForSelectedRows containsObject:indexPath])
+        checkmark.hidden = NO;
+    else
+        checkmark.hidden = YES;
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // get question from appropriate source
-    Question* question = nil;
-    if (self.searching)
-        question = [self.searchResults objectAtIndex:indexPath.row];
-    else
-        question = [self.visibleQuestions objectAtIndex:indexPath.row];
-
-    // if cell is selected, make sure it is highlighted
-    if ([self inSelectedQuestions:question])
-        cell.backgroundColor = [UIColor yellowColor];
-    else
-        cell.backgroundColor = [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -208,42 +219,115 @@
     return 65.0;
 }
 
+/**
+ * Get the list of currently selected tokens
+ *
+ */
+- (NSArray*)selectedTokens
+{
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    
+    // iterate over selected index paths to get questions
+    for (NSIndexPath* indexPath in self.tableView.indexPathsForSelectedRows) {
+        // get question from appropriate source
+        if (self.searching)
+            [result addObject:[self.searchResults objectAtIndex:indexPath.row]];
+        else
+            [result addObject:[self.visibleTokens objectAtIndex:indexPath.row]];
+    }
+    
+    return result;
+}
+
+/**
+ * Reload the table while preserving selection, and only show questions matching the filter
+ *
+ */
+- (void)refreshTable
+{
+    // only show those questions whose categories are marked as shown
+    [self.visibleTokens removeAllObjects];
+    
+    for (Token* q in self.tokens) {
+        /*
+         if ([self.filterViewController.selectedCategory isEqualToString:q.label] || 
+         [self.filterViewController.selectedCategory isEqualToString:@"All"] ||
+         self.filterViewController.selectedCategory == nil) {
+         */
+        
+        [self.visibleTokens addObject:q];
+        // }
+    }
+    
+    // reload table data
+    NSArray* selectedRows = self.tableView.indexPathsForSelectedRows;
+    [self.tableView reloadData];
+    
+    // preserve selection of rows
+    for (NSIndexPath* indexPath in selectedRows) {
+        // display checkmark on view
+        UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
+        checkmark.hidden = NO;
+        
+        // select cell in model
+        [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // get question from appropriate source
-    UITableViewCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    Question* question = nil;
+    // get selected cell
+    UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    // toggle checkmark
+    UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
+    cell.backgroundColor = [UIColor colorWithRed:238.0 / 255.0 green:238.0 / 255.0 blue:238.0 / 255.0 alpha:1.0];
+    checkmark.hidden = NO;
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // get selected cell
+    UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    // toggle checkmark
+    UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
+    cell.backgroundColor = [UIColor whiteColor];
+    checkmark.hidden = YES;    
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    // get selected token
+    Token* token;
     if (self.searching)
-        question = [self.searchResults objectAtIndex:indexPath.row];
+        token = [self.searchResults objectAtIndex:indexPath.row];
     else
-        question = [self.questions objectAtIndex:indexPath.row];
+        token = [self.visibleTokens objectAtIndex:indexPath.row];
     
-    if (question) {
-        // already selected, so remove from selected rows
-        if ([self inSelectedQuestions:question]) {
-            cell.backgroundColor = [UIColor whiteColor];
-            [self removeQuestionFromSelected:question];
-        }
-        
-        // not selected yet, so add to selected rows 
-        else {
-            cell.backgroundColor = [UIColor yellowColor];
-            
-            // TODO: SHOULD THIS BE A COPY OF THE QUESTION??? (AS IT WAS BEFORE)
-            [self.selectedQuestions addObject:question];
-        }
-    }
+    // create question thread view controller
+    QuestionThreadViewController* questionThreadViewController = [[QuestionThreadViewController alloc] 
+                                                                  initWithNibName:@"QuestionThreadViewController"
+                                                                  bundle:nil];
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    // send questions to webview
+    questionThreadViewController.modalPresentationStyle = UIModalPresentationPageSheet;
+    questionThreadViewController.questions = token.questionIds;
+    questionThreadViewController.student = token.student;
+    
+    // display view controller
+    CS50HelpAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+    [appDelegate.halfViewController presentModalViewController:questionThreadViewController animated:YES];
 }
 
 #pragma mark - Search bar event handlers
 
 /**
  * Filter visible questions based on search text
- * @param searchText [NSString*] Text to search for
+ * @param searchText Text to search for
  *
  */
 - (void)filterContentForSearchText:(NSString*)searchText
@@ -251,20 +335,16 @@
     // clear previous results
 	[self.searchResults removeAllObjects]; 
 	
-    // iterate over all questions
-	for (Question* question in self.questions) {
-        // search witin question text
-        NSComparisonResult questionResult = [question.question compare:searchText 
-                                                               options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
-                                                                 range:NSMakeRange(0, [searchText length])];
+    // iterate over all tokens
+	for (Token* token in self.tokens) {
         // search within student name
-        NSComparisonResult nameResult = [question.name compare:searchText 
+        NSComparisonResult nameResult = [token.student compare:searchText 
                                                        options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)
                                                          range:NSMakeRange(0, [searchText length])];
  
         // add question to search results of name or question matches
-        if (questionResult == NSOrderedSame || nameResult == NSOrderedSame)
-            [self.searchResults addObject:question];        
+        if (nameResult == NSOrderedSame)
+            [self.searchResults addObject:token];        
 	}
 }
 
@@ -324,34 +404,13 @@
 }
 
 /**
- * Parse the server response of pending questions into the table model
- *
- */
-- (void)buildVisibleQuestions
-{
-    // only show those questions whose categories are marked as shown
-    [self.visibleQuestions removeAllObjects];
-    
-    for (Question* q in self.questions) {
-        if ([self.filterViewController.selectedCategory isEqualToString:q.label] || 
-            [self.filterViewController.selectedCategory isEqualToString:@"All"] ||
-            self.filterViewController.selectedCategory == nil) {
-            
-            [self.visibleQuestions addObject:q];
-        }
-    }
-    
-    [self.tableView reloadData];
-}
-
-/**
  * Dismiss categories popover
  *
  */
 - (void)dismissPopover
 {
     [self.filterPopover dismissPopoverAnimated:YES];
-    [self buildVisibleQuestions];
+    [self refreshTable];
 }
 
 /**
@@ -365,53 +424,12 @@
 }
 
 /**
- * Check if a question is in the selected questions list
- * @param question [Question*] Question to look for
- * @return True iff question is in selected questions list
- *
- */
-- (BOOL)inSelectedQuestions:(Question *)question
-{
-    if (!self.selectedQuestions)
-        return NO;
-    
-    for (Question* q in self.selectedQuestions)
-        if (q.questionId == question.questionId)
-            return YES;
-    
-    return NO;
-}
-
-/**
  * Reload questions after category is selected
  *
  */
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
 {
-    [self buildVisibleQuestions];
-}
-
-/**
- * Remove a question from the selected questions
- * @param question [Question*] Question to remove
- *
- */
-- (void)removeQuestionFromSelected:(Question*)question
-{
-    if (!self.selectedQuestions)
-        return;
-
-    // not using for-in because we're going to mutate the collection: does that even matter?
-    int n = [self.selectedQuestions count];
-    for (int i = 0; i < n; i++) {
-        Question* q = [self.selectedQuestions objectAtIndex:i];
-        
-        // if IDs match, then remove
-        if (q.questionId == question.questionId) {
-            [self.selectedQuestions removeObject:q];
-            return;
-        }
-    }
+    [self refreshTable];
 }
 
 /**

@@ -21,12 +21,14 @@
     NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
     
     if (!error) {
-        BOOL canAsk = [[json valueForKey:@"queue"] intValue];
+        // save state value in left side
+        BOOL canAsk = [[json valueForKey:@"state"] intValue];
         delegate.halfViewController.rootViewController.canAsk = canAsk;
         
+        // get the queue enable/disable button
         UINavigationItem* item = (UINavigationItem*)[delegate.halfViewController.rootViewController.toolbar.items objectAtIndex:0];
         
-        // update UI to reflect state on server
+        // update button to reflect state on server
         if (canAsk) {
             item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
                                                                                     target:delegate.halfViewController.rootViewController

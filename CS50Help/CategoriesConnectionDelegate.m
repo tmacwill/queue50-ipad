@@ -7,29 +7,22 @@
 //
 
 #import "CategoriesConnectionDelegate.h"
-#import "CJSONDeserializer.h"
-#import "FilterViewController.h"
+#import "CS50HelpAppDelegate.h"
+#import "HalfViewController.h"
+#import "RootViewController.h"
 
 @implementation CategoriesConnectionDelegate
 
-@synthesize viewController = _viewController;
-
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    CS50HelpAppDelegate* delegate = [UIApplication sharedApplication].delegate;
     NSError* error = nil;
-    NSDictionary* categoriesData = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data
-                                                                                 error:&error];
+    NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
     
     if (!error) {
-        // iterate over all TFs/CAs on the schedule for tonight
-        NSMutableArray* categories = [[NSMutableArray alloc] init];
-        [categories addObject:@"All"];
-        for (NSDictionary* category in [categoriesData valueForKey:@"categories"]) {
-            [categories addObject:[category valueForKey:@"category"]];
-        }
-        
-        self.viewController.categories = [categories mutableCopy];
-        [self.viewController.tableView reloadData];
+        // add each label to the root view controller list
+        for (NSDictionary* label in [json valueForKey:@"labels"])
+            [delegate.halfViewController.rootViewController.labels addObject:[[label valueForKey:@"Label"] valueForKey:@"name"]];
     }
 }
 

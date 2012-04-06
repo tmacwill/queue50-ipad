@@ -95,7 +95,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedCategory = [self.categories objectAtIndex:indexPath.row];
-    [self.rootViewController.selectedQuestions removeAllObjects];
     [self.rootViewController dismissPopover];
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		931C32BE152D36EB00C1E7C6 /* QuestionThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C32BC152D36EB00C1E7C6 /* QuestionThreadViewController.m */; };
+		931C32BF152D36EB00C1E7C6 /* QuestionThreadViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 931C32BD152D36EB00C1E7C6 /* QuestionThreadViewController.xib */; };
 		93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */; };
 		932D5FFF1419A1B100919E56 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932D5FFE1419A1B100919E56 /* Entitlements.plist */; };
 		9330534F143850F20043746E /* CanAskConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330534E143850F20043746E /* CanAskConnectionDelegate.m */; };
@@ -23,7 +25,7 @@
 		938316FF13A5D48000B9D09A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 938316FE13A5D48000B9D09A /* RootViewController.m */; };
 		9383170113A5D48000B9D09A /* DetailViewController.h in Resources */ = {isa = PBXBuildFile; fileRef = 9383170013A5D48000B9D09A /* DetailViewController.h */; };
 		9383170313A5D48000B9D09A /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383170213A5D48000B9D09A /* DetailViewController.m */; };
-		9383173613A5D6D100B9D09A /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171413A5D6D100B9D09A /* Question.m */; };
+		9383173613A5D6D100B9D09A /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171413A5D6D100B9D09A /* Token.m */; };
 		9383173713A5D6D100B9D09A /* QueueConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171613A5D6D100B9D09A /* QueueConnectionDelegate.m */; };
 		9383173813A5D6D100B9D09A /* ScheduleConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171813A5D6D100B9D09A /* ScheduleConnectionDelegate.m */; };
 		9383173913A5D6D100B9D09A /* ServerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383171A13A5D6D100B9D09A /* ServerController.m */; };
@@ -40,6 +42,7 @@
 		9383174413A5D6D100B9D09A /* CJSONSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383173413A5D6D100B9D09A /* CJSONSerializer.m */; };
 		9383174A13A5D8C800B9D09A /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9383174813A5D8C800B9D09A /* FilterViewController.m */; };
 		9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9383174913A5D8C800B9D09A /* FilterViewController.xib */; };
+		938D85CF152BA4B2006B165B /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 938D85CE152BA4B2006B165B /* checked.png */; };
 		939290E013B5D23600C0BB87 /* AuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939290DE13B5D23500C0BB87 /* AuthViewController.m */; };
 		939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939290DF13B5D23600C0BB87 /* AuthViewController.xib */; };
 		939290F813B7186500C0BB87 /* HalfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939290F613B7186400C0BB87 /* HalfViewController.m */; };
@@ -61,6 +64,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		931C32BB152D36EB00C1E7C6 /* QuestionThreadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionThreadViewController.h; sourceTree = "<group>"; };
+		931C32BC152D36EB00C1E7C6 /* QuestionThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionThreadViewController.m; sourceTree = "<group>"; };
+		931C32BD152D36EB00C1E7C6 /* QuestionThreadViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionThreadViewController.xib; sourceTree = "<group>"; };
 		93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoursesConnectionDelegate.h; sourceTree = "<group>"; };
 		93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoursesConnectionDelegate.m; sourceTree = "<group>"; };
 		932D5FFE1419A1B100919E56 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -74,18 +80,18 @@
 		938316EB13A5D48000B9D09A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		938316ED13A5D48000B9D09A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		938316EF13A5D48000B9D09A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		938316F313A5D48000B9D09A /* CS50 Queue-Info.plist */ = {isa = PBXFileReference; path = "CS50 Queue-Info.plist"; sourceTree = "<group>"; };
+		938316F313A5D48000B9D09A /* CS50 Queue-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CS50 Queue-Info.plist"; sourceTree = "<group>"; };
 		938316F513A5D48000B9D09A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		938316F713A5D48000B9D09A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		938316F913A5D48000B9D09A /* CS50 Queue-Prefix.pch */ = {isa = PBXFileReference; path = "CS50 Queue-Prefix.pch"; sourceTree = "<group>"; };
+		938316F913A5D48000B9D09A /* CS50 Queue-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CS50 Queue-Prefix.pch"; sourceTree = "<group>"; };
 		938316FA13A5D48000B9D09A /* CS50HelpAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CS50HelpAppDelegate.h; sourceTree = "<group>"; };
 		938316FB13A5D48000B9D09A /* CS50HelpAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CS50HelpAppDelegate.m; sourceTree = "<group>"; };
 		938316FD13A5D48000B9D09A /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		938316FE13A5D48000B9D09A /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		9383170013A5D48000B9D09A /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		9383170213A5D48000B9D09A /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		9383171313A5D6D100B9D09A /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
-		9383171413A5D6D100B9D09A /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
+		9383171313A5D6D100B9D09A /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; path = Token.h; sourceTree = "<group>"; };
+		9383171413A5D6D100B9D09A /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
 		9383171513A5D6D100B9D09A /* QueueConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueConnectionDelegate.h; sourceTree = "<group>"; };
 		9383171613A5D6D100B9D09A /* QueueConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueConnectionDelegate.m; sourceTree = "<group>"; };
 		9383171713A5D6D100B9D09A /* ScheduleConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleConnectionDelegate.h; sourceTree = "<group>"; };
@@ -118,6 +124,7 @@
 		9383174713A5D8C800B9D09A /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
 		9383174813A5D8C800B9D09A /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
 		9383174913A5D8C800B9D09A /* FilterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterViewController.xib; sourceTree = "<group>"; };
+		938D85CE152BA4B2006B165B /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
 		939290DD13B5D23500C0BB87 /* AuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthViewController.h; sourceTree = "<group>"; };
 		939290DE13B5D23500C0BB87 /* AuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthViewController.m; sourceTree = "<group>"; };
 		939290DF13B5D23600C0BB87 /* AuthViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AuthViewController.xib; sourceTree = "<group>"; };
@@ -209,16 +216,16 @@
 		938316F113A5D48000B9D09A /* CS50 Queue */ = {
 			isa = PBXGroup;
 			children = (
-				939290E713B6FF3100C0BB87 /* Nibs */,
-				939290E613B6FEF600C0BB87 /* View Controllers */,
-				9383171D13A5D6D100B9D09A /* TouchJSON */,
-				9383174513A5D6D800B9D09A /* Models */,
 				9383174613A5D6E000B9D09A /* Connection Delegates */,
-				9383171913A5D6D100B9D09A /* ServerController.h */,
-				9383171A13A5D6D100B9D09A /* ServerController.m */,
 				938316FA13A5D48000B9D09A /* CS50HelpAppDelegate.h */,
 				938316FB13A5D48000B9D09A /* CS50HelpAppDelegate.m */,
+				9383174513A5D6D800B9D09A /* Models */,
+				939290E713B6FF3100C0BB87 /* Nibs */,
+				9383171913A5D6D100B9D09A /* ServerController.h */,
+				9383171A13A5D6D100B9D09A /* ServerController.m */,
 				938316F213A5D48000B9D09A /* Supporting Files */,
+				9383171D13A5D6D100B9D09A /* TouchJSON */,
+				939290E613B6FEF600C0BB87 /* View Controllers */,
 			);
 			name = "CS50 Queue";
 			path = CS50Help;
@@ -227,6 +234,7 @@
 		938316F213A5D48000B9D09A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				938D85CE152BA4B2006B165B /* checked.png */,
 				938316F313A5D48000B9D09A /* CS50 Queue-Info.plist */,
 				938316F413A5D48000B9D09A /* InfoPlist.strings */,
 				938316F713A5D48000B9D09A /* main.m */,
@@ -290,12 +298,12 @@
 		9383174513A5D6D800B9D09A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				9383171313A5D6D100B9D09A /* Question.h */,
-				9383171413A5D6D100B9D09A /* Question.m */,
-				9383171B13A5D6D100B9D09A /* TF.h */,
-				9383171C13A5D6D100B9D09A /* TF.m */,
 				93ED890513C2EB0D00C18CE0 /* Course.h */,
 				93ED890613C2EB0D00C18CE0 /* Course.m */,
+				9383171313A5D6D100B9D09A /* Token.h */,
+				9383171413A5D6D100B9D09A /* Token.m */,
+				9383171B13A5D6D100B9D09A /* TF.h */,
+				9383171C13A5D6D100B9D09A /* TF.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -303,20 +311,20 @@
 		9383174613A5D6E000B9D09A /* Connection Delegates */ = {
 			isa = PBXGroup;
 			children = (
+				9330534D143850F20043746E /* CanAskConnectionDelegate.h */,
+				9330534E143850F20043746E /* CanAskConnectionDelegate.m */,
+				939E83EF13A9CE7700E5427D /* CategoriesConnectionDelegate.h */,
+				939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */,
+				939E83EC13A9BACF00E5427D /* ConnectionDelegate.h */,
+				939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */,
+				93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */,
+				93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */,
+				939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */,
+				939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */,
 				9383171513A5D6D100B9D09A /* QueueConnectionDelegate.h */,
 				9383171613A5D6D100B9D09A /* QueueConnectionDelegate.m */,
 				9383171713A5D6D100B9D09A /* ScheduleConnectionDelegate.h */,
 				9383171813A5D6D100B9D09A /* ScheduleConnectionDelegate.m */,
-				939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */,
-				939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */,
-				939E83EC13A9BACF00E5427D /* ConnectionDelegate.h */,
-				939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */,
-				939E83EF13A9CE7700E5427D /* CategoriesConnectionDelegate.h */,
-				939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */,
-				93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */,
-				93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */,
-				9330534D143850F20043746E /* CanAskConnectionDelegate.h */,
-				9330534E143850F20043746E /* CanAskConnectionDelegate.m */,
 			);
 			name = "Connection Delegates";
 			sourceTree = "<group>";
@@ -324,18 +332,20 @@
 		939290E613B6FEF600C0BB87 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				939290DD13B5D23500C0BB87 /* AuthViewController.h */,
+				939290DE13B5D23500C0BB87 /* AuthViewController.m */,
 				93ED88C813C2E1F100C18CE0 /* CourseSelectionViewController.h */,
 				93ED88C913C2E1F100C18CE0 /* CourseSelectionViewController.m */,
-				938316FD13A5D48000B9D09A /* RootViewController.h */,
-				938316FE13A5D48000B9D09A /* RootViewController.m */,
 				9383170013A5D48000B9D09A /* DetailViewController.h */,
 				9383170213A5D48000B9D09A /* DetailViewController.m */,
 				9383174713A5D8C800B9D09A /* FilterViewController.h */,
 				9383174813A5D8C800B9D09A /* FilterViewController.m */,
-				939290DD13B5D23500C0BB87 /* AuthViewController.h */,
-				939290DE13B5D23500C0BB87 /* AuthViewController.m */,
 				939290F513B7186300C0BB87 /* HalfViewController.h */,
 				939290F613B7186400C0BB87 /* HalfViewController.m */,
+				931C32BB152D36EB00C1E7C6 /* QuestionThreadViewController.h */,
+				931C32BC152D36EB00C1E7C6 /* QuestionThreadViewController.m */,
+				938316FD13A5D48000B9D09A /* RootViewController.h */,
+				938316FE13A5D48000B9D09A /* RootViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -343,12 +353,13 @@
 		939290E713B6FF3100C0BB87 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
-				93ED88CA13C2E1F100C18CE0 /* CourseSelectionViewController.xib */,
-				939290F713B7186400C0BB87 /* HalfViewController.xib */,
-				9383174913A5D8C800B9D09A /* FilterViewController.xib */,
-				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
-				936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */,
 				939290DF13B5D23600C0BB87 /* AuthViewController.xib */,
+				93ED88CA13C2E1F100C18CE0 /* CourseSelectionViewController.xib */,
+				9383174913A5D8C800B9D09A /* FilterViewController.xib */,
+				939290F713B7186400C0BB87 /* HalfViewController.xib */,
+				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
+				931C32BD152D36EB00C1E7C6 /* QuestionThreadViewController.xib */,
+				936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */,
 			);
 			name = Nibs;
 			sourceTree = "<group>";
@@ -413,6 +424,8 @@
 				93ED88CC13C2E1F100C18CE0 /* CourseSelectionViewController.xib in Resources */,
 				936246A014057D2A00BA4916 /* logo.png in Resources */,
 				932D5FFF1419A1B100919E56 /* Entitlements.plist in Resources */,
+				938D85CF152BA4B2006B165B /* checked.png in Resources */,
+				931C32BF152D36EB00C1E7C6 /* QuestionThreadViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +440,7 @@
 				938316FC13A5D48000B9D09A /* CS50HelpAppDelegate.m in Sources */,
 				938316FF13A5D48000B9D09A /* RootViewController.m in Sources */,
 				9383170313A5D48000B9D09A /* DetailViewController.m in Sources */,
-				9383173613A5D6D100B9D09A /* Question.m in Sources */,
+				9383173613A5D6D100B9D09A /* Token.m in Sources */,
 				9383173713A5D6D100B9D09A /* QueueConnectionDelegate.m in Sources */,
 				9383173813A5D6D100B9D09A /* ScheduleConnectionDelegate.m in Sources */,
 				9383173913A5D6D100B9D09A /* ServerController.m in Sources */,
@@ -452,6 +465,7 @@
 				93ED890713C2EB0D00C18CE0 /* Course.m in Sources */,
 				93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */,
 				9330534F143850F20043746E /* CanAskConnectionDelegate.m in Sources */,
+				931C32BE152D36EB00C1E7C6 /* QuestionThreadViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

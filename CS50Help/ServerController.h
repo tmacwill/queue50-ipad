@@ -38,10 +38,10 @@
 
 + (ServerController*)sharedInstance;
 - (BOOL)authenticate;
-- (void)dispatchQuestionsToTF:(TF*)tf;
+- (void)dispatchTokens:(NSArray*)tokens toTF:(TF*)tf;
 - (void)getCanAsk;
-- (void)getCategories;
 - (void)getCourses;
+- (void)getLabels;
 - (void)getQueue;
 - (void)getSchedule;
 - (void)refresh;

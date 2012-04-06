@@ -8,9 +8,9 @@
 
 #import "DetailViewController.h"
 #import "HalfViewController.h"
-#import "Question.h"
 #import "RootViewController.h"
 #import "ServerController.h"
+#import "Token.h"
 #import "TF.h"
 
 @implementation DetailViewController
@@ -273,7 +273,8 @@
 
         // update the most recent dispatch time for selected TF
         [self.lastDispatchTimes setValue:[NSDate date] forKey:tf.name];
-        [[ServerController sharedInstance] dispatchQuestionsToTF:tf];
+        [[ServerController sharedInstance] dispatchTokens:[self.halfViewController.rootViewController selectedTokens]
+                                                     toTF:tf];
     }
     else
         self.selectedIndexPath = nil;
