@@ -18,7 +18,7 @@
 
 @property (strong, nonatomic) Course* course;
 @property (strong, nonatomic) id<AuthViewControllerDelegate> delegate;
-@property (strong, nonatomic) IBOutlet UIWebView* webView;
+@property (weak, nonatomic) IBOutlet UIWebView* webView;
 
 - (id)initWithCourse:(Course*)course;
 

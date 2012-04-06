@@ -26,6 +26,7 @@
 @synthesize filterButton = _filterButton;
 @synthesize filterPopover = _filterPopover;
 @synthesize filterViewController = _filterViewController;
+@synthesize halfViewController = _halfViewController;
 @synthesize labels = _labels;
 @synthesize queueButton = _queueButton;
 @synthesize searchBar = _searchBar;
@@ -204,12 +205,8 @@
     UILabel* nameLabel = (UILabel*)[cell viewWithTag:11];
     nameLabel.text = token.student;
     
-    // selection checkmark
-    UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
-    if ([self.tableView.indexPathsForSelectedRows containsObject:indexPath])
-        checkmark.hidden = NO;
-    else
-        checkmark.hidden = YES;
+    // apply selection formatting
+    [self applySelectionFormattingToCell:cell atIndexPath:indexPath];
     
     return cell;
 }
@@ -217,6 +214,29 @@
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 65.0;
+}
+
+- (void)applySelectionFormattingToCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath*)indexPath
+{
+    // highlight cell
+    if ([self.tableView.indexPathsForSelectedRows containsObject:indexPath]) {
+        // light gray background
+        cell.backgroundColor = [UIColor colorWithRed:238.0 / 255.0 green:238.0 / 255.0 blue:238.0 / 255.0 alpha:1.0];
+        
+        // show checkmark
+        UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
+        checkmark.hidden = NO;
+    }
+    
+    // de-highlight cell
+    else {
+        // white background
+        cell.backgroundColor = [UIColor whiteColor];
+        
+        // hide checkmark
+        UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
+        checkmark.hidden = YES;       
+    }
 }
 
 /**
@@ -267,8 +287,7 @@
     for (NSIndexPath* indexPath in selectedRows) {
         // display checkmark on view
         UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-        UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
-        checkmark.hidden = NO;
+        [self applySelectionFormattingToCell:cell atIndexPath:indexPath];
         
         // select cell in model
         [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -279,24 +298,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // get selected cell
+    // highlight cell
     UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    // toggle checkmark
-    UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
-    cell.backgroundColor = [UIColor colorWithRed:238.0 / 255.0 green:238.0 / 255.0 blue:238.0 / 255.0 alpha:1.0];
-    checkmark.hidden = NO;
+    [self applySelectionFormattingToCell:cell atIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // get selected cell
+    // de-highlight cell
     UITableViewCell* cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    // toggle checkmark
-    UIImageView* checkmark = (UIImageView*)[cell viewWithTag:30];
-    cell.backgroundColor = [UIColor whiteColor];
-    checkmark.hidden = YES;    
+    [self applySelectionFormattingToCell:cell atIndexPath:indexPath];
 }
 
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
@@ -319,8 +330,7 @@
     questionThreadViewController.student = token.student;
     
     // display view controller
-    CS50HelpAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate.halfViewController presentModalViewController:questionThreadViewController animated:YES];
+    [self.halfViewController presentModalViewController:questionThreadViewController animated:YES];
 }
 
 #pragma mark - Search bar event handlers

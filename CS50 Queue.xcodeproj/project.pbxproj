@@ -14,8 +14,10 @@
 		9330534F143850F20043746E /* CanAskConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330534E143850F20043746E /* CanAskConnectionDelegate.m */; };
 		936246A014057D2A00BA4916 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 9362469F14057D2A00BA4916 /* logo.png */; };
 		936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */; };
-		936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */; };
+		936653FB13B4720F00D49A36 /* AllStaffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 936653FA13B4720F00D49A36 /* AllStaffTableViewCell.xib */; };
 		936653FD13B485C200D49A36 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936653FC13B485C200D49A36 /* MessageUI.framework */; };
+		93779DC8152F642E003FA38F /* OnDutyStaffTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93779DC7152F642E003FA38F /* OnDutyStaffTableViewCell.xib */; };
+		93779DCB152F6A13003FA38F /* Dispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 93779DCA152F6A13003FA38F /* Dispatch.m */; };
 		938316EC13A5D48000B9D09A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938316EB13A5D48000B9D09A /* UIKit.framework */; };
 		938316EE13A5D48000B9D09A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938316ED13A5D48000B9D09A /* Foundation.framework */; };
 		938316F013A5D48000B9D09A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 938316EF13A5D48000B9D09A /* CoreGraphics.framework */; };
@@ -74,8 +76,11 @@
 		9330534E143850F20043746E /* CanAskConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CanAskConnectionDelegate.m; sourceTree = "<group>"; };
 		9362469F14057D2A00BA4916 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuestionsTableViewCell.xib; sourceTree = "<group>"; };
-		936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StaffTableViewCell.xib; sourceTree = "<group>"; };
+		936653FA13B4720F00D49A36 /* AllStaffTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllStaffTableViewCell.xib; sourceTree = "<group>"; };
 		936653FC13B485C200D49A36 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		93779DC7152F642E003FA38F /* OnDutyStaffTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OnDutyStaffTableViewCell.xib; sourceTree = "<group>"; };
+		93779DC9152F6A13003FA38F /* Dispatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dispatch.h; sourceTree = "<group>"; };
+		93779DCA152F6A13003FA38F /* Dispatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dispatch.m; sourceTree = "<group>"; };
 		938316E713A5D48000B9D09A /* CS50 Queue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CS50 Queue.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		938316EB13A5D48000B9D09A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		938316ED13A5D48000B9D09A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -90,7 +95,7 @@
 		938316FE13A5D48000B9D09A /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		9383170013A5D48000B9D09A /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		9383170213A5D48000B9D09A /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		9383171313A5D6D100B9D09A /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; path = Token.h; sourceTree = "<group>"; };
+		9383171313A5D6D100B9D09A /* Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
 		9383171413A5D6D100B9D09A /* Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Token.m; sourceTree = "<group>"; };
 		9383171513A5D6D100B9D09A /* QueueConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueueConnectionDelegate.h; sourceTree = "<group>"; };
 		9383171613A5D6D100B9D09A /* QueueConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueueConnectionDelegate.m; sourceTree = "<group>"; };
@@ -304,6 +309,8 @@
 				9383171413A5D6D100B9D09A /* Token.m */,
 				9383171B13A5D6D100B9D09A /* TF.h */,
 				9383171C13A5D6D100B9D09A /* TF.m */,
+				93779DC9152F6A13003FA38F /* Dispatch.h */,
+				93779DCA152F6A13003FA38F /* Dispatch.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -353,13 +360,14 @@
 		939290E713B6FF3100C0BB87 /* Nibs */ = {
 			isa = PBXGroup;
 			children = (
+				936653FA13B4720F00D49A36 /* AllStaffTableViewCell.xib */,
 				939290DF13B5D23600C0BB87 /* AuthViewController.xib */,
 				93ED88CA13C2E1F100C18CE0 /* CourseSelectionViewController.xib */,
 				9383174913A5D8C800B9D09A /* FilterViewController.xib */,
 				939290F713B7186400C0BB87 /* HalfViewController.xib */,
 				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
 				931C32BD152D36EB00C1E7C6 /* QuestionThreadViewController.xib */,
-				936653FA13B4720F00D49A36 /* StaffTableViewCell.xib */,
+				93779DC7152F642E003FA38F /* OnDutyStaffTableViewCell.xib */,
 			);
 			name = Nibs;
 			sourceTree = "<group>";
@@ -418,7 +426,7 @@
 				9383170113A5D48000B9D09A /* DetailViewController.h in Resources */,
 				9383174B13A5D8C800B9D09A /* FilterViewController.xib in Resources */,
 				936653F513B3327100D49A36 /* QuestionsTableViewCell.xib in Resources */,
-				936653FB13B4720F00D49A36 /* StaffTableViewCell.xib in Resources */,
+				936653FB13B4720F00D49A36 /* AllStaffTableViewCell.xib in Resources */,
 				939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */,
 				939290F913B7186500C0BB87 /* HalfViewController.xib in Resources */,
 				93ED88CC13C2E1F100C18CE0 /* CourseSelectionViewController.xib in Resources */,
@@ -426,6 +434,7 @@
 				932D5FFF1419A1B100919E56 /* Entitlements.plist in Resources */,
 				938D85CF152BA4B2006B165B /* checked.png in Resources */,
 				931C32BF152D36EB00C1E7C6 /* QuestionThreadViewController.xib in Resources */,
+				93779DC8152F642E003FA38F /* OnDutyStaffTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -466,6 +475,7 @@
 				93292D3C13C95C6F00059F7E /* CoursesConnectionDelegate.m in Sources */,
 				9330534F143850F20043746E /* CanAskConnectionDelegate.m in Sources */,
 				931C32BE152D36EB00C1E7C6 /* QuestionThreadViewController.m in Sources */,
+				93779DCB152F6A13003FA38F /* Dispatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,7 +508,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "34BDF311-C01B-457D-A91A-C8BBA0429067";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34BDF311-C01B-457D-A91A-C8BBA0429067";
@@ -548,7 +558,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PROVISIONING_PROFILE = "34BDF311-C01B-457D-A91A-C8BBA0429067";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34BDF311-C01B-457D-A91A-C8BBA0429067";
 				SDKROOT = iphoneos;
@@ -570,7 +580,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PROVISIONING_PROFILE = "34BDF311-C01B-457D-A91A-C8BBA0429067";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "34BDF311-C01B-457D-A91A-C8BBA0429067";

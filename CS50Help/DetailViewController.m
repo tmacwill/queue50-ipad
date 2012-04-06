@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "Dispatch.h"
 #import "HalfViewController.h"
 #import "RootViewController.h"
 #import "ServerController.h"
@@ -15,12 +16,13 @@
 
 @implementation DetailViewController
 
-@synthesize assignedStudents = _assignedStudents;
+@synthesize allStaffTableViewCell = _allStaffTableViewCell;
 @synthesize allTFs = _allTFs;
 @synthesize containerView = _containerView;
+@synthesize dispatches = _dispatches;
 @synthesize dutySegmentedControl = _dutySegmentedControl;
 @synthesize halfViewController = _halfViewController;
-@synthesize lastDispatchTimes = _lastDispatchTimes;
+@synthesize onDutyStaffTableViewCell = _onDutyStaffTableViewCell;
 @synthesize onDutyTFs = _onDutyTFs;
 @synthesize mode = _mode;
 @synthesize searchBar = _searchBar;
@@ -28,7 +30,6 @@
 @synthesize searchResults = _searchResults;
 @synthesize selectedIndexPath = _selectedIndexPath;
 @synthesize tableView = _tableView;
-@synthesize tableViewCell = _tableViewCell;
 @synthesize titleLabel = _titleLabel;
 
 - (void)awakeFromNib
@@ -38,16 +39,16 @@
     self.containerView.layer.borderColor = [UIColor grayColor].CGColor;
     self.containerView.layer.borderWidth = 0.5;
     
-    self.assignedStudents = [[NSMutableDictionary alloc] init];
+    // initialize models
     self.allTFs = [[NSMutableArray alloc] init];
+    self.dispatches = [[NSMutableDictionary alloc] init];
+    self.mode = MODE_ON_DUTY;
     self.onDutyTFs = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
-    self.lastDispatchTimes = [[NSMutableDictionary alloc] init];
     self.searching = NO;
-    self.mode = MODE_ON_DUTY;
     
     // create background thread to refresh tableview every second so dispatch timers stay updated
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:10.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -75,20 +76,25 @@
 {
     static NSString *CellIdentifier;
     if (self.mode == MODE_ON_DUTY)
-        CellIdentifier = @"Cell";
+        CellIdentifier = @"OnDutyStaffTableViewCell";
     else
-        CellIdentifier = @"StaffTableViewCell";
+        CellIdentifier = @"AllStaffTableViewCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) { 
-        if (self.mode == MODE_ON_DUTY)
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
+        if (self.mode == MODE_ON_DUTY) {
+            // load OnDutyStaffTableViewCell.xib as cell for table
+            [[NSBundle mainBundle] loadNibNamed:@"OnDutyStaffTableViewCell" owner:self options:nil];
+            cell = _onDutyStaffTableViewCell;
+            self.onDutyStaffTableViewCell = nil;
+        }
         
         // all-TF mode uses custom table view cell
         else {
-            [[NSBundle mainBundle] loadNibNamed:@"StaffTableViewCell" owner:self options:nil];
-            cell = _tableViewCell;
-            self.tableViewCell = nil;
+            // load AllStaffTableViewCell.xib as cell for table
+            [[NSBundle mainBundle] loadNibNamed:@"AllStaffTableViewCell" owner:self options:nil];
+            cell = _allStaffTableViewCell;
+            self.allStaffTableViewCell = nil;
         }
     }
     
@@ -100,32 +106,57 @@
         else
             tf = [self.onDutyTFs objectAtIndex:indexPath.row];
         
-        // set name text
-        cell.textLabel.text = tf.name;
+        // TF name
+        UILabel* label = (UILabel*)[cell viewWithTag:10];
+        label.text = tf.name;
         
-        // get TF's last dispatch time, and don't try to set text if non-existant
-        NSDate* lastDispatchTime = [self.lastDispatchTimes valueForKey:tf.name];
-        if (!lastDispatchTime) {
-            cell.detailTextLabel.text = @"";
-            return cell;
+        // get dispatch information for this TF
+        Dispatch* dispatch = [self.dispatches valueForKey:tf.name];
+        
+        // TF does not have a dispatch associated with them
+        if (!dispatch) {
+            // hide notification button
+            UIButton* button = (UIButton*)[cell viewWithTag:30];
+            button.hidden = YES;
+            
+            // center TF's name in the cell
+            UILabel* label = (UILabel*)[cell viewWithTag:10];
+            CGRect frame = label.frame;
+            frame.origin.y = 18;
+            label.frame = frame;
+            
+            // hide list of students
+            label = (UILabel*)[cell viewWithTag:20];
+            label.hidden = YES;
         }
         
-        // calculate time between right now and dispatch time and 
-        NSTimeInterval interval = [lastDispatchTime timeIntervalSinceNow];
-        long minutes = -(long)interval / 60;
-        if (minutes > 10L)
-            cell.textLabel.textColor = [UIColor redColor];
-        else
-            cell.textLabel.textColor = [UIColor blackColor];
-        
-        // set timer text
-        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-        formatter.dateFormat = @"hh:mm:ss";
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", minutes];
-        
-        // minutes:seconds, leaving this here in case we want to switch later
-        // long seconds = -(long)interval % 60;
-        // cell.detailTextLabel.text = [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+        // TF does have a dispatch
+        else {
+            // get students associatd with this dispatch
+            NSMutableArray* students = [[NSMutableArray alloc] init];
+            for (Token* token in dispatch.tokens)
+                [students addObject:token.student];
+            
+            // move TF's name to top of cell
+            UILabel* label = (UILabel*)[cell viewWithTag:10];
+            CGRect frame = label.frame;
+            frame.origin.y = 6;
+            label.frame = frame;
+            
+            // display students associated with this dispatch
+            label = (UILabel*)[cell viewWithTag:20];
+            label.text = [students componentsJoinedByString:@", "];
+            label.hidden = NO;
+            
+            // calculate time that has elapsed since this dispatch
+            NSTimeInterval interval = [dispatch.time timeIntervalSinceNow];
+            long minutes = -(long)interval / 60;
+            
+            // display that time in the notification button
+            UIButton* button = (UIButton*)[cell viewWithTag:30];
+            [button setTitle:[NSString stringWithFormat:@"%d", minutes] forState:UIControlStateNormal];
+            button.hidden = NO;
+        }
     }
     
     else if (self.mode == MODE_ALL) {
@@ -168,6 +199,11 @@
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return (self.mode == MODE_ON_DUTY) ? 65.0 : 44.0;
+}
+
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,15 +219,22 @@
         
         // make sure TF exists
         if (tf) {
-            // keep track of selected TF and show confirm dialog
+            // keep track of selected row to handle dispatch in alertview callback
             self.selectedIndexPath = indexPath;
+            
+            // display confirmation dialog
             NSString* message = [NSString stringWithFormat:@"Dispatch to %@?", tf.name];
-            UIAlertView* confirm = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+            UIAlertView* confirm = [[UIAlertView alloc] initWithTitle:nil 
+                                                              message:message
+                                                             delegate:self
+                                                    cancelButtonTitle:@"No"
+                                                    otherButtonTitles:@"Yes", nil];
             [confirm show];
         }
     }
     
     // open mail client on all-tf row select
+    /*
     else if (self.mode == MODE_ALL) {
         TF* tf = [self.allTFs objectAtIndex:indexPath.row];
 
@@ -200,7 +243,6 @@
             MFMailComposeViewController* mail = [[MFMailComposeViewController alloc] init];
             mail.mailComposeDelegate = self;
             [mail setToRecipients:[NSArray arrayWithObjects:tf.email, nil]];
-            //[mail setCcRecipients:[NSArray arrayWithObjects:@"heads@cs50.net", nil]];
             [mail setSubject:@"Office Hours"];
             [mail setMessageBody:[NSString stringWithFormat:@"Hey %@,\n\nYou're scheduled for Office Hours tonight!", tf.name] isHTML:NO];
             [self.halfViewController presentModalViewController:mail animated:YES];
@@ -208,6 +250,7 @@
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
     }
+     */
 }
 
 #pragma mark - Search bar event handlers
@@ -265,19 +308,28 @@
     // dispatch button pressed
     if (buttonIndex == 1) {
         // get tf from appropriate source
-        TF* tf;
+        TF* tf = nil;
         if (self.searching)
             tf = [self.searchResults objectAtIndex:self.selectedIndexPath.row];
         else
             tf = [self.onDutyTFs objectAtIndex:self.selectedIndexPath.row];
 
-        // update the most recent dispatch time for selected TF
-        [self.lastDispatchTimes setValue:[NSDate date] forKey:tf.name];
+        // create a new dispatch object and add to list of dispatches
+        Dispatch* dispatch = [[Dispatch alloc] initWithTokens:[self.halfViewController.rootViewController selectedTokens]
+                                                         toTF:tf
+                                                       atTime:[NSDate date]];
+        [self.dispatches setValue:dispatch forKey:tf.name];
+        
+        // send dispatch to the server
         [[ServerController sharedInstance] dispatchTokens:[self.halfViewController.rootViewController selectedTokens]
                                                      toTF:tf];
+        
+        // reload table so dispatch time appears
+        [self.tableView reloadData];
     }
-    else
-        self.selectedIndexPath = nil;
+    
+    // either way, this row is no longer selected
+    self.selectedIndexPath = nil;
 }
 
 - (IBAction)dutySegmentedControlChanged
@@ -294,14 +346,19 @@
 
 - (IBAction)toggleRow:(id)sender
 {
-    // add or remove TF from on duty list, depending on state of switch
+    // get the TF corresponding to this toggle
     UISwitch* toggle = (UISwitch*)sender;
     TF* tf = [self.allTFs objectAtIndex:[toggle tag]];
     
+    // add TF to top of list of on-duty TFs when switch is turned on
     if (toggle.on) {
         [self.onDutyTFs insertObject:tf atIndex:0];
+        
+        // notify server of time of TF's arrival
         [[ServerController sharedInstance] setArrival:tf];
     }
+    
+    // remove TF from list of on-duty TFs
     else
         [self.onDutyTFs removeObject:tf];
 }

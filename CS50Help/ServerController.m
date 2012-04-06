@@ -101,17 +101,17 @@ static ServerController* instance;
         DispatchConnectionDelegate* d = [[DispatchConnectionDelegate alloc] init];
     
         // create comma separated list of question ids
-        NSMutableString* questionsParam = [[NSMutableString alloc] initWithString:@"ids="];
+        NSMutableString* tokenIds = [[NSMutableString alloc] initWithString:@"ids="];
         for (Token* t in tokens) {
-            [questionsParam appendFormat:@"%d,", t.tokenId];
+            [tokenIds appendFormat:@"%d,", t.tokenId];
             [self.halfViewController.rootViewController.tokens removeObject:t];
         }
     
         // construct url
-        NSString* url = @"http://dev/questions/dispatch";
+        NSString* url = @"http://dev/tokens/dispatch";
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        NSString* params = [NSString stringWithFormat:@"%@&staff_id=%d", questionsParam, tf.staffId];
+        NSString* params = [NSString stringWithFormat:@"%@&staff_id=%d", tokenIds, tf.staffId];
         request.HTTPMethod = @"POST";
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
@@ -236,10 +236,10 @@ static ServerController* instance;
 {
     [self getQueue];
     [self getLabels];
+    [self getSchedule];
     
     /*
     [self getCanAsk];
-    [self getSchedule];
     */
     
     /*

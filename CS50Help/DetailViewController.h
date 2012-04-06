@@ -19,21 +19,21 @@
     <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate,
         UISearchBarDelegate, UISearchDisplayDelegate, UIAlertViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableViewCell* allStaffTableViewCell;
 @property (strong, nonatomic) NSMutableArray* allTFs;
-@property (strong, nonatomic) NSMutableDictionary* assignedStudents;
-@property (strong, nonatomic) IBOutlet UIView* containerView;
-@property (strong, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
-@property (strong, nonatomic) IBOutlet HalfViewController* halfViewController;
-@property (strong, nonatomic) NSMutableDictionary* lastDispatchTimes;
+@property (weak, nonatomic) IBOutlet UIView* containerView;
+@property (strong, nonatomic) NSMutableDictionary* dispatches;
+@property (weak, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
+@property (weak, nonatomic) IBOutlet HalfViewController* halfViewController;
 @property (assign, nonatomic) int mode;
 @property (strong, nonatomic) NSMutableArray* onDutyTFs;
-@property (strong, nonatomic) IBOutlet UISearchBar* searchBar;
+@property (weak, nonatomic) IBOutlet UITableViewCell* onDutyStaffTableViewCell;
+@property (weak, nonatomic) IBOutlet UISearchBar* searchBar;
 @property (assign, nonatomic) BOOL searching;
 @property (strong, nonatomic) NSMutableArray* searchResults;
 @property (strong, nonatomic) NSIndexPath* selectedIndexPath;
-@property (strong, nonatomic) IBOutlet UITableView* tableView;
-@property (strong, nonatomic) IBOutlet UITableViewCell* tableViewCell;
-@property (strong, nonatomic) IBOutlet UILabel* titleLabel;
+@property (weak, nonatomic) IBOutlet UITableView* tableView;
+@property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 
 - (IBAction)dutySegmentedControlChanged;
 - (void)onTick:(NSTimer*)timer;

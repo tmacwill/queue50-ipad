@@ -10,10 +10,10 @@
 
 @interface QuestionThreadViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UINavigationItem* navBar;
+@property (weak, nonatomic) IBOutlet UINavigationItem* navBar;
 @property (strong, nonatomic) NSArray* questions;
 @property (strong, nonatomic) NSString* student;
-@property (strong, nonatomic) IBOutlet UIWebView* webView;
+@property (weak, nonatomic) IBOutlet UIWebView* webView;
 
 - (IBAction)done:(id)sender;
 

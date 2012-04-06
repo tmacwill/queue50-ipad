@@ -26,8 +26,8 @@
         for (NSDictionary* tfInfo in [json valueForKey:@"staff"]) {
             TF* tf = [[TF alloc] initWithId:[[tfInfo valueForKey:@"id"] intValue] 
                                        name:[tfInfo valueForKey:@"name"] 
-                                      email:[tfInfo valueForKey:@"email"]
-                                   isOnDuty:[[tfInfo valueForKey:@"on_duty"] intValue]];
+                                      email:@""
+                                   isOnDuty:0];
             [tfs addObject:tf];
         }
     

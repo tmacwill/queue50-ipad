@@ -520,6 +520,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">halfViewController</string>
+						<reference key="source" ref="546657992"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">112</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="909210866"/>
 						<reference key="destination" ref="546657992"/>
@@ -799,7 +807,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">111</int>
+			<int key="maxID">112</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1008,6 +1016,7 @@
 							<string>containerView</string>
 							<string>filterButton</string>
 							<string>filterViewController</string>
+							<string>halfViewController</string>
 							<string>queueButton</string>
 							<string>searchBar</string>
 							<string>tableView</string>
@@ -1019,6 +1028,7 @@
 							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>FilterViewController</string>
+							<string>HalfViewController</string>
 							<string>UIBarButtonItem</string>
 							<string>UISearchBar</string>
 							<string>UITableView</string>
@@ -1033,6 +1043,7 @@
 							<string>containerView</string>
 							<string>filterButton</string>
 							<string>filterViewController</string>
+							<string>halfViewController</string>
 							<string>queueButton</string>
 							<string>searchBar</string>
 							<string>tableView</string>
@@ -1052,6 +1063,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">filterViewController</string>
 								<string key="candidateClassName">FilterViewController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">halfViewController</string>
+								<string key="candidateClassName">HalfViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">queueButton</string>
