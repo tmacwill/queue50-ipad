@@ -27,10 +27,9 @@
 @synthesize course = _course;
 @synthesize courseSelectionViewController = _courseSelectionViewController;
 @synthesize halfViewController = _halfViewController;
-@synthesize hasLoadedQueue = _hasLoadedQueue;
 @synthesize isFormPresent = _isFormPresent;
 @synthesize navController = _navController;
-@synthesize url = _url;
+@synthesize suiteId = _suiteId;
 @synthesize user = _user;
 
 static ServerController* instance;
@@ -44,10 +43,10 @@ static ServerController* instance;
     @synchronized(self) {
         if (!instance) {
             instance = [[ServerController alloc] init];
-            instance.hasLoadedQueue = false;
             instance.isFormPresent = false;
             instance.courseSelectionViewController = [[CourseSelectionViewController alloc] init];
-            instance.url = [[NSMutableString alloc] initWithString:BASE_URL];
+            
+            instance.suiteId = 1;
         }
     }
     
@@ -84,7 +83,7 @@ static ServerController* instance;
     self.user = user;
     self.course = course;
     self.isFormPresent = NO;
-    [self.url appendFormat:@"%@/", course.url];
+    //[self.url appendFormat:@"%@/", course.url];
     [self refresh];
 }
 
@@ -108,8 +107,8 @@ static ServerController* instance;
         }
     
         // construct url
-        NSString* url = @"http://dev/tokens/dispatch";
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+        NSURL* url = [self urlForAction:@"tokens/dispatch" includeSuite:NO];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         NSString* params = [NSString stringWithFormat:@"%@&staff_id=%d", tokenIds, tf.staffId];
         request.HTTPMethod = @"POST";
@@ -136,9 +135,9 @@ static ServerController* instance;
 {    
     //if ([self authenticate]) {
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
-        NSString* url = @"http://dev/status/queue/1";
     
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+        NSURL* url = [self urlForAction:@"status/queue" includeSuite:YES];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url 
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
         
@@ -157,8 +156,8 @@ static ServerController* instance;
         CategoriesConnectionDelegate* d = [[CategoriesConnectionDelegate alloc] init];    
         
         // construct url
-        NSString* url = @"http://dev/labels/suite/1";
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+        NSURL* url = [self urlForAction:@"labels/suite" includeSuite:YES];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
         
@@ -174,6 +173,7 @@ static ServerController* instance;
  */
 - (void)getCourses
 {
+    /*
     CoursesConnectionDelegate* d = [[CoursesConnectionDelegate alloc] init];
     d.viewController = self.courseSelectionViewController;
     
@@ -183,6 +183,7 @@ static ServerController* instance;
     
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
     [connection start];
+     */
     
 }
 
@@ -195,15 +196,15 @@ static ServerController* instance;
     //if ([self authenticate]) {
         // create delegate to refresh question list
         QueueConnectionDelegate* d = [[QueueConnectionDelegate alloc] init];
+        self.halfViewController.rootViewController.activityIndicator.hidden = NO;
     
-        NSString* url = @"http://dev/questions/queue/1";
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+        NSURL* url = [self urlForAction:@"tokens/queue" includeSuite:YES];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@;", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
-        self.hasLoadedQueue = true;
     //}
 }
 
@@ -218,8 +219,8 @@ static ServerController* instance;
         ScheduleConnectionDelegate* d = [[ScheduleConnectionDelegate alloc] init];    
     
         // construct url
-        NSString* url = @"http://dev/users/staff/1";
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+        NSURL* url = [self urlForAction:@"users/staff" includeSuite:YES];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
         
@@ -237,10 +238,7 @@ static ServerController* instance;
     [self getQueue];
     [self getLabels];
     [self getSchedule];
-    
-    /*
     [self getCanAsk];
-    */
     
     /*
     if ([self authenticate]) {
@@ -259,8 +257,8 @@ static ServerController* instance;
 {
     //if ([self authenticate]) {
         // construct url
-        NSString* url = @"http://dev/arrivals/user/1";
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+        NSURL* url = [self urlForAction:@"arrivals/user" includeSuite:YES];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
         NSString* params = [NSString stringWithFormat:@"user_id=%d", tf.staffId];
@@ -285,8 +283,8 @@ static ServerController* instance;
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
         
         // construct url
-        NSString* url = @"http://dev/status/queue/1";
-        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] 
+        NSURL* url = [self urlForAction:@"status/queue" includeSuite:YES];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
         // enable or disable the queue via POST variable
@@ -299,6 +297,23 @@ static ServerController* instance;
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
     //}
+}
+
+/**
+ * Get the server URL for a given action
+ *
+ */
+- (NSURL*)urlForAction:(NSString *)action includeSuite:(BOOL)includeSuite
+{
+    // append action to base url
+    NSMutableString* url = [[NSMutableString alloc] initWithFormat:@"%@%@", BASE_URL, action];
+    
+    // append suite if necessary
+    if (includeSuite)
+        [url appendFormat:@"/%d", instance.suiteId];
+    
+    // create url from string
+    return [NSURL URLWithString:url];
 }
 
 @end

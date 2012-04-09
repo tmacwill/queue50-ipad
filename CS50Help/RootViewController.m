@@ -10,7 +10,6 @@
 
 #import "CS50HelpAppDelegate.h"
 #import "DetailViewController.h"
-#import "FilterViewController.h"
 #import "HalfViewController.h"
 #import "QuestionThreadViewController.h"
 #import "RootViewController.h"
@@ -19,13 +18,11 @@
 
 @implementation RootViewController
 
+@synthesize activityIndicator = _activityIndicator;
 @synthesize canAsk = _canAsk;
 @synthesize categoryBackgroundColors = _categoryBackgroundColors;
 @synthesize categoryForegroundColors = _categoryForegroundColors;
 @synthesize containerView = _containerView;
-@synthesize filterButton = _filterButton;
-@synthesize filterPopover = _filterPopover;
-@synthesize filterViewController = _filterViewController;
 @synthesize halfViewController = _halfViewController;
 @synthesize labels = _labels;
 @synthesize queueButton = _queueButton;
@@ -36,22 +33,18 @@
 @synthesize tableViewCell = _tableViewCell;
 @synthesize tokens = _tokens;
 @synthesize toolbar = _toolbar;
-@synthesize visibleTokens = _visibleTokens;
 
 - (void)awakeFromNib
-{    
-    // create popover
-    self.filterPopover = [[UIPopoverController alloc] initWithContentViewController:self.filterViewController];
-    self.filterPopover.delegate = self;
-    self.filterViewController.rootViewController = self;
-        
+{
     // initialize models
     self.tokens = [[NSMutableArray alloc] init];
-    self.visibleTokens = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
     self.labels = [[NSMutableArray alloc] init];
+    
+    // initialize view-related properties
     self.searching = NO;
     self.canAsk = NO;
+    self.activityIndicator.hidden = YES;
     
     // create border around tableview
     self.containerView.layer.cornerRadius = 5.0;
@@ -118,7 +111,7 @@
     if (self.searching)
         return [self.searchResults count];
     else
-        return [self.visibleTokens count];
+        return [self.tokens count];
 }
 
 // Customize the appearance of table view cells.
@@ -138,7 +131,7 @@
     if (self.searching)
         token = [self.searchResults objectAtIndex:indexPath.row];
     else
-        token = [self.visibleTokens objectAtIndex:indexPath.row];
+        token = [self.tokens objectAtIndex:indexPath.row];
     
     // determine question's position in the queue
     int position = 0;
@@ -253,7 +246,7 @@
         if (self.searching)
             [result addObject:[self.searchResults objectAtIndex:indexPath.row]];
         else
-            [result addObject:[self.visibleTokens objectAtIndex:indexPath.row]];
+            [result addObject:[self.tokens objectAtIndex:indexPath.row]];
     }
     
     return result;
@@ -265,20 +258,6 @@
  */
 - (void)refreshTable
 {
-    // only show those questions whose categories are marked as shown
-    [self.visibleTokens removeAllObjects];
-    
-    for (Token* q in self.tokens) {
-        /*
-         if ([self.filterViewController.selectedCategory isEqualToString:q.label] || 
-         [self.filterViewController.selectedCategory isEqualToString:@"All"] ||
-         self.filterViewController.selectedCategory == nil) {
-         */
-        
-        [self.visibleTokens addObject:q];
-        // }
-    }
-    
     // reload table data
     NSArray* selectedRows = self.tableView.indexPathsForSelectedRows;
     [self.tableView reloadData];
@@ -317,7 +296,7 @@
     if (self.searching)
         token = [self.searchResults objectAtIndex:indexPath.row];
     else
-        token = [self.visibleTokens objectAtIndex:indexPath.row];
+        token = [self.tokens objectAtIndex:indexPath.row];
     
     // create question thread view controller
     QuestionThreadViewController* questionThreadViewController = [[QuestionThreadViewController alloc] 
@@ -411,35 +390,6 @@
             [[ServerController sharedInstance] setCanAsk:self.canAsk];
         }
     }
-}
-
-/**
- * Dismiss categories popover
- *
- */
-- (void)dismissPopover
-{
-    [self.filterPopover dismissPopoverAnimated:YES];
-    [self refreshTable];
-}
-
-/**
- * Show filter popover
- *
- */
-- (void)filterButtonPressed
-{
-    [self.filterPopover presentPopoverFromBarButtonItem:self.filterButton 
-                               permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-}
-
-/**
- * Reload questions after category is selected
- *
- */
-- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
-{
-    [self refreshTable];
 }
 
 /**

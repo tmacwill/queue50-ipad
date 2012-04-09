@@ -12,7 +12,6 @@
 @implementation HalfViewController
 
 @synthesize detailViewController = _detailViewController;
-@synthesize filterViewController = _filterViewController;
 @synthesize rootViewController = _rootViewController;
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

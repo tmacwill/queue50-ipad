@@ -30,12 +30,12 @@
         
         // update button to reflect state on server
         if (canAsk) {
-            item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
+            item.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPause
                                                                                     target:delegate.halfViewController.rootViewController
                                                                                     action:@selector(toggleQueue:)];
         }
         else {
-            item.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
+            item.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
                                                                                     target:delegate.halfViewController.rootViewController
                                                                                     action:@selector(toggleQueue:)];
         }

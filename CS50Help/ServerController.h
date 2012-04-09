@@ -15,25 +15,16 @@
 @class Question;
 @class TF;
 
-//#define DEBUG_URL 1
-
-#ifdef DEBUG_URL
-    #define BASE_URL @"http://192.168.56.50/"
-#endif
-
-#ifndef DEBUG_URL
-    #define BASE_URL @"http://queue.cs50.net/"
-#endif
+#define BASE_URL @"http://beta.help.cs76.net/"
 
 @interface ServerController : NSObject <AuthViewControllerDelegate>
 
 @property (strong, nonatomic) Course* course;
 @property (strong, nonatomic) CourseSelectionViewController* courseSelectionViewController;
 @property (strong, nonatomic) HalfViewController* halfViewController;
-@property (assign, nonatomic) BOOL hasLoadedQueue;
 @property (assign, nonatomic) BOOL isFormPresent;
 @property (strong, nonatomic) UINavigationController* navController;
-@property (strong, nonatomic) NSMutableString* url;
+@property (assign, nonatomic) int suiteId;
 @property (strong, nonatomic) NSDictionary* user;
 
 + (ServerController*)sharedInstance;
@@ -47,5 +38,6 @@
 - (void)refresh;
 - (void)setArrival:(TF*)tf;
 - (void)setCanAsk:(BOOL)canAsk;
+- (NSURL*)urlForAction:(NSString *)action includeSuite:(BOOL)includeSuite;
 
 @end

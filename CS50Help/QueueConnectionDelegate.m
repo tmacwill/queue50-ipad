@@ -49,6 +49,7 @@
     }
     
     // refresh left side
+    delegate.halfViewController.rootViewController.activityIndicator.hidden = YES;
     [delegate.halfViewController.rootViewController refreshTable];
 }
 

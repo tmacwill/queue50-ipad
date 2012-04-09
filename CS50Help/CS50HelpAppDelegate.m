@@ -8,7 +8,6 @@
 
 #import "CS50HelpAppDelegate.h"
 #import "DetailViewController.h"
-#import "FilterViewController.h"
 #import "HalfViewController.h"
 #import <Parse/Parse.h>
 #import "RootViewController.h"
