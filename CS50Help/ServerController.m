@@ -124,6 +124,7 @@ static ServerController* instance;
         // place TF at bottom of list
         [self.halfViewController.detailViewController.onDutyTFs removeObject:tf];
         [self.halfViewController.detailViewController.onDutyTFs addObject:tf];
+        [self.halfViewController.detailViewController.tableView reloadData];
     //}
 }
 
@@ -227,6 +228,22 @@ static ServerController* instance;
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
     //}
+}
+
+/**
+ * Notify a TF to finish up with a student
+ *
+ */
+- (void)notifyTF:(TF*)tf;
+{
+    NSURL* url = [self urlForAction:[NSString stringWithFormat:@"users/notify/%d", tf.staffId] 
+                       includeSuite:YES];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+    
+    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+    [connection start];
 }
 
 /**

@@ -13,6 +13,9 @@
 #define MODE_ON_DUTY 0
 #define MODE_ALL 1
 
+#define TAG_TF_NAME 10
+#define TAG_STUDENT_NAMES 20
+
 @class HalfViewController;
 
 @interface DetailViewController : UIViewController 
@@ -36,8 +39,10 @@
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 
 - (IBAction)dutySegmentedControlChanged;
+- (void)filterContentForSearchText:(NSString*)searchText;
+- (UIButton*)notificationButtonForCell:(UITableViewCell*)cell;
+- (IBAction)notificationButtonPressed:(id)sender;
 - (void)onTick:(NSTimer*)timer;
 - (IBAction)toggleRow:(id)sender;
-- (void)filterContentForSearchText:(NSString*)searchText;
 
 @end

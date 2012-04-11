@@ -98,6 +98,7 @@
         }
     }
     
+    // "On Duty" tab selected, so only display TFs who have been marked on duty
     if (self.mode == MODE_ON_DUTY) {
         // get row from appropriate source
         TF* tf = nil;
@@ -106,8 +107,8 @@
         else
             tf = [self.onDutyTFs objectAtIndex:indexPath.row];
         
-        // TF name
-        UILabel* label = (UILabel*)[cell viewWithTag:10];
+        // set TF name
+        UILabel* label = (UILabel*)[cell viewWithTag:TAG_TF_NAME];
         label.text = tf.name;
         
         // get dispatch information for this TF
@@ -116,17 +117,17 @@
         // TF does not have a dispatch associated with them
         if (!dispatch) {
             // hide notification button
-            UIButton* button = (UIButton*)[cell viewWithTag:30];
+            UIButton* button = [self notificationButtonForCell:cell];
             button.hidden = YES;
             
             // center TF's name in the cell
-            UILabel* label = (UILabel*)[cell viewWithTag:10];
+            label = (UILabel*)[cell viewWithTag:TAG_TF_NAME];
             CGRect frame = label.frame;
             frame.origin.y = 18;
             label.frame = frame;
             
             // hide list of students
-            label = (UILabel*)[cell viewWithTag:20];
+            label = (UILabel*)[cell viewWithTag:TAG_STUDENT_NAMES];
             label.hidden = YES;
         }
         
@@ -144,7 +145,7 @@
             label.frame = frame;
             
             // display students associated with this dispatch
-            label = (UILabel*)[cell viewWithTag:20];
+            label = (UILabel*)[cell viewWithTag:TAG_STUDENT_NAMES];
             label.text = [students componentsJoinedByString:@", "];
             label.hidden = NO;
             
@@ -152,13 +153,17 @@
             NSTimeInterval interval = [dispatch.time timeIntervalSinceNow];
             long minutes = -(long)interval / 60;
             
-            // display that time in the notification button
-            UIButton* button = (UIButton*)[cell viewWithTag:30];
+            // display time since last dispatch inside button
+            UIButton* button = [self notificationButtonForCell:cell];      
             [button setTitle:[NSString stringWithFormat:@"%d", minutes] forState:UIControlStateNormal];
             button.hidden = NO;
+            
+            // set button's tag to TF associated with row
+            button.tag = [self.onDutyTFs indexOfObject:tf];
         }
     }
     
+    // "All" tab selected, so display all staff members
     else if (self.mode == MODE_ALL) {
         // get row from appropriate source
         TF* tf = nil;
@@ -202,6 +207,20 @@
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return (self.mode == MODE_ON_DUTY) ? 65.0 : 44.0;
+}
+
+/**
+ * Get the notification button associated with a cell
+ *
+ */
+- (UIButton*)notificationButtonForCell:(UITableViewCell*)cell
+{
+    for (UIView* contentView in cell.subviews)
+        for (UIView* view in contentView.subviews)
+            if ([view isKindOfClass:[UIButton class]])
+                return (UIButton*)view;
+    
+    return nil;
 }
 
 #pragma mark - Table view delegate
@@ -251,6 +270,16 @@
         }
     }
      */
+}
+
+- (IBAction)notificationButtonPressed:(id)sender
+{
+    // determine which TF to notify
+    UIButton* button = (UIButton*)sender;
+    TF* tf = [self.onDutyTFs objectAtIndex:button.tag];
+    
+    // notify TF
+    [[ServerController sharedInstance] notifyTF:tf];
 }
 
 #pragma mark - Search bar event handlers

@@ -154,38 +154,41 @@
     // starting coordinates for labels
     int labelIndex = 20;
     int x = 41;
+    
     // iterate through labels to display each one
-    for (NSString* tokenLabel in token.labels) {
-        // get next label in sequence by its tag and show it
-        label = (UILabel*)[cell viewWithTag:labelIndex++];
-        label.hidden = NO;
-        label.textAlignment = UITextAlignmentCenter;
-        
-        // display label at current x position
-        label.frame = CGRectMake(x, 31, 43, 21);
-        
-        // size label to fit text
-        label.text = tokenLabel;
-        [label sizeToFit];
-        
-        // add padding
-        CGRect paddedFrame = label.frame;
-        paddedFrame.size.width += 6;
-        paddedFrame.size.height += 4;
-        label.frame = paddedFrame;
-        
-        // color label corresponding to category
-        int colorIndex = [self.labels indexOfObject:tokenLabel] % self.categoryBackgroundColors.count;
-        label.backgroundColor = [self.categoryBackgroundColors objectAtIndex:colorIndex];
-        label.textColor = [self.categoryForegroundColors objectAtIndex:colorIndex];
-        label.layer.cornerRadius = 3.0;
-        
-        // move next label to the right of this label
-        x += label.frame.size.width + 5;
-        
-        // stop displaying labels if we have run out of space
-        if (x > 500)
-            break;
+    if (token.labels) {
+        for (NSString* tokenLabel in token.labels) {
+            // get next label in sequence by its tag and show it
+            label = (UILabel*)[cell viewWithTag:labelIndex++];
+            label.hidden = NO;
+            label.textAlignment = UITextAlignmentCenter;
+            
+            // display label at current x position
+            label.frame = CGRectMake(x, 31, 43, 21);
+            
+            // size label to fit text
+            label.text = tokenLabel;
+            [label sizeToFit];
+            
+            // add padding
+            CGRect paddedFrame = label.frame;
+            paddedFrame.size.width += 6;
+            paddedFrame.size.height += 4;
+            label.frame = paddedFrame;
+            
+            // color label corresponding to category
+            int colorIndex = [self.labels indexOfObject:tokenLabel] % self.categoryBackgroundColors.count;
+            label.backgroundColor = [self.categoryBackgroundColors objectAtIndex:colorIndex];
+            label.textColor = [self.categoryForegroundColors objectAtIndex:colorIndex];
+            label.layer.cornerRadius = 3.0;
+            
+            // move next label to the right of this label
+            x += label.frame.size.width + 5;
+            
+            // stop displaying labels if we have run out of space
+            if (x > 500)
+                break;
+        }
     }
     
     // make sure remaining labels are hidden

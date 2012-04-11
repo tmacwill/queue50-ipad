@@ -35,7 +35,9 @@
             // extract label from each question associated with the current token
             NSMutableArray* labels = [[NSMutableArray alloc] init];
             for (NSDictionary* questionToken in [q valueForKey:@"QuestionTokens"])
-                [labels addObject:[[[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] firstObject] valueForKey:@"name"]];
+                if ([[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] count])
+                    // UGH
+                    [labels addObject:[[[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] firstObject] valueForKey:@"name"]];
                  
             // create token containing question and labels
             Token* token = [[Token alloc] initWithId:[[[q valueForKey:@"Token"] valueForKey:@"id"] intValue]

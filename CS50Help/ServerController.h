@@ -35,6 +35,7 @@
 - (void)getLabels;
 - (void)getQueue;
 - (void)getSchedule;
+- (void)notifyTF:(TF*)tf;
 - (void)refresh;
 - (void)setArrival:(TF*)tf;
 - (void)setCanAsk:(BOOL)canAsk;
