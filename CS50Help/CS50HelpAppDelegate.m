@@ -88,7 +88,22 @@
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
-    [[ServerController sharedInstance] getQueue];
+    // refresh the queue
+    if ([[userInfo valueForKey:@"type"] isEqualToString:@"refresh"]) {
+        [[ServerController sharedInstance] getQueue];
+    }
+    
+    // staff has become available
+    else if ([[userInfo valueForKey:@"type"] isEqualToString:@"available"]) {
+        int staffId = [[userInfo valueForKey:@"user_id"] intValue];
+        [self.halfViewController.detailViewController dispatchCompleteForTF:staffId];
+    }
+    
+    // staff has snoozed
+    else if ([[userInfo valueForKey:@"type"] isEqualToString:@"snooze"]) {
+        int staffId = [[userInfo valueForKey:@"user_id"] intValue];
+        [self.halfViewController.detailViewController snoozeTF:staffId];
+    }
 }
 
 @end

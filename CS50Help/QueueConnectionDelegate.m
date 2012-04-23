@@ -36,7 +36,7 @@
             NSMutableArray* labels = [[NSMutableArray alloc] init];
             for (NSDictionary* questionToken in [q valueForKey:@"QuestionTokens"])
                 if ([[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] count])
-                    // UGH
+                    // right now, frontend only supports one label per question
                     [labels addObject:[[[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] firstObject] valueForKey:@"name"]];
                  
             // create token containing question and labels

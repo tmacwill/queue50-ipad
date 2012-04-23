@@ -25,7 +25,7 @@
         BOOL canAsk = [[json valueForKey:@"state"] intValue];
         delegate.halfViewController.rootViewController.canAsk = canAsk;
         
-        // get the queue enable/disable button
+        // get the navigation item containing the enable/disable button
         UINavigationItem* item = (UINavigationItem*)[delegate.halfViewController.rootViewController.toolbar.items objectAtIndex:0];
         
         // update button to reflect state on server

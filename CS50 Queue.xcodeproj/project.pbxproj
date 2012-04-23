@@ -47,7 +47,6 @@
 		939290E113B5D23600C0BB87 /* AuthViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939290DF13B5D23600C0BB87 /* AuthViewController.xib */; };
 		939290F813B7186500C0BB87 /* HalfViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 939290F613B7186400C0BB87 /* HalfViewController.m */; };
 		939290F913B7186500C0BB87 /* HalfViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 939290F713B7186400C0BB87 /* HalfViewController.xib */; };
-		939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */; };
 		939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */; };
 		939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 939E83F013A9CE7700E5427D /* CategoriesConnectionDelegate.m */; };
 		93C160AF13B7CCCE00B018D9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93C160AE13B7CCCE00B018D9 /* QuartzCore.framework */; };
@@ -131,8 +130,6 @@
 		939290F513B7186300C0BB87 /* HalfViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HalfViewController.h; sourceTree = "<group>"; };
 		939290F613B7186400C0BB87 /* HalfViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HalfViewController.m; sourceTree = "<group>"; };
 		939290F713B7186400C0BB87 /* HalfViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HalfViewController.xib; sourceTree = "<group>"; };
-		939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DispatchConnectionDelegate.h; sourceTree = "<group>"; };
-		939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DispatchConnectionDelegate.m; sourceTree = "<group>"; };
 		939E83EC13A9BACF00E5427D /* ConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionDelegate.h; sourceTree = "<group>"; };
 		939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionDelegate.m; sourceTree = "<group>"; };
 		939E83EF13A9CE7700E5427D /* CategoriesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoriesConnectionDelegate.h; sourceTree = "<group>"; };
@@ -321,8 +318,6 @@
 				939E83ED13A9BACF00E5427D /* ConnectionDelegate.m */,
 				93292D3A13C95C6E00059F7E /* CoursesConnectionDelegate.h */,
 				93292D3B13C95C6E00059F7E /* CoursesConnectionDelegate.m */,
-				939E83E813A9B97200E5427D /* DispatchConnectionDelegate.h */,
-				939E83E913A9B97200E5427D /* DispatchConnectionDelegate.m */,
 				9383171513A5D6D100B9D09A /* QueueConnectionDelegate.h */,
 				9383171613A5D6D100B9D09A /* QueueConnectionDelegate.m */,
 				9383171713A5D6D100B9D09A /* ScheduleConnectionDelegate.h */,
@@ -455,7 +450,6 @@
 				9383174213A5D6D100B9D09A /* CJSONDeserializer.m in Sources */,
 				9383174313A5D6D100B9D09A /* CJSONScanner.m in Sources */,
 				9383174413A5D6D100B9D09A /* CJSONSerializer.m in Sources */,
-				939E83EA13A9B97300E5427D /* DispatchConnectionDelegate.m in Sources */,
 				939E83EE13A9BACF00E5427D /* ConnectionDelegate.m in Sources */,
 				939E83F113A9CE7800E5427D /* CategoriesConnectionDelegate.m in Sources */,
 				939290E013B5D23600C0BB87 /* AuthViewController.m in Sources */,

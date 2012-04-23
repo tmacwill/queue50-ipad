@@ -19,7 +19,6 @@
 @synthesize allStaffTableViewCell = _allStaffTableViewCell;
 @synthesize allTFs = _allTFs;
 @synthesize containerView = _containerView;
-@synthesize dispatches = _dispatches;
 @synthesize dutySegmentedControl = _dutySegmentedControl;
 @synthesize halfViewController = _halfViewController;
 @synthesize onDutyStaffTableViewCell = _onDutyStaffTableViewCell;
@@ -41,7 +40,6 @@
     
     // initialize models
     self.allTFs = [[NSMutableArray alloc] init];
-    self.dispatches = [[NSMutableDictionary alloc] init];
     self.mode = MODE_ON_DUTY;
     self.onDutyTFs = [[NSMutableArray alloc] init];
     self.searchResults = [[NSMutableArray alloc] init];
@@ -59,11 +57,19 @@
 
 #pragma mark - Table view data source
 
+/**
+ * Number of sections in the table
+ *
+ */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+/**
+ * Number fo rows in the table
+ *
+ */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (self.searching)
@@ -72,6 +78,10 @@
         return (self.mode == MODE_ON_DUTY) ? [self.onDutyTFs count] : [self.allTFs count];
 }
 
+/**
+ * Format staff cell
+ *
+ */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier;
@@ -81,7 +91,8 @@
         CellIdentifier = @"AllStaffTableViewCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) { 
+    if (cell == nil) {
+        // load nib for on duty TF view
         if (self.mode == MODE_ON_DUTY) {
             // load OnDutyStaffTableViewCell.xib as cell for table
             [[NSBundle mainBundle] loadNibNamed:@"OnDutyStaffTableViewCell" owner:self options:nil];
@@ -89,7 +100,7 @@
             self.onDutyStaffTableViewCell = nil;
         }
         
-        // all-TF mode uses custom table view cell
+        // load nib for all TF view
         else {
             // load AllStaffTableViewCell.xib as cell for table
             [[NSBundle mainBundle] loadNibNamed:@"AllStaffTableViewCell" owner:self options:nil];
@@ -99,111 +110,138 @@
     }
     
     // "On Duty" tab selected, so only display TFs who have been marked on duty
-    if (self.mode == MODE_ON_DUTY) {
-        // get row from appropriate source
-        TF* tf = nil;
-        if (self.searching)
-            tf = [self.searchResults objectAtIndex:indexPath.row];
-        else
-            tf = [self.onDutyTFs objectAtIndex:indexPath.row];
-        
-        // set TF name
-        UILabel* label = (UILabel*)[cell viewWithTag:TAG_TF_NAME];
-        label.text = tf.name;
-        
-        // get dispatch information for this TF
-        Dispatch* dispatch = [self.dispatches valueForKey:tf.name];
-        
-        // TF does not have a dispatch associated with them
-        if (!dispatch) {
-            // hide notification button
-            UIButton* button = [self notificationButtonForCell:cell];
-            button.hidden = YES;
-            
-            // center TF's name in the cell
-            label = (UILabel*)[cell viewWithTag:TAG_TF_NAME];
-            CGRect frame = label.frame;
-            frame.origin.y = 18;
-            label.frame = frame;
-            
-            // hide list of students
-            label = (UILabel*)[cell viewWithTag:TAG_STUDENT_NAMES];
-            label.hidden = YES;
-        }
-        
-        // TF does have a dispatch
-        else {
-            // get students associatd with this dispatch
-            NSMutableArray* students = [[NSMutableArray alloc] init];
-            for (Token* token in dispatch.tokens)
-                [students addObject:token.student];
-            
-            // move TF's name to top of cell
-            UILabel* label = (UILabel*)[cell viewWithTag:10];
-            CGRect frame = label.frame;
-            frame.origin.y = 6;
-            label.frame = frame;
-            
-            // display students associated with this dispatch
-            label = (UILabel*)[cell viewWithTag:TAG_STUDENT_NAMES];
-            label.text = [students componentsJoinedByString:@", "];
-            label.hidden = NO;
-            
-            // calculate time that has elapsed since this dispatch
-            NSTimeInterval interval = [dispatch.time timeIntervalSinceNow];
-            long minutes = -(long)interval / 60;
-            
-            // display time since last dispatch inside button
-            UIButton* button = [self notificationButtonForCell:cell];      
-            [button setTitle:[NSString stringWithFormat:@"%d", minutes] forState:UIControlStateNormal];
-            button.hidden = NO;
-            
-            // set button's tag to TF associated with row
-            button.tag = [self.onDutyTFs indexOfObject:tf];
-        }
-    }
+    if (self.mode == MODE_ON_DUTY)
+        [self formatOnDutyCell:cell atIndexPath:indexPath];
     
     // "All" tab selected, so display all staff members
-    else if (self.mode == MODE_ALL) {
-        // get row from appropriate source
-        TF* tf = nil;
-        if (self.searching)
-            tf = [self.searchResults objectAtIndex:indexPath.row];
-        else
-            tf = [self.allTFs objectAtIndex:indexPath.row];
-        
-        // we can't just search by tags here, because the switch in each row has a different tag
-        for (UIView* contentView in cell.subviews) {
-            for (UIView* view in contentView.subviews) {
-                if ([view isKindOfClass:[UILabel class]]) {
-                    UILabel* label = (UILabel*)view;
-                    label.text = tf.name;
-                    
-                    // TFs who are supposed to be on duty are red
-                    if (tf.isOnDuty)
-                        label.textColor = [UIColor redColor];
-                    else
-                        label.textColor = [UIColor blackColor];
-                }
-                
-                // idenitify each switch by the row its in, since toggling is independent of row
-                else if ([view isKindOfClass:[UISwitch class]]) {
-                    UISwitch* s = (UISwitch*)view;
-                    s.tag = [self.allTFs indexOfObject:tf];
-                    
-                    // because cells are re-used, we need to manually set the toggle state
-                    if ([self.onDutyTFs containsObject:tf])
-                        s.on = YES;
-                    else
-                        s.on = NO;
-                }
-            }
-        }
-    }
+    else if (self.mode == MODE_ALL) 
+        [self formatAllStaffCell:cell atIndexPath:indexPath];
     
     return cell;
 }
 
+/**
+ * Format a cell for the "All Staff" view
+ *
+ */
+- (void)formatAllStaffCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
+{
+    // get row from appropriate source
+    TF* tf = nil;
+    if (self.searching)
+        tf = [self.searchResults objectAtIndex:indexPath.row];
+    else
+        tf = [self.allTFs objectAtIndex:indexPath.row];
+    
+    // we can't just search by tags here, because the switch in each row has a different tag
+    for (UIView* contentView in cell.subviews) {
+        for (UIView* view in contentView.subviews) {
+            if ([view isKindOfClass:[UILabel class]]) {
+                UILabel* label = (UILabel*)view;
+                label.text = tf.name;
+                
+                // TFs who are supposed to be on duty are red
+                if (tf.isOnDuty)
+                    label.textColor = [UIColor redColor];
+                else
+                    label.textColor = [UIColor blackColor];
+            }
+            
+            // idenitify each switch by the row it's in, since toggling is independent of row
+            else if ([view isKindOfClass:[UISwitch class]]) {
+                UISwitch* s = (UISwitch*)view;
+                s.tag = [self.allTFs indexOfObject:tf];
+                
+                // because cells are re-used, we need to manually set the toggle state
+                if ([self.onDutyTFs containsObject:tf])
+                    s.on = YES;
+                else
+                    s.on = NO;
+            }
+        }
+    }
+}
+
+/**
+ * Format a cell for the "On Duty" view
+ *
+ */
+- (void)formatOnDutyCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath
+{
+    // get row from appropriate source
+    TF* tf = nil;
+    if (self.searching)
+        tf = [self.searchResults objectAtIndex:indexPath.row];
+    else
+        tf = [self.onDutyTFs objectAtIndex:indexPath.row];
+    
+    // set TF name
+    UILabel* label = (UILabel*)[cell viewWithTag:TAG_TF_NAME];
+    label.text = tf.name;
+    
+    // TF does not have a dispatch associated with them
+    if (tf.state == kStateAvailable) {
+        // hide notification button
+        UIButton* button = [self notificationButtonForCell:cell];
+        button.hidden = YES;
+        
+        // center TF's name in the cell
+        label = (UILabel*)[cell viewWithTag:TAG_TF_NAME];
+        CGRect frame = label.frame;
+        frame.origin.y = 18;
+        label.frame = frame;
+        
+        // hide list of students
+        label = (UILabel*)[cell viewWithTag:TAG_STUDENT_NAMES];
+        label.hidden = YES;
+    }
+    
+    // TF does have a dispatch
+    else {
+        // get students associatd with this dispatch
+        NSMutableArray* students = [[NSMutableArray alloc] init];
+        for (Token* token in tf.tokens)
+            [students addObject:token.student];
+        
+        // move TF's name to top of cell
+        UILabel* label = (UILabel*)[cell viewWithTag:10];
+        CGRect frame = label.frame;
+        frame.origin.y = 6;
+        label.frame = frame;
+        
+        // display students associated with this dispatch
+        label = (UILabel*)[cell viewWithTag:TAG_STUDENT_NAMES];
+        label.text = [students componentsJoinedByString:@", "];
+        label.hidden = NO;
+        
+        // calculate time that has elapsed since this dispatch
+        NSTimeInterval interval = [tf.lastDispatchTime timeIntervalSinceNow];
+        long minutes = -(long)interval / 60;
+        
+        // display time since last dispatch inside button
+        UIButton* button = [self notificationButtonForCell:cell];      
+        [button setTitle:[NSString stringWithFormat:@"%d", minutes] forState:UIControlStateNormal];
+        button.hidden = NO;
+        
+        // if TF has been notified, button should be yellow
+        if (tf.state == kStateNotified)
+            button.backgroundColor = [UIColor yellowColor];
+        // if TF has pressed snooze, button should be red
+        else if (tf.state == kStateSnoozed)
+            button.backgroundColor = [UIColor redColor];
+        // if TF is available, button should be white
+        else
+            button.backgroundColor = [UIColor whiteColor];
+        
+        // set button's tag to TF associated with row
+        button.tag = [self.onDutyTFs indexOfObject:tf];
+    }    
+}
+
+/**
+ * Height for each cell
+ *
+ */
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return (self.mode == MODE_ON_DUTY) ? 65.0 : 44.0;
@@ -215,6 +253,7 @@
  */
 - (UIButton*)notificationButtonForCell:(UITableViewCell*)cell
 {
+    // iterate over subviews to look for notification button
     for (UIView* contentView in cell.subviews)
         for (UIView* view in contentView.subviews)
             if ([view isKindOfClass:[UIButton class]])
@@ -225,6 +264,10 @@
 
 #pragma mark - Table view delegate
 
+/**
+ * Staff row seleted
+ *
+ */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // dispatch all selected questions on on-duty row select
@@ -236,8 +279,8 @@
         else
             tf = [self.onDutyTFs objectAtIndex:indexPath.row];
         
-        // make sure TF exists
-        if (tf) {
+        // make sure TF exists and we have selected students on the left side
+        if (tf && [self.halfViewController.rootViewController selectedTokens].count) {
             // keep track of selected row to handle dispatch in alertview callback
             self.selectedIndexPath = indexPath;
             
@@ -250,11 +293,17 @@
                                                     otherButtonTitles:@"Yes", nil];
             [confirm show];
         }
+        
+        // nothing actually selected
+        else
+            [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     
     // open mail client on all-tf row select
-    /*
     else if (self.mode == MODE_ALL) {
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
+        /*
         TF* tf = [self.allTFs objectAtIndex:indexPath.row];
 
         if (tf) {
@@ -268,22 +317,33 @@
             
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
+              */
     }
-     */
 }
 
+/**
+ * When button in on duty cell is pressed, notify the TF to finish up
+ *
+ */
 - (IBAction)notificationButtonPressed:(id)sender
 {
     // determine which TF to notify
     UIButton* button = (UIButton*)sender;
+    button.backgroundColor = [UIColor yellowColor];
     TF* tf = [self.onDutyTFs objectAtIndex:button.tag];
-    
+        
     // notify TF
+    tf.state = kStateNotified;
+    tf.lastNotifyTime = [NSDate date];
     [[ServerController sharedInstance] notifyTF:tf];
 }
 
 #pragma mark - Search bar event handlers
 
+/**
+ * Filter search results when key is pressed
+ *
+ */
 - (void)filterContentForSearchText:(NSString*)searchText
 {
     // clear previous results
@@ -307,23 +367,39 @@
 	}
 }
 
+/**
+ * Switch to searching mode
+ *
+ */
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar
 {
     self.searching = YES;
 }
 
+/**
+ * Filter visible staff based on search text
+ *
+ */
 - (void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString *)searchText
 {
     [self filterContentForSearchText:searchText];
     [self.tableView reloadData];
 }
 
+/**
+ * Exit search mode
+ *
+ */
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     self.searching = NO;
     [self.tableView reloadData];
 }
 
+/**
+ * Hide keyboard when search is pressed
+ *
+ */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [self.searchBar resignFirstResponder];
@@ -332,6 +408,10 @@
 
 #pragma mark - Event handlers
 
+/**
+ * Button selected on dispatch confirmation alertview
+ *
+ */
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     // dispatch button pressed
@@ -343,36 +423,98 @@
         else
             tf = [self.onDutyTFs objectAtIndex:self.selectedIndexPath.row];
 
-        // create a new dispatch object and add to list of dispatches
-        Dispatch* dispatch = [[Dispatch alloc] initWithTokens:[self.halfViewController.rootViewController selectedTokens]
-                                                         toTF:tf
-                                                       atTime:[NSDate date]];
-        [self.dispatches setValue:dispatch forKey:tf.name];
-        
+        // associate dispatch with TF
+        tf.lastDispatchTime = [NSDate date];
+        tf.state = kStateUnavailable;
+        tf.tokens = [self.halfViewController.rootViewController selectedTokens];
+                
         // send dispatch to the server
         [[ServerController sharedInstance] dispatchTokens:[self.halfViewController.rootViewController selectedTokens]
                                                      toTF:tf];
         
-        // reload table so dispatch time appears
+        // place TF at bottom of list
+        [self.onDutyTFs removeObject:tf];
+        [self.onDutyTFs addObject:tf];
+
+        // reload both sides to reflect dispatch
         [self.tableView reloadData];
+        [self.halfViewController.rootViewController refreshTable];
+
     }
     
     // either way, this row is no longer selected
     self.selectedIndexPath = nil;
 }
 
+/**
+ * TF is available again
+ *
+ */
+- (void)dispatchCompleteForTF:(int)staffId
+{
+    // look for TF with given ID in list of on duty TFs
+    for (TF* tf in self.onDutyTFs) {
+        if (tf.staffId == staffId) {
+            // move TF to bottom of list
+            [self.onDutyTFs removeObject:tf];
+            [self.onDutyTFs addObject:tf];
+            
+            // clear dispatch for this TF
+            tf.lastDispatchTime = nil;
+            tf.lastNotifyTime = nil;
+            tf.state = kStateAvailable;
+            tf.tokens = nil;
+            
+            // reload only right side to reflect changes
+            [self.tableView reloadData];
+            return;
+        }
+    }
+}
+
+/**
+ * Segmented control for switching between "all" and "on duty" changed
+ *
+ */
 - (IBAction)dutySegmentedControlChanged
 {
     self.mode = self.dutySegmentedControl.selectedSegmentIndex;
     [self.tableView reloadData];
 }
 
+/**
+ * TF has snoozed, so change notification button state
+ *
+ */
+- (void)snoozeTF:(int)staffId
+{
+    // look for TF with given ID in list of on duty TFs
+    for (TF* tf in self.onDutyTFs) {
+        if (tf.staffId == staffId) {
+            // update TF's state
+            tf.state = kStateSnoozed;
+            
+            // reload only right side to reflect changes
+            [self.tableView reloadData];
+            return;
+        }
+    }   
+}
+
+/**
+ * At each timer tick, reload the right side to update how long TFs have been with students
+ *
+ */
 - (void)onTick:(NSTimer *)timer
 {
     if (self.mode == MODE_ON_DUTY)
         [self.tableView reloadData];
 }
 
+/**
+ * Switch to place a TF on or off duty toggled
+ *
+ */
 - (IBAction)toggleRow:(id)sender
 {
     // get the TF corresponding to this toggle
@@ -394,6 +536,10 @@
 
 #pragma mark - Mail compose delegate
 
+/**
+ * Mail composing delegate, not used right now
+ *
+ */
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     // hide controller once user finishes composing mail

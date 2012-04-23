@@ -11,6 +11,7 @@
 
 @class HalfViewController;
 @class Question;
+@class TF;
 
 @interface RootViewController : UIViewController 
     <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate, UISearchBarDelegate, UIAlertViewDelegate>
@@ -32,9 +33,9 @@
 @property (weak, nonatomic) IBOutlet UINavigationBar* toolbar;
 
 - (void)applySelectionFormattingToCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath;
+- (void)filterContentForSearchText:(NSString*)searchText;
 - (void)refreshTable;
 - (NSArray*)selectedTokens;
-- (void)filterContentForSearchText:(NSString*)searchText;
 - (IBAction)toggleQueue:(id)sender;
 
 @end

@@ -25,7 +25,6 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell* allStaffTableViewCell;
 @property (strong, nonatomic) NSMutableArray* allTFs;
 @property (weak, nonatomic) IBOutlet UIView* containerView;
-@property (strong, nonatomic) NSMutableDictionary* dispatches;
 @property (weak, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
 @property (weak, nonatomic) IBOutlet HalfViewController* halfViewController;
 @property (assign, nonatomic) int mode;
@@ -38,10 +37,14 @@
 @property (weak, nonatomic) IBOutlet UITableView* tableView;
 @property (weak, nonatomic) IBOutlet UILabel* titleLabel;
 
+- (void)dispatchCompleteForTF:(int)staffId;
 - (IBAction)dutySegmentedControlChanged;
 - (void)filterContentForSearchText:(NSString*)searchText;
+- (void)formatAllStaffCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath;
+- (void)formatOnDutyCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath;
 - (UIButton*)notificationButtonForCell:(UITableViewCell*)cell;
 - (IBAction)notificationButtonPressed:(id)sender;
+- (void)snoozeTF:(int)staffId;
 - (void)onTick:(NSTimer*)timer;
 - (IBAction)toggleRow:(id)sender;
 

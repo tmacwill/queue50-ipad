@@ -100,11 +100,19 @@
 
 #pragma mark - Table view data source
 
+/**
+ * Number of sections in the tableview
+ *
+ */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+/**
+ * Number of rows in the tableview
+ *
+ */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // get length of appropriate source
@@ -114,13 +122,17 @@
         return [self.tokens count];
 }
 
-// Customize the appearance of table view cells.
+/**
+ * Format cell to display student name and labels associated with token
+ *
+ */
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"QuestionsTableViewCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
+        // load nib if no cell available in cache
         [[NSBundle mainBundle] loadNibNamed:@"QuestionsTableViewCell" owner:self options:nil];
         cell = _tableViewCell;
         self.tableViewCell = nil;
@@ -201,20 +213,28 @@
     UILabel* nameLabel = (UILabel*)[cell viewWithTag:11];
     nameLabel.text = token.student;
     
-    // apply selection formatting
+    // format cell depending on whether or not it is selected
     [self applySelectionFormattingToCell:cell atIndexPath:indexPath];
     
     return cell;
 }
 
+/**
+ * Height for a given row
+ *
+ */
 - (CGFloat)tableView:(UITableView *)tblView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 65.0;
 }
 
+/**
+ * Apply formatting to the given cell depending on whether or not it is selected
+ *
+ */
 - (void)applySelectionFormattingToCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath*)indexPath
 {
-    // highlight cell
+    // cell is selected
     if ([self.tableView.indexPathsForSelectedRows containsObject:indexPath]) {
         // light gray background
         cell.backgroundColor = [UIColor colorWithRed:238.0 / 255.0 green:238.0 / 255.0 blue:238.0 / 255.0 alpha:1.0];
@@ -224,7 +244,7 @@
         checkmark.hidden = NO;
     }
     
-    // de-highlight cell
+    // cell is not selected
     else {
         // white background
         cell.backgroundColor = [UIColor whiteColor];
@@ -278,6 +298,10 @@
 
 #pragma mark - Table view delegate
 
+/**
+ * Row highlighted
+ *
+ */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // highlight cell
@@ -285,6 +309,10 @@
     [self applySelectionFormattingToCell:cell atIndexPath:indexPath];
 }
 
+/**
+ * Row de-highlighted
+ *
+ */
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // de-highlight cell
@@ -292,6 +320,10 @@
     [self applySelectionFormattingToCell:cell atIndexPath:indexPath];
 }
 
+/**
+ * Token accessory button brings up question thread
+ *
+ */
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     // get selected token
@@ -319,7 +351,6 @@
 
 /**
  * Filter visible questions based on search text
- * @param searchText Text to search for
  *
  */
 - (void)filterContentForSearchText:(NSString*)searchText
@@ -382,7 +413,11 @@
 
 #pragma mark - Event handlers
 
-
+/**
+ * Button selected on an alertview
+ * tag == 0 signifies queue enable/disable confirmation
+ *
+ */
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     // confirmation dialog for enabling/disabling queue

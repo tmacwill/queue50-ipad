@@ -13,7 +13,6 @@
 #import "CourseSelectionViewController.h"
 #import "Course.h"
 #import "DetailViewController.h"
-#import "DispatchConnectionDelegate.h"
 #import "HalfViewController.h"
 #import "QueueConnectionDelegate.h"
 #import "RootViewController.h"
@@ -60,6 +59,7 @@ static ServerController* instance;
  */
 - (BOOL)authenticate
 {
+    /*
     // show login form if user is not authenticated
     if (!self.user && !self.isFormPresent) {
         self.isFormPresent = true;
@@ -69,6 +69,7 @@ static ServerController* instance;
         [self.halfViewController presentModalViewController:self.navController animated:YES];
         return NO;
     }
+    */
     
     return YES;
 }
@@ -95,9 +96,8 @@ static ServerController* instance;
  */
 - (void)dispatchTokens:(NSArray*)tokens toTF:(TF*)tf;
 {    
-    //if ([self authenticate]) {
+    if ([self authenticate]) {
         // set up connection delegate
-        DispatchConnectionDelegate* d = [[DispatchConnectionDelegate alloc] init];
     
         // create comma separated list of question ids
         NSMutableString* tokenIds = [[NSMutableString alloc] initWithString:@"ids="];
@@ -115,17 +115,9 @@ static ServerController* instance;
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
     
-        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [connection start];
-        
-        // remove selected questions from the left panel for maximum UI responsiveness!
-        [self.halfViewController.rootViewController refreshTable];
-        
-        // place TF at bottom of list
-        [self.halfViewController.detailViewController.onDutyTFs removeObject:tf];
-        [self.halfViewController.detailViewController.onDutyTFs addObject:tf];
-        [self.halfViewController.detailViewController.tableView reloadData];
-    //}
+    }
 }
 
 /**
@@ -134,7 +126,7 @@ static ServerController* instance;
  */
 - (void)getCanAsk
 {    
-    //if ([self authenticate]) {
+    if ([self authenticate]) {
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
     
         NSURL* url = [self urlForAction:@"status/queue" includeSuite:YES];
@@ -144,7 +136,7 @@ static ServerController* instance;
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
-    //}
+    }
 }
 
 /**
@@ -153,7 +145,7 @@ static ServerController* instance;
  */
 - (void)getLabels
 {
-    //if ([self authenticate]) {
+    if ([self authenticate]) {
         CategoriesConnectionDelegate* d = [[CategoriesConnectionDelegate alloc] init];    
         
         // construct url
@@ -164,8 +156,7 @@ static ServerController* instance;
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
-
-    //}
+    }
 }
 
 /**
@@ -194,7 +185,7 @@ static ServerController* instance;
  */
 - (void)getQueue
 {
-    //if ([self authenticate]) {
+    if ([self authenticate]) {
         // create delegate to refresh question list
         QueueConnectionDelegate* d = [[QueueConnectionDelegate alloc] init];
         self.halfViewController.rootViewController.activityIndicator.hidden = NO;
@@ -206,7 +197,7 @@ static ServerController* instance;
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
-    //}
+    }
 }
 
 /**
@@ -215,7 +206,7 @@ static ServerController* instance;
  */
 - (void)getSchedule
 {    
-    //if ([self authenticate]) {
+    if ([self authenticate]) {
         // create delegate to display staff from response
         ScheduleConnectionDelegate* d = [[ScheduleConnectionDelegate alloc] init];    
     
@@ -227,7 +218,7 @@ static ServerController* instance;
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
-    //}
+    }
 }
 
 /**
@@ -236,14 +227,16 @@ static ServerController* instance;
  */
 - (void)notifyTF:(TF*)tf;
 {
-    NSURL* url = [self urlForAction:[NSString stringWithFormat:@"users/notify/%d", tf.staffId] 
-                       includeSuite:YES];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-    [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
-    
-    NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
-    [connection start];
+    if ([self authenticate]) {
+        NSURL* url = [self urlForAction:[NSString stringWithFormat:@"users/notify/%d", tf.staffId] 
+                           includeSuite:YES];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
+                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        
+        NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
+        [connection start];
+    }
 }
 
 /**
@@ -252,18 +245,12 @@ static ServerController* instance;
  */
 - (void)refresh
 {
-    [self getQueue];
-    [self getLabels];
-    [self getSchedule];
-    [self getCanAsk];
-    
-    /*
     if ([self authenticate]) {
-        [self getCanAsk];
-        [self getCategories];
-        [self getSchedule];
         [self getQueue];
-    }*/
+        [self getLabels];
+        [self getSchedule];
+        [self getCanAsk];
+    }
 }
 
 /**
@@ -272,7 +259,7 @@ static ServerController* instance;
  */
 - (void)setArrival:(TF*)tf
 {
-    //if ([self authenticate]) {
+    if ([self authenticate]) {
         // construct url
         NSURL* url = [self urlForAction:@"arrivals/user" includeSuite:YES];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
@@ -286,7 +273,7 @@ static ServerController* instance;
         // send request
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [connection start];
-    //}
+    }
 }
 
 /**
@@ -295,7 +282,7 @@ static ServerController* instance;
  */
 - (void)setCanAsk:(BOOL)canAsk
 {    
-    //if ([self authenticate]) {
+    if ([self authenticate]) {
         // set up delegate to handle response
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
         
@@ -313,7 +300,7 @@ static ServerController* instance;
         // send request
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
-    //}
+    }
 }
 
 /**

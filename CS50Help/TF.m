@@ -12,8 +12,12 @@
 
 @synthesize email = _email;
 @synthesize isOnDuty = _isOnDuty;
+@synthesize lastDispatchTime = _lastDispatchTime;
+@synthesize lastNotifyTime = _lastNotifyTime;
 @synthesize name = _name;
 @synthesize staffId = _staffId;
+@synthesize state = _state;
+@synthesize tokens = _tokens;
 
 - (id)initWithId:(int)staffId name:(NSString*)name email:(NSString*)email isOnDuty:(int)isOnDuty;
 {
@@ -24,6 +28,11 @@
         self.isOnDuty = isOnDuty;
         self.email = email;
         self.staffId = staffId;
+        
+        self.lastDispatchTime = nil;
+        self.lastNotifyTime = nil;
+        self.state = kStateAvailable;
+        self.tokens = nil;
     }
     
     return self;
