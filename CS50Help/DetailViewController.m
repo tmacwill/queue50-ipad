@@ -225,13 +225,13 @@
         
         // if TF has been notified, button should be yellow
         if (tf.state == kStateNotified)
-            button.backgroundColor = [UIColor yellowColor];
+            button.titleLabel.textColor = [UIColor yellowColor];
         // if TF has pressed snooze, button should be red
         else if (tf.state == kStateSnoozed)
-            button.backgroundColor = [UIColor redColor];
+            button.titleLabel.textColor = [UIColor redColor];
         // if TF is available, button should be white
         else
-            button.backgroundColor = [UIColor whiteColor];
+            button.titleLabel.textColor = [UIColor blackColor];
         
         // set button's tag to TF associated with row
         button.tag = [self.onDutyTFs indexOfObject:tf];
@@ -329,13 +329,13 @@
 {
     // determine which TF to notify
     UIButton* button = (UIButton*)sender;
-    button.backgroundColor = [UIColor yellowColor];
     TF* tf = [self.onDutyTFs objectAtIndex:button.tag];
         
     // notify TF
     tf.state = kStateNotified;
     tf.lastNotifyTime = [NSDate date];
     [[ServerController sharedInstance] notifyTF:tf];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Search bar event handlers
@@ -435,6 +435,10 @@
         // place TF at bottom of list
         [self.onDutyTFs removeObject:tf];
         [self.onDutyTFs addObject:tf];
+
+        // deselect selected rows on left side
+        for (NSIndexPath* indexPath in self.halfViewController.rootViewController.tableView.indexPathsForSelectedRows)
+            [self.halfViewController.rootViewController.tableView deselectRowAtIndexPath:indexPath animated:NO];
 
         // reload both sides to reflect dispatch
         [self.tableView reloadData];
