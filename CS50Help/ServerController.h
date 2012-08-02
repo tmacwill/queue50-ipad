@@ -15,8 +15,7 @@
 @class Question;
 @class TF;
 
-//#define BASE_URL @"http://beta.help.cs76.net/"
-#define BASE_URL @"http://192.168.50.102/"
+#define BASE_URL @"http://apps.cs50.com/"
 
 @interface ServerController : NSObject <AuthViewControllerDelegate>
 
@@ -25,8 +24,8 @@
 @property (strong, nonatomic) HalfViewController* halfViewController;
 @property (assign, nonatomic) BOOL isFormPresent;
 @property (strong, nonatomic) UINavigationController* navController;
+@property (strong, nonatomic) NSString* sessid;
 @property (assign, nonatomic) int suiteId;
-@property (strong, nonatomic) NSDictionary* user;
 
 + (ServerController*)sharedInstance;
 - (BOOL)authenticate;
@@ -40,6 +39,5 @@
 - (void)refresh;
 - (void)setArrival:(TF*)tf;
 - (void)setCanAsk:(BOOL)canAsk;
-- (NSURL*)urlForAction:(NSString *)action includeSuite:(BOOL)includeSuite;
 
 @end

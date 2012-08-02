@@ -28,8 +28,8 @@
 @synthesize halfViewController = _halfViewController;
 @synthesize isFormPresent = _isFormPresent;
 @synthesize navController = _navController;
+@synthesize sessid = _sessid;
 @synthesize suiteId = _suiteId;
-@synthesize user = _user;
 
 static ServerController* instance;
 
@@ -44,8 +44,7 @@ static ServerController* instance;
             instance = [[ServerController alloc] init];
             instance.isFormPresent = false;
             instance.courseSelectionViewController = [[CourseSelectionViewController alloc] init];
-            
-            instance.suiteId = 1;
+            instance.suiteId = 0;
         }
     }
     
@@ -59,9 +58,8 @@ static ServerController* instance;
  */
 - (BOOL)authenticate
 {
-    /*
     // show login form if user is not authenticated
-    if (!self.user && !self.isFormPresent) {
+    if (!self.sessid && !self.isFormPresent) {
         self.isFormPresent = true;
         self.navController = [[UINavigationController alloc] 
                               initWithRootViewController:self.courseSelectionViewController];
@@ -69,7 +67,6 @@ static ServerController* instance;
         [self.halfViewController presentModalViewController:self.navController animated:YES];
         return NO;
     }
-    */
     
     return YES;
 }
@@ -78,13 +75,12 @@ static ServerController* instance;
  * Login form successfully authenticated
  *
  */
-- (void)didAuthenticateWithUser:(NSDictionary*)user inCourse:(Course*)course
+- (void)didAuthenticateWithSession:(NSString *)sessid
 {
     [self.navController dismissModalViewControllerAnimated:YES];
-    self.user = user;
-    self.course = course;
+    self.sessid = sessid;
     self.isFormPresent = NO;
-    //[self.url appendFormat:@"%@/", course.url];
+    
     [self refresh];
 }
 
@@ -96,9 +92,7 @@ static ServerController* instance;
  */
 - (void)dispatchTokens:(NSArray*)tokens toTF:(TF*)tf;
 {    
-    if ([self authenticate]) {
-        // set up connection delegate
-    
+    if ([self authenticate]) {    
         // create comma separated list of question ids
         NSMutableString* tokenIds = [[NSMutableString alloc] initWithString:@"ids="];
         for (Token* t in tokens) {
@@ -107,13 +101,13 @@ static ServerController* instance;
         }
     
         // construct url
-        NSURL* url = [self urlForAction:@"tokens/dispatch" includeSuite:NO];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/tokens/dispatch"]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         NSString* params = [NSString stringWithFormat:@"%@&staff_id=%d", tokenIds, tf.staffId];
         request.HTTPMethod = @"POST";
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
     
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [connection start];
@@ -129,10 +123,10 @@ static ServerController* instance;
     if ([self authenticate]) {
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
     
-        NSURL* url = [self urlForAction:@"status/queue" includeSuite:YES];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/status/queue/%d", self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url 
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
@@ -149,10 +143,10 @@ static ServerController* instance;
         CategoriesConnectionDelegate* d = [[CategoriesConnectionDelegate alloc] init];    
         
         // construct url
-        NSURL* url = [self urlForAction:@"labels/suite" includeSuite:YES];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/labels/suite/%d", self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
@@ -160,23 +154,20 @@ static ServerController* instance;
 }
 
 /**
- * Get all registered courses
+ * Get all registered suites
  *
  */
 - (void)getCourses
 {
-    /*
     CoursesConnectionDelegate* d = [[CoursesConnectionDelegate alloc] init];
     d.viewController = self.courseSelectionViewController;
-    
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:
-                                    [NSURL URLWithString:
-                                     [self.url stringByAppendingFormat:@"a/api/v1/courses/all"]]];
+
+    NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"suites/all"]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
     NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
     [connection start];
-     */
-    
 }
 
 /**
@@ -185,15 +176,15 @@ static ServerController* instance;
  */
 - (void)getQueue
 {
-    if ([self authenticate]) {
+    if ([self authenticate]) {        
         // create delegate to refresh question list
         QueueConnectionDelegate* d = [[QueueConnectionDelegate alloc] init];
         self.halfViewController.rootViewController.activityIndicator.hidden = NO;
     
-        NSURL* url = [self urlForAction:@"tokens/queue" includeSuite:YES];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/tokens/queue/%d", self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@;", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@;", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
@@ -207,17 +198,19 @@ static ServerController* instance;
 - (void)getSchedule
 {    
     if ([self authenticate]) {
+        /*
         // create delegate to display staff from response
         ScheduleConnectionDelegate* d = [[ScheduleConnectionDelegate alloc] init];    
     
         // construct url
-        NSURL* url = [self urlForAction:@"users/staff" includeSuite:YES];
+        NSURL* url = [self urlForAction:@"users/staff"];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
+         */
     }
 }
 
@@ -228,14 +221,15 @@ static ServerController* instance;
 - (void)notifyTF:(TF*)tf;
 {
     if ([self authenticate]) {
-        NSURL* url = [self urlForAction:[NSString stringWithFormat:@"users/notify/%d", tf.staffId] 
-                           includeSuite:YES];
+        /*
+        NSURL* url = [self urlForAction:[NSString stringWithFormat:@"users/notify/%d", tf.staffId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [connection start];
+         */
     }
 }
 
@@ -260,19 +254,21 @@ static ServerController* instance;
 - (void)setArrival:(TF*)tf
 {
     if ([self authenticate]) {
+        /*
         // construct url
-        NSURL* url = [self urlForAction:@"arrivals/user" includeSuite:YES];
+        NSURL* url = [self urlForAction:@"arrivals/user"];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
         NSString* params = [NSString stringWithFormat:@"user_id=%d", tf.staffId];
         request.HTTPMethod = @"POST";
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         // send request
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [connection start];
+         */
     }
 }
 
@@ -287,7 +283,7 @@ static ServerController* instance;
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
         
         // construct url
-        NSURL* url = [self urlForAction:@"status/queue" includeSuite:YES];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"status/queue/%d", self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
@@ -295,29 +291,12 @@ static ServerController* instance;
         NSString* params = [NSString stringWithFormat:@"state=%d", canAsk];
         request.HTTPMethod = @"POST";
         request.HTTPBody = [params dataUsingEncoding:NSUTF8StringEncoding];
-        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", [self.user valueForKey:@"sessid"]] forHTTPHeaderField:@"Cookie"];
+        [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         // send request
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
     }
-}
-
-/**
- * Get the server URL for a given action
- *
- */
-- (NSURL*)urlForAction:(NSString *)action includeSuite:(BOOL)includeSuite
-{
-    // append action to base url
-    NSMutableString* url = [[NSMutableString alloc] initWithFormat:@"%@%@", BASE_URL, action];
-    
-    // append suite if necessary
-    if (includeSuite)
-        [url appendFormat:@"/%d", instance.suiteId];
-    
-    // create url from string
-    return [NSURL URLWithString:url];
 }
 
 @end

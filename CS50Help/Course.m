@@ -11,14 +11,16 @@
 @implementation Course
 
 @synthesize name = _name;
-@synthesize url = _url;
+@synthesize suiteId = _suiteId;
+@synthesize orgId = _orgId;
 
-- (id)initWithName:(NSString *)name url:(NSString *)url
+- (id)initWithName:(NSString *)name suiteId:(int)suiteId orgId:(int)orgId
 {
     self = [super init];
     if (self) {
         self.name = name;
-        self.url = url;
+        self.suiteId = suiteId;
+        self.orgId = orgId;
     }
     
     return self;

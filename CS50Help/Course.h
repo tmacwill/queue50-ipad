@@ -11,8 +11,9 @@
 @interface Course : NSObject
 
 @property (strong, nonatomic) NSString* name;
-@property (strong, nonatomic) NSString* url;
+@property (assign, nonatomic) int orgId;
+@property (assign, nonatomic) int suiteId;
 
-- (id)initWithName:(NSString*)name url:(NSString*)url;
+- (id)initWithName:(NSString*)name suiteId:(int)suiteId orgId:(int)orgId;
 
 @end

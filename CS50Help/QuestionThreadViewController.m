@@ -7,6 +7,7 @@
 //
 
 #import "QuestionThreadViewController.h"
+#import "ServerController.h"
 
 @implementation QuestionThreadViewController
 
@@ -25,9 +26,9 @@
     [super viewWillAppear:animated];
     self.navBar.title = self.student;
     
-    // create URL for mobile-friendly thread view    
-    NSString* url = [NSString stringWithFormat:@"http://dev/questions/mobile/%@", [self.questions componentsJoinedByString:@","]];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    // create URL for mobile-friendly thread view
+    NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/posts/mobile/%@", [self.questions componentsJoinedByString:@","]]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
 - (void)viewDidUnload

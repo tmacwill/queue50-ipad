@@ -220,7 +220,7 @@
         
         // display time since last dispatch inside button
         UIButton* button = [self notificationButtonForCell:cell];      
-        [button setTitle:[NSString stringWithFormat:@"%d", minutes] forState:UIControlStateNormal];
+        [button setTitle:[NSString stringWithFormat:@"%ld", minutes] forState:UIControlStateNormal];
         button.hidden = NO;
         
         // if TF has been notified, button should be yellow

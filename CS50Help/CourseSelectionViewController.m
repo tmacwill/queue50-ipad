@@ -20,7 +20,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.title = @"Select a course";
+    self.navigationItem.title = @"Select your suite";
     self.courses = [[NSMutableArray alloc] init];
 }
 
@@ -64,8 +64,16 @@
 {
     // show authentication controller for the selected course
     Course* course = [self.courses objectAtIndex:indexPath.row];
+    
+    // remember the selected suite
+    ServerController* serverController = [ServerController sharedInstance];
+    serverController.suiteId = course.suiteId;
+    
+    // create auth controller
     AuthViewController* authViewController = [[AuthViewController alloc] initWithCourse:course];
-    authViewController.delegate = [ServerController sharedInstance];
+    authViewController.delegate = serverController;
+    
+    // display auth controller so user can log in
     [self.navigationController pushViewController:authViewController animated:YES];
 }
 

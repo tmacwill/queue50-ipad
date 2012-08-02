@@ -385,7 +385,7 @@
 		938316DE13A5D47F00B9D09A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = 938316E113A5D47F00B9D09A /* Build configuration list for PBXProject "CS50 Queue" */;
 			compatibilityVersion = "Xcode 3.2";

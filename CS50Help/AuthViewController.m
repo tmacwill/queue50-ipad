@@ -35,8 +35,9 @@
     self.navigationItem.title = @"Log in";
     
     self.webView.delegate = self;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:
-                               [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"%@/auth/login?format=ipad&staff_required=true", self.course.url]]]];
+    NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"login/%d?mobile", self.course.orgId]];
+
+    [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
 
 - (void)viewDidUnload
@@ -52,21 +53,16 @@
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    // cs50help scheme designates action from webview
-    if ([request.URL.scheme isEqualToString:@"cs50help"]) {
-        // authentication URL has form cs50help://user/identity/name/sessid
-        NSArray* objects = [request.URL.pathComponents objectsAtIndexes:
-                      [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 3)]];
-        NSDictionary* user = [NSDictionary dictionaryWithObjects:objects forKeys:
-                              [NSArray arrayWithObjects:@"identity", @"name", @"sessid", nil]];
-
-        // send user to delegate
-        [self.delegate didAuthenticateWithUser:user inCourse:self.course];
+    // cs50:// scheme means that we have authenticated
+    if ([request.URL.scheme isEqualToString:@"cs50"]) {
+        // authentication URL has form cs50://sessid
+        [self.delegate didAuthenticateWithSession:request.URL.host];
+        
         return NO;
     }
-    else {
+    
+    else
         return YES;
-    }
 }
 
 @end

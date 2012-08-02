@@ -18,18 +18,19 @@
 - (void)connectionDidFinishLoading:(NSURLConnection*)connection
 {
     NSError* error = nil;
-    NSDictionary* courseData = [[CJSONDeserializer deserializer] deserializeAsDictionary:self.data 
-                                                                                   error:&error];
+    NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
     
     if (!error) {
         // iterate over all registered courses
         NSMutableArray* courses = [[NSMutableArray alloc] init];
-        for (NSDictionary* course in [courseData valueForKey:@"courses"]) {
-            Course* c = [[Course alloc] initWithName:[course valueForKey:@"name"] 
-                                                 url:[course valueForKey:@"url"]];
+        for (NSDictionary* course in [json valueForKey:@"suites"]) {
+            NSDictionary* s = [course valueForKey:@"Suite"];
+            Course* c = [[Course alloc] initWithName:[s valueForKey:@"name"]
+                                             suiteId:[[s valueForKey:@"id"] intValue]
+                                               orgId:[[s valueForKey:@"org_id"] intValue]];
             [courses addObject:c];
         }
-        
+                
         self.viewController.courses = [courses mutableCopy];
         [self.viewController.tableView reloadData];
     }

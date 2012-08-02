@@ -20,30 +20,30 @@
     CS50HelpAppDelegate* delegate = [UIApplication sharedApplication].delegate;
     NSError* error = nil;
     NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
-    
+        
     if (!error) {
         // clear all previous questions
         [delegate.halfViewController.rootViewController.tokens removeAllObjects];
         
         // iterate over all tokens in the queue
-        for (NSDictionary* q in [json valueForKey:@"tokens"]) {
-            // get each question associated with the current token
-            NSMutableArray* questionIds = [[NSMutableArray alloc] init];
-            for (NSDictionary* questionToken in [q valueForKey:@"QuestionTokens"])
-                [questionIds addObject:[NSNumber numberWithInt:[[[questionToken valueForKey:@"Question"] valueForKey:@"id"] intValue]]];
-            
-            // extract label from each question associated with the current token
+        for (NSDictionary* post in [json valueForKey:@"tokens"]) {
+            NSMutableArray* postIds = [[NSMutableArray alloc] init];
             NSMutableArray* labels = [[NSMutableArray alloc] init];
-            for (NSDictionary* questionToken in [q valueForKey:@"QuestionTokens"])
-                if ([[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] count])
-                    // right now, frontend only supports one label per question
-                    [labels addObject:[[[[questionToken valueForKey:@"Question"] valueForKey:@"Labels"] firstObject] valueForKey:@"name"]];
+            
+            // iterate over each post associated with the token
+            for (NSDictionary* postToken in [post valueForKey:@"PostTokens"]) {
+                [postIds addObject:[NSNumber numberWithInt:[[[postToken valueForKey:@"Post"] valueForKey:@"id"] intValue]]];
+                
+                // display only the most specific label for this post
+                if ([[[postToken valueForKey:@"Post"] valueForKey:@"Labels"] count])
+                    [labels addObject:[[[[postToken valueForKey:@"Post"] valueForKey:@"Labels"] lastObject] valueForKey:@"name"]];
+            }
                  
             // create token containing question and labels
-            Token* token = [[Token alloc] initWithId:[[[q valueForKey:@"Token"] valueForKey:@"id"] intValue]
-                                         questionIds:questionIds
+            Token* token = [[Token alloc] initWithId:[[[post valueForKey:@"Token"] valueForKey:@"id"] intValue]
+                                         questionIds:postIds
                                           withLabels:labels
-                                           byStudent:[[q valueForKey:@"User"] valueForKey:@"name"]];
+                                           byStudent:[[post valueForKey:@"User"] valueForKey:@"name"]];
                         
             // add row to left side
             [delegate.halfViewController.rootViewController.tokens addObject:token];

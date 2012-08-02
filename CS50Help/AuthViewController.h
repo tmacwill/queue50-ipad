@@ -11,7 +11,7 @@
 @class Course;
 
 @protocol AuthViewControllerDelegate <NSObject>
-- (void)didAuthenticateWithUser:(NSDictionary*)user inCourse:(Course*)course;
+- (void)didAuthenticateWithSession:(NSString*)sessid;
 @end
 
 @interface AuthViewController : UIViewController <UIWebViewDelegate>
