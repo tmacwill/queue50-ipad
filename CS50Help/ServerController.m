@@ -84,11 +84,21 @@ static ServerController* instance;
     
     // unsubscribe from all existing channels
     for (NSString* c in [PFPush getSubscribedChannels:nil])
-        [PFPush unsubscribeFromChannelInBackground:c];
+        [PFPush unsubscribeFromChannel:c withError:nil];
     
     // subscribe to push notification channel
+    NSError* error;
     if (self.suiteId)
-        [PFPush subscribeToChannel:[NSString stringWithFormat:@"queue_suite_id_%d", self.suiteId] withError:nil];
+        [PFPush subscribeToChannel:[NSString stringWithFormat:@"queue_suite_id_%d", self.suiteId] withError:&error];
+    
+    if (!self.suiteId || error) {
+        UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"Uh oh"
+                                                    message:@"An error occurred!!!"
+                                                   delegate:nil
+                                          cancelButtonTitle:@"Aww man"
+                                          otherButtonTitles:nil];
+        [a show];
+    }
     
     [self refresh];
 }
