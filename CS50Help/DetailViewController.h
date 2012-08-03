@@ -16,7 +16,11 @@
 #define TAG_TF_NAME 10
 #define TAG_STUDENT_NAMES 20
 
+#define CONFIRM_DISPATCH 1
+#define CONFIRM_NOTIFY 2
+
 @class HalfViewController;
+@class TF;
 
 @interface DetailViewController : UIViewController 
     <UISplitViewControllerDelegate, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate,
@@ -44,6 +48,7 @@
 - (void)formatOnDutyCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath;
 - (UIButton*)notificationButtonForCell:(UITableViewCell*)cell;
 - (IBAction)notificationButtonPressed:(id)sender;
+- (void)notifyTF:(TF*)tf;
 - (void)snoozeTF:(int)staffId;
 - (void)onTick:(NSTimer*)timer;
 - (IBAction)toggleRow:(id)sender;

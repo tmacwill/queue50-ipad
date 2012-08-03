@@ -225,7 +225,7 @@
         
         // if TF has been notified, button should be yellow
         if (tf.state == kStateNotified)
-            button.titleLabel.textColor = [UIColor yellowColor];
+            button.titleLabel.textColor = [UIColor colorWithRed:202.0/255.0 green:204.0/255.0 blue:0.0/255.0 alpha:1.0];
         // if TF has pressed snooze, button should be red
         else if (tf.state == kStateSnoozed)
             button.titleLabel.textColor = [UIColor redColor];
@@ -291,6 +291,7 @@
                                                              delegate:self
                                                     cancelButtonTitle:@"No"
                                                     otherButtonTitles:@"Yes", nil];
+            confirm.tag = CONFIRM_DISPATCH;
             [confirm show];
         }
         
@@ -330,12 +331,16 @@
     // determine which TF to notify
     UIButton* button = (UIButton*)sender;
     TF* tf = [self.onDutyTFs objectAtIndex:button.tag];
-        
-    // notify TF
-    tf.state = kStateNotified;
-    tf.lastNotifyTime = [NSDate date];
-    [[ServerController sharedInstance] notifyTF:tf];
-    [self.tableView reloadData];
+    self.selectedIndexPath = [NSIndexPath indexPathForRow:button.tag inSection:1];
+    
+    // show confirmation dialog
+    UIAlertView* confirm = [[UIAlertView alloc] initWithTitle:nil
+                                                      message:[NSString stringWithFormat:@"Notfiy %@?", tf.name]
+                                                     delegate:self
+                                            cancelButtonTitle:@"No"
+                                            otherButtonTitles:@"Yes", nil];
+    confirm.tag = CONFIRM_NOTIFY;
+    [confirm show];
 }
 
 #pragma mark - Search bar event handlers
@@ -414,40 +419,28 @@
  */
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    // dispatch button pressed
-    if (buttonIndex == 1) {
-        // get tf from appropriate source
-        TF* tf = nil;
-        if (self.searching)
-            tf = [self.searchResults objectAtIndex:self.selectedIndexPath.row];
-        else
-            tf = [self.onDutyTFs objectAtIndex:self.selectedIndexPath.row];
-
-        // associate dispatch with TF
-        tf.lastDispatchTime = [NSDate date];
-        tf.state = kStateUnavailable;
-        tf.tokens = [self.halfViewController.rootViewController selectedTokens];
-                
-        // send dispatch to the server
-        [[ServerController sharedInstance] dispatchTokens:[self.halfViewController.rootViewController selectedTokens]
-                                                     toTF:tf];
+    // get tf from appropriate source
+    TF* tf = nil;
+    if (self.searching)
+        tf = [self.searchResults objectAtIndex:self.selectedIndexPath.row];
+    else
+        tf = [self.onDutyTFs objectAtIndex:self.selectedIndexPath.row];
+    
+    // confirming a dispatch
+    if (alertView.tag == CONFIRM_DISPATCH) {
+        // dispatch button pressed
+        if (buttonIndex == 1)
+            [self dispatchSelectedStudentsToTF:tf];
         
-        // place TF at bottom of list
-        [self.onDutyTFs removeObject:tf];
-        [self.onDutyTFs addObject:tf];
-
-        // deselect selected rows on left side
-        for (NSIndexPath* indexPath in self.halfViewController.rootViewController.tableView.indexPathsForSelectedRows)
-            [self.halfViewController.rootViewController.tableView deselectRowAtIndexPath:indexPath animated:NO];
-
-        // reload both sides to reflect dispatch
-        [self.tableView reloadData];
-        [self.halfViewController.rootViewController refreshTable];
-
+        // either way, this row is no longer selected
+        self.selectedIndexPath = nil;
     }
     
-    // either way, this row is no longer selected
-    self.selectedIndexPath = nil;
+    // notification confirmed
+    if (alertView.tag == CONFIRM_NOTIFY)
+        // notify button pressed
+        if (buttonIndex == 1)
+            [self notifyTF:tf];
 }
 
 /**
@@ -477,6 +470,34 @@
 }
 
 /**
+ * Dispatch all currently selected students on the right side to a given TF
+ *
+ */
+- (void)dispatchSelectedStudentsToTF:(TF*)tf
+{
+    // associate dispatch with TF
+    tf.lastDispatchTime = [NSDate date];
+    tf.state = kStateUnavailable;
+    tf.tokens = [self.halfViewController.rootViewController selectedTokens];
+    
+    // send dispatch to the server
+    [[ServerController sharedInstance] dispatchTokens:[self.halfViewController.rootViewController selectedTokens]
+                                                 toTF:tf];
+    
+    // place TF at bottom of list
+    [self.onDutyTFs removeObject:tf];
+    [self.onDutyTFs addObject:tf];
+    
+    // deselect selected rows on left side
+    for (NSIndexPath* indexPath in self.halfViewController.rootViewController.tableView.indexPathsForSelectedRows)
+        [self.halfViewController.rootViewController.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    // reload both sides to reflect dispatch
+    [self.tableView reloadData];
+    [self.halfViewController.rootViewController refreshTable];
+}
+
+/**
  * Segmented control for switching between "all" and "on duty" changed
  *
  */
@@ -484,6 +505,22 @@
 {
     self.mode = self.dutySegmentedControl.selectedSegmentIndex;
     [self.tableView reloadData];
+}
+
+/**
+ * Notify a TF that another student needs help
+ *
+ */
+- (void)notifyTF:(TF*)tf
+{
+    // update internal state
+    tf.state = kStateNotified;
+    tf.lastNotifyTime = [NSDate date];
+    
+    // send notification to server
+    [[ServerController sharedInstance] notifyTF:tf];
+    [self.tableView reloadData];
+
 }
 
 /**
