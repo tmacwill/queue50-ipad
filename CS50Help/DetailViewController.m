@@ -462,11 +462,12 @@
             tf.state = kStateAvailable;
             tf.tokens = nil;
             
-            // reload only right side to reflect changes
-            [self.tableView reloadData];
-            return;
+            break;
         }
     }
+    
+    // reload only right side to reflect changes
+    [self.tableView reloadData];
 }
 
 /**
@@ -534,12 +535,13 @@
         if (tf.staffId == staffId) {
             // update TF's state
             tf.state = kStateSnoozed;
-            
-            // reload only right side to reflect changes
-            [self.tableView reloadData];
-            return;
+
+            break;
         }
-    }   
+    }
+    
+    // reload only right side to reflect changes
+    [self.tableView reloadData];
 }
 
 /**

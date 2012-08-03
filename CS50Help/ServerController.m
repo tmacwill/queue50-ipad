@@ -14,6 +14,7 @@
 #import "Course.h"
 #import "DetailViewController.h"
 #import "HalfViewController.h"
+#import <Parse/Parse.h>
 #import "QueueConnectionDelegate.h"
 #import "RootViewController.h"
 #import "ScheduleConnectionDelegate.h"
@@ -80,6 +81,14 @@ static ServerController* instance;
     [self.navController dismissModalViewControllerAnimated:YES];
     self.sessid = sessid;
     self.isFormPresent = NO;
+    
+    // unsubscribe from all existing channels
+    for (NSString* c in [PFPush getSubscribedChannels:nil])
+        [PFPush unsubscribeFromChannelInBackground:c];
+    
+    // subscribe to push notification channel
+    if (self.suiteId)
+        [PFPush subscribeToChannel:[NSString stringWithFormat:@"queue_suite_id_%d", self.suiteId] withError:nil];
     
     [self refresh];
 }

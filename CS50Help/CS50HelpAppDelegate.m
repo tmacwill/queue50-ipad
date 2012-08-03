@@ -80,10 +80,6 @@
 {
     // send device token to parse
     [PFPush storeDeviceToken:newDeviceToken];
-
-    // subscribe to push notification channel 
-    [PFPush subscribeToChannelInBackground:@"queue_suite_id_1" block:^(BOOL succeeded, NSError *error) {
-    }];
 }
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
