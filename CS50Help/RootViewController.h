@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet HalfViewController* halfViewController;
 @property (strong, nonatomic) NSMutableArray* labels;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem* queueButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem* refreshButton;
 @property (weak, nonatomic) IBOutlet UISearchBar* searchBar;
 @property (assign, nonatomic) BOOL searching;
 @property (strong, atomic) NSMutableArray* searchResults;
@@ -34,6 +35,7 @@
 
 - (void)applySelectionFormattingToCell:(UITableViewCell*)cell atIndexPath:(NSIndexPath*)indexPath;
 - (void)filterContentForSearchText:(NSString*)searchText;
+- (IBAction)refreshPressed:(id)sender;
 - (void)refreshTable;
 - (NSArray*)selectedTokens;
 - (IBAction)toggleQueue:(id)sender;

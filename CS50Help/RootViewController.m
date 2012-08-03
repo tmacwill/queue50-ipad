@@ -25,6 +25,7 @@
 @synthesize containerView = _containerView;
 @synthesize halfViewController = _halfViewController;
 @synthesize labels = _labels;
+@synthesize refreshButton = _refreshButton;
 @synthesize queueButton = _queueButton;
 @synthesize searchBar = _searchBar;
 @synthesize searching = _searching;
@@ -445,6 +446,15 @@
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     alert.tag = 0;
     [alert show];
+}
+
+/**
+ * Refresh the state of the app when refresh is pressed
+ *
+ */
+- (void)refreshPressed:(id)sender
+{
+    [[ServerController sharedInstance] refresh];
 }
 
 @end

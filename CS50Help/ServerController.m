@@ -219,15 +219,13 @@ static ServerController* instance;
 - (void)notifyTF:(TF*)tf;
 {
     if ([self authenticate]) {
-        /*
-        NSURL* url = [self urlForAction:[NSString stringWithFormat:@"users/notify/%d", tf.staffId]];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/dispatches/notify/%d/%d", tf.staffId, self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [connection start];
-         */
     }
 }
 
@@ -252,9 +250,8 @@ static ServerController* instance;
 - (void)setArrival:(TF*)tf
 {
     if ([self authenticate]) {
-        /*
         // construct url
-        NSURL* url = [self urlForAction:@"arrivals/user"];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/arrivals/user/%d", self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     
@@ -266,7 +263,6 @@ static ServerController* instance;
         // send request
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:nil];
         [connection start];
-         */
     }
 }
 
