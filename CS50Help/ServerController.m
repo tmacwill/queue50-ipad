@@ -198,19 +198,17 @@ static ServerController* instance;
 - (void)getSchedule
 {    
     if ([self authenticate]) {
-        /*
         // create delegate to display staff from response
         ScheduleConnectionDelegate* d = [[ScheduleConnectionDelegate alloc] init];    
     
         // construct url
-        NSURL* url = [self urlForAction:@"users/staff"];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/dispatches/staff/%d", self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
         
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
-         */
     }
 }
 
@@ -283,7 +281,7 @@ static ServerController* instance;
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
         
         // construct url
-        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"status/queue/%d", self.suiteId]];
+        NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/status/queue/%d", self.suiteId]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     

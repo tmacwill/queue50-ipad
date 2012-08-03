@@ -23,10 +23,10 @@
     if (!error) {
         // iterate over all TFs/CAs on the schedule for tonight
         NSMutableArray* tfs = [[NSMutableArray alloc] init];
-        for (NSDictionary* tfInfo in [json valueForKey:@"staff"]) {
-            TF* tf = [[TF alloc] initWithId:[[tfInfo valueForKey:@"id"] intValue] 
-                                       name:[tfInfo valueForKey:@"name"] 
-                                      email:@""
+        for (NSDictionary* tfInfo in [json valueForKey:@"users"]) {
+            TF* tf = [[TF alloc] initWithId:[[[tfInfo valueForKey:@"User"] valueForKey:@"id"] intValue]
+                                       name:[[tfInfo valueForKey:@"User"] valueForKey:@"name"]
+                                      email:[[tfInfo valueForKey:@"User"] valueForKey:@"email"]
                                    isOnDuty:0];
             [tfs addObject:tf];
         }
