@@ -113,10 +113,8 @@ static ServerController* instance;
     if ([self authenticate]) {    
         // create comma separated list of question ids
         NSMutableString* tokenIds = [[NSMutableString alloc] initWithString:@"ids="];
-        for (Token* t in tokens) {
+        for (Token* t in tokens)
             [tokenIds appendFormat:@"%d,", t.tokenId];
-            [self.halfViewController.rootViewController.tokens removeObject:t];
-        }
     
         // construct url
         NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"discuss/tokens/dispatch"]];
@@ -176,7 +174,7 @@ static ServerController* instance;
  *
  */
 - (void)getSuites
-{
+{    
     SuitesConnectionDelegate* d = [[SuitesConnectionDelegate alloc] init];
     d.viewController = self.suiteSelectionViewController;
 

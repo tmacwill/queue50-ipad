@@ -476,22 +476,30 @@
  */
 - (void)dispatchSelectedStudentsToTF:(TF*)tf
 {
+    // get tokens to be dispatched
+    NSArray* tokens = [self.halfViewController.rootViewController selectedTokens];
+    
     // associate dispatch with TF
     tf.lastDispatchTime = [NSDate date];
     tf.state = kStateUnavailable;
-    tf.tokens = [self.halfViewController.rootViewController selectedTokens];
+    tf.tokens = tokens;
     
     // send dispatch to the server
-    [[ServerController sharedInstance] dispatchTokens:[self.halfViewController.rootViewController selectedTokens]
-                                                 toTF:tf];
+    [[ServerController sharedInstance] dispatchTokens:tokens toTF:tf];
     
     // place TF at bottom of list
     [self.onDutyTFs removeObject:tf];
     [self.onDutyTFs addObject:tf];
     
-    // deselect selected rows on left side
+    // mark rows as de-selected
     for (NSIndexPath* indexPath in self.halfViewController.rootViewController.tableView.indexPathsForSelectedRows)
         [self.halfViewController.rootViewController.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    // remove rows from the left side
+    for (Token* t in tokens) {
+        [self.halfViewController.rootViewController.tokens removeObject:t];
+        [self.halfViewController.rootViewController.searchResults removeObject:t];
+    }
     
     // reload both sides to reflect dispatch
     [self.tableView reloadData];

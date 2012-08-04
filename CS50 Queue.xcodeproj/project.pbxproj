@@ -266,11 +266,11 @@
 			children = (
 				936653FA13B4720F00D49A36 /* AllStaffTableViewCell.xib */,
 				939290DF13B5D23600C0BB87 /* AuthViewController.xib */,
-				93ED88CA13C2E1F100C18CE0 /* SuiteSelectionViewController.xib */,
 				939290F713B7186400C0BB87 /* HalfViewController.xib */,
-				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
-				93F8490D15CD0A3600ED5FC0 /* ThreadViewController.xib */,
 				93779DC7152F642E003FA38F /* OnDutyStaffTableViewCell.xib */,
+				936653F413B3327100D49A36 /* QuestionsTableViewCell.xib */,
+				93ED88CA13C2E1F100C18CE0 /* SuiteSelectionViewController.xib */,
+				93F8490D15CD0A3600ED5FC0 /* ThreadViewController.xib */,
 			);
 			name = Nibs;
 			sourceTree = "<group>";

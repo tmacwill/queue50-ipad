@@ -439,9 +439,9 @@
 {
     NSMutableString* message = [NSMutableString stringWithString:@"Are you sure you want to "];
     if (self.canAsk)
-        [message appendString:@"disable the queue?"];
+        [message appendString:@"disable Queue?"];
     else
-        [message appendString:@"enable the queue?"];
+        [message appendString:@"enable Queue?"];
 
     UIAlertView* alert = [[UIAlertView alloc] initWithTitle:@"" message:message delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     alert.tag = 0;
