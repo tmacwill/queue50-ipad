@@ -1,5 +1,5 @@
 //
-//  Course.h
+//  Suite.h
 //  CS50Help
 //
 //  Created by Tommy MacWilliam on 7/4/11.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Course : NSObject
+@interface Suite : NSObject
 
 @property (strong, nonatomic) NSString* name;
 @property (assign, nonatomic) int orgId;

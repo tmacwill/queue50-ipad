@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "AuthViewController.h"
 
-@class Course;
-@class CourseSelectionViewController;
+@class Suite;
+@class SuiteSelectionViewController;
 @class HalfViewController;
 @class Question;
 @class TF;
@@ -20,8 +20,7 @@
 
 @interface ServerController : NSObject <AuthViewControllerDelegate>
 
-@property (strong, nonatomic) Course* course;
-@property (strong, nonatomic) CourseSelectionViewController* courseSelectionViewController;
+@property (strong, nonatomic) SuiteSelectionViewController* suiteSelectionViewController;
 @property (strong, nonatomic) HalfViewController* halfViewController;
 @property (assign, nonatomic) BOOL isFormPresent;
 @property (strong, nonatomic) UINavigationController* navController;
@@ -32,7 +31,7 @@
 - (BOOL)authenticate;
 - (void)dispatchTokens:(NSArray*)tokens toTF:(TF*)tf;
 - (void)getCanAsk;
-- (void)getCourses;
+- (void)getSuites;
 - (void)getLabels;
 - (void)getQueue;
 - (void)getSchedule;

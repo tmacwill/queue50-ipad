@@ -1,5 +1,5 @@
 //
-//  CourseSelectionViewController.m
+//  SuiteSelectionViewController.m
 //  CS50Help
 //
 //  Created by Tommy MacWilliam on 7/4/11.
@@ -7,13 +7,13 @@
 //
 
 #import "AuthViewController.h"
-#import "Course.h"
-#import "CourseSelectionViewController.h"
+#import "Suite.h"
+#import "SuiteSelectionViewController.h"
 #import "ServerController.h"
 
-@implementation CourseSelectionViewController
+@implementation SuiteSelectionViewController
 
-@synthesize courses = _courses;
+@synthesize suites = _suites;
 
 #pragma mark - View lifecycle
 
@@ -21,7 +21,7 @@
 {
     [super viewDidLoad];
     self.navigationItem.title = @"Select your suite";
-    self.courses = [[NSMutableArray alloc] init];
+    self.suites = [[NSMutableArray alloc] init];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -39,7 +39,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.courses count];
+    return [self.suites count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -52,8 +52,8 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
 
-    Course* course = [self.courses objectAtIndex:indexPath.row];
-    cell.textLabel.text = course.name;
+    Suite* suite = [self.suites objectAtIndex:indexPath.row];
+    cell.textLabel.text = suite.name;
     
     return cell;
 }
@@ -63,14 +63,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // show authentication controller for the selected course
-    Course* course = [self.courses objectAtIndex:indexPath.row];
+    Suite* suite = [self.suites objectAtIndex:indexPath.row];
     
     // remember the selected suite
     ServerController* serverController = [ServerController sharedInstance];
-    serverController.suiteId = course.suiteId;
+    serverController.suiteId = suite.suiteId;
     
     // create auth controller
-    AuthViewController* authViewController = [[AuthViewController alloc] initWithCourse:course];
+    AuthViewController* authViewController = [[AuthViewController alloc] initWithSuite:suite];
     authViewController.delegate = serverController;
     
     // display auth controller so user can log in

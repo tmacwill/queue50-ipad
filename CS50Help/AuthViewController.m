@@ -7,21 +7,21 @@
 //
 
 #import "AuthViewController.h"
-#import "Course.h"
+#import "Suite.h"
 #import "ServerController.h"
 
 @implementation AuthViewController
 
-@synthesize course = _course;
+@synthesize suite = _suite;
 @synthesize delegate = _delegate;
 @synthesize webView = _webView;
 
-- (id)initWithCourse:(Course*)course
+- (id)initWithSuite:(Suite*)suite
 {
     self = [super init];
     
     if (self) {
-        self.course = course;
+        self.suite = suite;
     }
     
     return self;
@@ -35,7 +35,7 @@
     self.navigationItem.title = @"Log in";
     
     self.webView.delegate = self;
-    NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"login/%d?mobile", self.course.orgId]];
+    NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"login/%d?mobile", self.suite.orgId]];
 
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }

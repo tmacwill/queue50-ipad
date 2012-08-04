@@ -1,5 +1,5 @@
 //
-//  CourseSelectionViewController.h
+//  SuiteSelectionViewController.h
 //  CS50Help
 //
 //  Created by Tommy MacWilliam on 7/4/11.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CourseSelectionViewController : UITableViewController
+@interface SuiteSelectionViewController : UITableViewController
 
-@property (strong, nonatomic) NSMutableArray* courses;
+@property (strong, nonatomic) NSMutableArray* suites;
 
 @end

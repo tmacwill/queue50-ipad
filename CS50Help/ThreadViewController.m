@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "QuestionThreadViewController.h"
+#import "ThreadViewController.h"
 #import "ServerController.h"
 
-@implementation QuestionThreadViewController
+@implementation ThreadViewController
 
 @synthesize navBar = _navBar;
 @synthesize questions = _questions;

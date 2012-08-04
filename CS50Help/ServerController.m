@@ -9,9 +9,9 @@
 #import "AuthViewController.h"
 #import "CanAskConnectionDelegate.h"
 #import "CategoriesConnectionDelegate.h"
-#import "CoursesConnectionDelegate.h"
-#import "CourseSelectionViewController.h"
-#import "Course.h"
+#import "SuitesConnectionDelegate.h"
+#import "SuiteSelectionViewController.h"
+#import "Suite.h"
 #import "DetailViewController.h"
 #import "HalfViewController.h"
 #import <Parse/Parse.h>
@@ -24,8 +24,7 @@
 
 @implementation ServerController
 
-@synthesize course = _course;
-@synthesize courseSelectionViewController = _courseSelectionViewController;
+@synthesize suiteSelectionViewController = _suiteSelectionViewController;
 @synthesize halfViewController = _halfViewController;
 @synthesize isFormPresent = _isFormPresent;
 @synthesize navController = _navController;
@@ -44,7 +43,7 @@ static ServerController* instance;
         if (!instance) {
             instance = [[ServerController alloc] init];
             instance.isFormPresent = false;
-            instance.courseSelectionViewController = [[CourseSelectionViewController alloc] init];
+            instance.suiteSelectionViewController = [[SuiteSelectionViewController alloc] init];
             instance.suiteId = 0;
         }
     }
@@ -63,8 +62,8 @@ static ServerController* instance;
     if (!self.sessid && !self.isFormPresent) {
         self.isFormPresent = true;
         self.navController = [[UINavigationController alloc] 
-                              initWithRootViewController:self.courseSelectionViewController];
-        [self getCourses];
+                              initWithRootViewController:self.suiteSelectionViewController];
+        [self getSuites];
         [self.halfViewController presentModalViewController:self.navController animated:YES];
         return NO;
     }
@@ -92,8 +91,8 @@ static ServerController* instance;
         [PFPush subscribeToChannel:[NSString stringWithFormat:@"queue_suite_id_%d", self.suiteId] withError:&error];
     
     if (!self.suiteId || error) {
-        UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"Uh oh"
-                                                    message:@"An error occurred!!!"
+        UIAlertView* a = [[UIAlertView alloc] initWithTitle:@"Uh oh!!!"
+                                                    message:@"Could not connect to push notification server!!!"
                                                    delegate:nil
                                           cancelButtonTitle:@"Aww man"
                                           otherButtonTitles:nil];
@@ -176,10 +175,10 @@ static ServerController* instance;
  * Get all registered suites
  *
  */
-- (void)getCourses
+- (void)getSuites
 {
-    CoursesConnectionDelegate* d = [[CoursesConnectionDelegate alloc] init];
-    d.viewController = self.courseSelectionViewController;
+    SuitesConnectionDelegate* d = [[SuitesConnectionDelegate alloc] init];
+    d.viewController = self.suiteSelectionViewController;
 
     NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"suites/all"]];
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url

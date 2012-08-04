@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class Course;
+@class Suite;
 
 @protocol AuthViewControllerDelegate <NSObject>
 - (void)didAuthenticateWithSession:(NSString*)sessid;
@@ -16,10 +16,10 @@
 
 @interface AuthViewController : UIViewController <UIWebViewDelegate>
 
-@property (strong, nonatomic) Course* course;
+@property (strong, nonatomic) Suite* suite;
 @property (strong, nonatomic) id<AuthViewControllerDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UIWebView* webView;
 
-- (id)initWithCourse:(Course*)course;
+- (id)initWithSuite:(Suite*)suite;
 
 @end

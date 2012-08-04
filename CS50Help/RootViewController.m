@@ -11,7 +11,7 @@
 #import "CS50HelpAppDelegate.h"
 #import "DetailViewController.h"
 #import "HalfViewController.h"
-#import "QuestionThreadViewController.h"
+#import "ThreadViewController.h"
 #import "RootViewController.h"
 #import "ServerController.h"
 #import "Token.h"
@@ -335,7 +335,7 @@
         token = [self.tokens objectAtIndex:indexPath.row];
     
     // create question thread view controller
-    QuestionThreadViewController* questionThreadViewController = [[QuestionThreadViewController alloc] 
+    ThreadViewController* questionThreadViewController = [[ThreadViewController alloc] 
                                                                   initWithNibName:@"QuestionThreadViewController"
                                                                   bundle:nil];
     

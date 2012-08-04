@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QuestionThreadViewController : UIViewController
+@interface ThreadViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UINavigationItem* navBar;
 @property (strong, nonatomic) NSArray* questions;

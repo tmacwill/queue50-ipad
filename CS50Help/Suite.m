@@ -1,14 +1,14 @@
 //
-//  Course.m
+//  Suite.m
 //  CS50Help
 //
 //  Created by Tommy MacWilliam on 7/4/11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "Course.h"
+#import "Suite.h"
 
-@implementation Course
+@implementation Suite
 
 @synthesize name = _name;
 @synthesize suiteId = _suiteId;
