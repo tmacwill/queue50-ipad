@@ -133,6 +133,15 @@
     else
         tf = [self.allTFs objectAtIndex:indexPath.row];
     
+    // determine if the current TF is on duty
+    BOOL onDuty = NO;
+    for (TF* t in self.onDutyTFs) {
+        if (t.staffId == tf.staffId) {
+            onDuty = YES;
+            break;
+        }
+    }
+    
     // we can't just search by tags here, because the switch in each row has a different tag
     for (UIView* contentView in cell.subviews) {
         for (UIView* view in contentView.subviews) {
@@ -150,13 +159,8 @@
             // idenitify each switch by the row it's in, since toggling is independent of row
             else if ([view isKindOfClass:[UISwitch class]]) {
                 UISwitch* s = (UISwitch*)view;
-                s.tag = [self.allTFs indexOfObject:tf];
-                
-                // because cells are re-used, we need to manually set the toggle state
-                if ([self.onDutyTFs containsObject:tf])
-                    s.on = YES;
-                else
-                    s.on = NO;
+                s.tag = tf.staffId;
+                s.on = onDuty;
             }
         }
     }
@@ -488,6 +492,7 @@
     [[ServerController sharedInstance] dispatchTokens:tokens toTF:tf];
     
     // place TF at bottom of list
+    
     [self.onDutyTFs removeObject:tf];
     [self.onDutyTFs addObject:tf];
     
@@ -570,19 +575,37 @@
 {
     // get the TF corresponding to this toggle
     UISwitch* toggle = (UISwitch*)sender;
-    TF* tf = [self.allTFs objectAtIndex:[toggle tag]];
-    
-    // add TF to top of list of on-duty TFs when switch is turned on
-    if (toggle.on) {
-        [self.onDutyTFs insertObject:tf atIndex:0];
-        
-        // notify server of time of TF's arrival
-        [[ServerController sharedInstance] setArrival:tf];
+
+    // determine the TF being toggled
+    TF* tf = nil;
+    int tfId = toggle.tag;
+    for (TF* t in self.allTFs) {
+        if (tfId == t.staffId) {
+            tf = t;
+            break;
+        }
     }
     
-    // remove TF from list of on-duty TFs
-    else
-        [self.onDutyTFs removeObject:tf];
+    // make sure a TF was found
+    if (tf) {
+        // add TF to top of list of on-duty TFs when switch is turned on
+        if (toggle.on) {
+            [self.onDutyTFs insertObject:tf atIndex:0];
+            
+            // notify server of time of TF's arrival
+            [[ServerController sharedInstance] setArrival:tf];
+        }
+        
+        // remove TF from list of on-duty TFs
+        else {
+            NSMutableArray* tfsToRemove = [[NSMutableArray alloc] init];
+            for (TF* t in self.onDutyTFs)
+                if (t.staffId == tfId)
+                    [tfsToRemove addObject:t];
+            
+            [self.onDutyTFs removeObjectsInArray:tfsToRemove];
+        }
+    }
 }
 
 #pragma mark - Mail compose delegate

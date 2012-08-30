@@ -15,8 +15,7 @@
 @class Question;
 @class TF;
 
-//#define BASE_URL @"http://apps.cs50.com/"
-#define BASE_URL @"http://192.168.50.118/"
+#define BASE_URL @"http://staging.cs50.net/"
 
 @interface ServerController : NSObject <AuthViewControllerDelegate>
 
