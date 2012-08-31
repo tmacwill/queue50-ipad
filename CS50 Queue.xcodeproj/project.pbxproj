@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		931C32BE152D36EB00C1E7C6 /* ThreadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 931C32BC152D36EB00C1E7C6 /* ThreadViewController.m */; };
+		932442EC15F03719009EA5C5 /* TokenLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 932442EB15F03719009EA5C5 /* TokenLabel.m */; };
 		93292D3C13C95C6F00059F7E /* SuitesConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93292D3B13C95C6E00059F7E /* SuitesConnectionDelegate.m */; };
 		932D5FFF1419A1B100919E56 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 932D5FFE1419A1B100919E56 /* Entitlements.plist */; };
 		9330534F143850F20043746E /* CanAskConnectionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9330534E143850F20043746E /* CanAskConnectionDelegate.m */; };
@@ -54,6 +55,8 @@
 
 /* Begin PBXFileReference section */
 		931C32BC152D36EB00C1E7C6 /* ThreadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreadViewController.m; sourceTree = "<group>"; };
+		932442EA15F03719009EA5C5 /* TokenLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TokenLabel.h; sourceTree = "<group>"; };
+		932442EB15F03719009EA5C5 /* TokenLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TokenLabel.m; sourceTree = "<group>"; };
 		93292D3A13C95C6E00059F7E /* SuitesConnectionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuitesConnectionDelegate.h; sourceTree = "<group>"; };
 		93292D3B13C95C6E00059F7E /* SuitesConnectionDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuitesConnectionDelegate.m; sourceTree = "<group>"; };
 		932D5FFE1419A1B100919E56 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
@@ -219,6 +222,8 @@
 				9383171C13A5D6D100B9D09A /* TF.m */,
 				9383171313A5D6D100B9D09A /* Token.h */,
 				9383171413A5D6D100B9D09A /* Token.m */,
+				932442EA15F03719009EA5C5 /* TokenLabel.h */,
+				932442EB15F03719009EA5C5 /* TokenLabel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -366,6 +371,7 @@
 				93779DCB152F6A13003FA38F /* Dispatch.m in Sources */,
 				93F8490915CD063C00ED5FC0 /* Suite.m in Sources */,
 				93F8490B15CD071A00ED5FC0 /* SuiteSelectionViewController.m in Sources */,
+				932442EC15F03719009EA5C5 /* TokenLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,7 @@
 #import "RootViewController.h"
 #import "ServerController.h"
 #import "Token.h"
+#import "TokenLabel.h"
 
 @implementation RootViewController
 
@@ -170,7 +171,7 @@
     
     // iterate through labels to display each one
     if (token.labels) {
-        for (NSString* tokenLabel in token.labels) {
+        for (TokenLabel* tokenLabel in token.labels) {
             // get next label in sequence by its tag and show it
             label = (UILabel*)[cell viewWithTag:labelIndex++];
             label.hidden = NO;
@@ -180,7 +181,7 @@
             label.frame = CGRectMake(x, 31, 43, 21);
             
             // size label to fit text
-            label.text = tokenLabel;
+            label.text = tokenLabel.label;
             [label sizeToFit];
             
             // add padding
@@ -190,9 +191,8 @@
             label.frame = paddedFrame;
             
             // color label corresponding to category
-            int colorIndex = [self.labels indexOfObject:tokenLabel] % self.categoryBackgroundColors.count;
-            label.backgroundColor = [self.categoryBackgroundColors objectAtIndex:colorIndex];
-            label.textColor = [self.categoryForegroundColors objectAtIndex:colorIndex];
+            label.backgroundColor = [self.categoryBackgroundColors objectAtIndex:tokenLabel.color];
+            label.textColor = [self.categoryForegroundColors objectAtIndex:tokenLabel.color];
             label.layer.cornerRadius = 3.0;
             
             // move next label to the right of this label
