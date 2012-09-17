@@ -454,21 +454,22 @@
 - (void)dispatchCompleteForTF:(int)staffId
 {
     // look for TF with given ID in list of on duty TFs
+    NSMutableArray* tfsToRemove = [[NSMutableArray alloc] init];
     for (TF* tf in self.onDutyTFs) {
         if (tf.staffId == staffId) {
-            // move TF to bottom of list
-            [self.onDutyTFs removeObject:tf];
-            [self.onDutyTFs addObject:tf];
+            [tfsToRemove addObject:tf];
             
             // clear dispatch for this TF
             tf.lastDispatchTime = nil;
             tf.lastNotifyTime = nil;
             tf.state = kStateAvailable;
             tf.tokens = nil;
-            
-            break;
         }
     }
+    
+    // move TFs to bottom of list
+    [self.onDutyTFs removeObjectsInArray:tfsToRemove];
+    [self.onDutyTFs addObjectsFromArray:tfsToRemove];
     
     // reload only right side to reflect changes
     [self.tableView reloadData];
@@ -487,12 +488,11 @@
     tf.lastDispatchTime = [NSDate date];
     tf.state = kStateUnavailable;
     tf.tokens = tokens;
-    
+
     // send dispatch to the server
     [[ServerController sharedInstance] dispatchTokens:tokens toTF:tf];
     
     // place TF at bottom of list
-    
     [self.onDutyTFs removeObject:tf];
     [self.onDutyTFs addObject:tf];
     

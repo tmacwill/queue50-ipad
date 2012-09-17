@@ -135,7 +135,7 @@ static ServerController* instance;
  *
  */
 - (void)getCanAsk
-{    
+{
     if ([self authenticate]) {
         CanAskConnectionDelegate* d = [[CanAskConnectionDelegate alloc] init];
     

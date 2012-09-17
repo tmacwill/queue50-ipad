@@ -27,12 +27,12 @@
         UISearchBarDelegate, UISearchDisplayDelegate, UIAlertViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableViewCell* allStaffTableViewCell;
-@property (strong, nonatomic) NSMutableArray* allTFs;
+@property (strong, atomic) NSMutableArray* allTFs;
 @property (weak, nonatomic) IBOutlet UIView* containerView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl* dutySegmentedControl;
 @property (weak, nonatomic) IBOutlet HalfViewController* halfViewController;
 @property (assign, nonatomic) int mode;
-@property (strong, nonatomic) NSMutableArray* onDutyTFs;
+@property (strong, atomic) NSMutableArray* onDutyTFs;
 @property (weak, nonatomic) IBOutlet UITableViewCell* onDutyStaffTableViewCell;
 @property (weak, nonatomic) IBOutlet UISearchBar* searchBar;
 @property (assign, nonatomic) BOOL searching;

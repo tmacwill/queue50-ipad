@@ -35,7 +35,7 @@
     self.navigationItem.title = @"Log in";
     
     self.webView.delegate = self;
-    NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"login/%d?mobile=1 ", self.suite.orgId]];
+    NSURL* url = [NSURL URLWithString:[BASE_URL stringByAppendingFormat:@"login/%d?noswitch=1&mobile=1", self.suite.orgId]];
 
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
 }
