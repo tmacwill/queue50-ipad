@@ -222,7 +222,7 @@ static ServerController* instance;
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
         [request addValue:[NSString stringWithFormat:@"PHPSESSID=%@", self.sessid] forHTTPHeaderField:@"Cookie"];
-        
+                
         NSURLConnection* connection = [[NSURLConnection alloc] initWithRequest:request delegate:d];
         [connection start];
     }
@@ -252,9 +252,9 @@ static ServerController* instance;
 - (void)refresh
 {
     if ([self authenticate]) {
+        [self getSchedule];
         [self getQueue];
         [self getLabels];
-        [self getSchedule];
         [self getCanAsk];
     }
 }

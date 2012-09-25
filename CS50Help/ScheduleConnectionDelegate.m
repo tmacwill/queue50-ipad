@@ -15,7 +15,7 @@
 @implementation ScheduleConnectionDelegate
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
+{    
     CS50HelpAppDelegate* delegate = [UIApplication sharedApplication].delegate;
     NSError* error = nil;
     NSJSONSerialization* json = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
@@ -30,11 +30,14 @@
                                    isOnDuty:0];
             [tfs addObject:tf];
         }
-    
+            
         // refresh right side
         delegate.halfViewController.detailViewController.allTFs = tfs;
         [delegate.halfViewController.detailViewController.tableView reloadData];
     }
+    
+    else
+        [[[UIAlertView alloc] initWithTitle:@"Error" message:@"Error loading staff" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 @end
